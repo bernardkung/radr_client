@@ -1,16 +1,31 @@
-// import './App.css';
-import { Routes, Route } from "react-router-dom"
-import Home from "./component/Home"
-import Facilities from "./component/Facilities"
-import Auditors from "./component/Auditors"
+import './App.css'
+import * as d3 from "d3"
+import Dashboard from "./components/Dashboard"
+import { useState, useEffect, useRef } from 'react'
 
 function App() {
+  
+  
+  const [ adrs, setAdrs ] = useState([])
+
+
+  useEffect(()=>{
+    Promise.all([
+      d3.json('http://127.0.0.1:8000/adrs')
+    ]).then(([ resAdrs ])=>{
+      setAdrs(resAdrs)
+    })
+  }, [])
+
+  useEffect(()=>{
+    console.log(adrs)
+  }, [adrs])
+
+
   return (
-    <Routes>
-      <Route path="/" element={ <Home /> } /> 
-      <Route path="facilities" element={ <Facilities /> } /> 
-      <Route path="auditors" element={ <Auditors /> } /> 
-    </Routes>
+    <div className="App">
+      <Dashboard />
+    </div>
   )
 }
 
