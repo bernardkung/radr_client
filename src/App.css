@@ -1,8 +1,18 @@
 .App {
   text-align: center;
-  height: 100vh;
+  /* height: 100vh;
   width: 100vh;
-  background-color: #1d1c1c;
+  background-color: #1d1c1c; */
+}
+
+
+.dashboard {
+  /* color: #e4e4e4; */
+  text-align: center;
+}
+
+.App {
+  text-align: center;
 }
 
 .flexCol {
@@ -12,6 +22,25 @@
   align-items: center;
 }
 
-.dashboard {
-  color: #e4e4e4;
+.flexRow {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.viz {
+  background-color: #ececec;
+  padding: 10px;
+  border-radius: 3px;
+  margin: 5px;
+}
+
+.vizTitle {
+  font-weight: 600;
+}
+
+.card {
+  height: 80px;
+  width: 160px;
 }
