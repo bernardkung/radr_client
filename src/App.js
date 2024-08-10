@@ -13,18 +13,15 @@ function App() {
     Promise.all([
       d3.json('http://127.0.0.1:8000/adrs')
     ]).then(([ resAdrs ])=>{
-      setAdrs(resAdrs)
+      setAdrs(resAdrs['data'])
     })
   }, [])
 
-  useEffect(()=>{
-    console.log(adrs)
-  }, [adrs])
 
 
   return (
     <div className="App">
-      <Dashboard />
+      <Dashboard adrs={ adrs } />
     </div>
   )
 }
