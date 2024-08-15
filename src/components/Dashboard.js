@@ -6,25 +6,25 @@ import LineChart from './PieChart'
 import ScatterChart from './ScatterChart'
 import TimeSeries from './TimeSeries'
 
-const Dashboard = ({ adrs }) => {
-  if (adrs==[]){
-    return <></>
-  }
+const Dashboard = ({ data }) => {
 
-  const totalExpReimb = adrs.reduce((expReimb, adr)=>{
+  const totalExpReimb = data['adrs'].reduce((expReimb, adr)=>{
     return expReimb + adr['expected_reimbursement']
   }, 0 )
+
 
   return (
     <div className={"dashboard flexCol"}>
       
-      <Card value={adrs.length.toLocaleString()} label={'# ADRs'} />
+      <Card value={data['adrs'].length.toLocaleString()} label={'# ADRs'} />
       
       <Card value={"$" + Math.round(totalExpReimb).toLocaleString()} label={'Total Expected Reimbursement'} />
 
 
     </div>
   )
+
+
 }
 
 

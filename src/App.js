@@ -5,23 +5,27 @@ import { useState, useEffect, useRef } from 'react'
 
 function App() {
   
-  
-  const [ adrs, setAdrs ] = useState([])
+  const [ loading, setLoading ] = useState(true)
+  const [ data, setData ] = useState([])
+
 
 
   useEffect(()=>{
     Promise.all([
-      d3.json('http://127.0.0.1:8000/adrs')
-    ]).then(([ resAdrs ])=>{
-      setAdrs(resAdrs['data'])
+      d3.json('http://127.0.0.1:8000/dashboard')
+    ]).then(([ res ])=>{
+      setData(res['data'])
+      setLoading(false)
     })
   }, [])
 
-
+  if (loading) {
+    return <>loading</>
+  }
 
   return (
     <div className="App">
-      <Dashboard adrs={ adrs } />
+      <Dashboard data={ data } />
     </div>
   )
 }
