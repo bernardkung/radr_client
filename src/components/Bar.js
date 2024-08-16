@@ -1,9 +1,9 @@
 const Bar = ({x, y, d, xScale, yScale, onMouseEnter, onMouseLeave })=>{
   
   return (
-  <g key={y + "Stars"} className={"bar"}>
+  <g key={y } className={"bar"}>
     <rect 
-      key={y + "StarsBar"}
+      key={y + "Bar"}
       x={xScale(0)}
       y={yScale(y)}
       width={xScale(x)-xScale(0)}
@@ -17,7 +17,7 @@ const Bar = ({x, y, d, xScale, yScale, onMouseEnter, onMouseLeave })=>{
       onMouseLeave={onMouseLeave}
     />
     <text
-      key={y + "StarsValue"}
+      key={y + "Value"}
       x={ xScale(x) - 13 }
       y={ yScale(y) + yScale.bandwidth() / 2 }
       textAnchor="end"
@@ -29,7 +29,7 @@ const Bar = ({x, y, d, xScale, yScale, onMouseEnter, onMouseLeave })=>{
     </text>
 
     <text
-      key={y + "StarsLabel"}
+      key={y + "Label"}
       x={ xScale.range()[0] + 13}
       y={ yScale(y) + yScale.bandwidth() / 2 }
       textAnchor="base"
@@ -38,7 +38,7 @@ const Bar = ({x, y, d, xScale, yScale, onMouseEnter, onMouseLeave })=>{
       fontWeight={600}
       opacity={xScale(x) > 90 ? 1 : 0} // hide label if bar is not wide enough
     >
-      { y + " Stars" }
+      { y }
     </text>
 
   </g>  

@@ -7,47 +7,49 @@ import ScatterChart from './ScatterChart'
 import TimeSeries from './TimeSeries'
 
 const Dashboard = ({ data }) => {
+  const dims = { 
+    width: 500, height: 500,
+    bottomAxisHeight: 15,
+    innerRadius: 120,
+    outerRadius: 220,
+    padding: { top: 30, right: 20, bottom: 30, left: 40 }
+  }
 
   const totalExpReimb = data['adrs'].reduce((expReimb, adr)=>{
     return expReimb + adr['expected_reimbursement']
   }, 0 )
 
-  // function analyzeByYear (dataset, yearCol, measure="count", sumCol="") {
-  //   return dataset.reduce((dict, row)=>{
-  //     // Get year
-  //     const year = (new Date(row[yearCol])).getFullYear()
+  function dataMap(obj) {
+    return Object.keys(obj).map(key=>{
+      return { x:key, y:obj[key] }
+    })
+  }
+
+  function countByYear (dataset, yearCol) {
+    const dict = dataset.reduce((dict, row)=>{
+      // Get year
+      const year = (new Date(row[yearCol])).getFullYear()
       
-  //     // If year doesn't exist
-  //     if (!dict[year]) {
-  //       dict[year] = 0
-  //     }
+      // If year doesn't exist
+      if (!dict[year]) {
+        dict[year] = 0
+      }
 
-  //     // Accumulate
-  //     if (measure=="count") {
-  //       dict[year]+=1
-  //     } else if (measure=="sum") {
-  //       dict[year]+=row[sumCol]
-  //     }
+      // Accumulate
+      dict[year] += 1
 
-  //     return dict
-  //   }, {})
-  // } 
+      return dict
+    }, {})
+
+    return dataMap(dict)
+  } 
   
-  // const countByYear = analyzeByYear(data['stages'], 'notification_date', 'count')
-  // console.log("cby:", countByYear)
-
-  const stagesByYear = data['stages'].reduce((accumulator, item) => {
-    const category = (new Date(item["notification_date"])).getFullYear()
-    if (!accumulator[category]) {
-      accumulator[category] = 0
-    }
-    accumulator[category] += 1
-    return accumulator
-  }, {})
+  const stagesByYear = countByYear(data['stages'], 'notification_date', 'count')
 
   
   console.log(stagesByYear)
-  // console.log(countByYear)
+  
+
 
   return (
     <div className={"dashboard flexCol"}>
@@ -56,7 +58,14 @@ const Dashboard = ({ data }) => {
       
       <Card value={"$" + Math.round(totalExpReimb).toLocaleString()} label={'Total Expected Reimbursement'} />
 
-      <BarChart  />
+      <BarChart 
+        data={stagesByYear} 
+        xVar={'y'} 
+        yVar={'x'} 
+        orient = { "horizontal" }
+        label = { "Facilities per Star Rating" }
+        dims = { dims }
+      />
 
     </div>
   )
