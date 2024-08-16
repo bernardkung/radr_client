@@ -4,7 +4,7 @@ import { HorizontalAxis } from './HorizontalAxis';
 import Bar from './Bar'
 import Tooltip from './Tooltip'
 
-const BarChart = ({ data, xVar, yVar, orient="horizontal", label, dims }) => {
+const BarChart = ({ data, xVar, yVar, orient="horizontal", title, horizontalLabel, dims }) => {
   const [ tooltipData, setTooltipData ] = useState({})
 
   const xMin = 0
@@ -43,8 +43,8 @@ const BarChart = ({ data, xVar, yVar, orient="horizontal", label, dims }) => {
   
 
   return (
-    <div className={"viz barchart"} name={label}>
-      <p className={"vizTitle"}>{ label }</p>
+    <div className={"viz barchart"} name={title}>
+      <p className={"vizTitle"}>{ title }</p>
 
       <svg width={dims.width} height={dims.height}>
         {data.map(d=>(
@@ -61,7 +61,7 @@ const BarChart = ({ data, xVar, yVar, orient="horizontal", label, dims }) => {
         ))}
 
 
-        <HorizontalAxis scale={xScale} xScale={xScale} axisLabel={"# of Facilities"} dims={dims} numberOfTicksTarget={10}/>
+        <HorizontalAxis scale={xScale} xScale={xScale} axisLabel={ horizontalLabel } dims={dims} numberOfTicksTarget={10}/>
         <Tooltip data={tooltipData}/>
       </svg>
 

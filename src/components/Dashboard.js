@@ -63,7 +63,8 @@ const Dashboard = ({ data }) => {
         xVar={'y'} 
         yVar={'x'} 
         orient = { "horizontal" }
-        label = { "Facilities per Star Rating" }
+        title = { "Stages per Year" }
+        horizontalLabel={ "# Stages" }
         dims = { dims }
       />
 
