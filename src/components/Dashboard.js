@@ -19,6 +19,10 @@ const Dashboard = ({ data }) => {
     return expReimb + adr['expected_reimbursement']
   }, 0 )
 
+  const totalPayment = data['payments'].reduce((netPay, pay)=>{
+    return netPay + pay['payment_amount']
+  }, 0 )
+
   function dataMap(obj) {
     return Object.keys(obj).map(key=>{
       return { x:key, y:obj[key] }
@@ -46,6 +50,21 @@ const Dashboard = ({ data }) => {
   
   const stagesByYear = countByYear(data['stages'], 'notification_date', 'count')
 
+  // function countByDecision(adrs, decisions) {
+  //   adrs.map((a)=>{
+  //     decisions.filter(a)
+  //   }
+  //   const dict = decisions.reduce((dict, d)=>{
+  //     // Get decision
+  //     const decision = d['decision']
+
+  //     if (!dict[decision]) {
+  //       dict[decision] = 0
+  //     }
+
+  //     dict[decision]+=1
+  //   })
+  // }
   
   console.log(stagesByYear)
   
@@ -57,6 +76,8 @@ const Dashboard = ({ data }) => {
       <Card value={data['adrs'].length.toLocaleString()} label={'# ADRs'} />
       
       <Card value={"$" + Math.round(totalExpReimb).toLocaleString()} label={'Total Expected Reimbursement'} />
+
+      <Card value={"$" + Math.round(totalPayment).toLocaleString()} label={'Total Payment'} />
 
       <BarChart 
         data={stagesByYear} 
