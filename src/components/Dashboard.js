@@ -17,11 +17,14 @@ const Dashboard = ({ data }) => {
 
   console.log(data)
 
-  const totalExpReimb = data.reduce((expReimb, record)=>{
-    return expReimb + record['Adr']['expected_reimbursement']
-  }, 0 )
+  // KPIs
+  const [ totalExpectedReimbursement, setTotalExpectedReimbursement ] = useState(0)
+  const [ totalPayment, setTotalPayment ] = useState(0)
+  const [ totalBalance, setTotalBalance ] = useState(0)
+  const [ totalActiveBalance, setTotalActiveBalance ] = useState(0)
+  const [ totalInactiveBalance, setTotalInactiveBalance ] = useState(0)
 
-
+// HELPER FUNCTIONS
   // Get the net payment for an ADR record
   function getNetPayment (record) {
     return record['Adr']['srns'].reduce((adrRunSum, srn)=>{
@@ -32,22 +35,37 @@ const Dashboard = ({ data }) => {
     // Cumulative sum of each srn
     return adrRunSum + netSrnPay
   }, 0)
-
   }
 
-  const totalPayment = data.reduce((netPay, record)=>{
-    // Map through each SRN
-    // const netAdrPay = record['Adr']['srns'].reduce((adrRunSum, srn)=>{
-    //   // Cumulative sum of each payment
-    //   const netSrnPay = srn['payments'].reduce((srnRunSum, payment)=>{
-    //     return srnRunSum + payment['payment_amount']
-    //   }, 0)
-    //   // Cumulative sum of each srn
-    //   return adrRunSum + netSrnPay
-    // }, 0)
-    const netAdrPay = getNetPayment(record)
-    return netPay + netAdrPay
-  }, 0 )
+  // Calculate ER, Payment, and Total, Active, and Inactive Balances as a dict
+  function evaluateFinancials (record) {
+    const netExpectedReimbursement = record['Adr']['expected_reimbursement']
+    const netPayment = record['Adr']['srns'].reduce((adrRunSum, srn)=>{
+      // Cumulative sum of each payment
+      const netSrnPay = srn['payments'].reduce((srnRunSum, payment)=>{
+        return srnRunSum + payment['payment_amount']
+      }, 0)
+      // Cumulative sum of each srn
+      return adrRunSum + netSrnPay
+    }, 0)
+    const netBalance = totalExpectedReimbursement - totalPayment
+    const netActiveBalance = record['Adr']['active']
+      ? netBalance
+      : 0
+    const netInactiveBalance = record['Adr']['active']
+      ? 0
+      : netBalance
+
+    const financials = {
+      'totalExpectedReimbursement' : netExpectedReimbursement,
+      'totalPayment' : netPayment,
+      'totalBalance': netBalance,
+      'totalActiveBalance': netActiveBalance,
+      'totalInactiveBalance': netInactiveBalance,
+    }
+
+    return financials
+    }
 
   function dataMap(obj) {
     return Object.keys(obj).map(key=>{
@@ -55,43 +73,75 @@ const Dashboard = ({ data }) => {
     })
   }
 
-  function countByYear (dataset, yearCol) {
-    const dict = dataset.reduce((dict, record)=>{
-      // Get year
-      const year = (new Date(record[yearCol])).getFullYear()
-      
-      // If year doesn't exist
-      if (!dict[year]) {
-        dict[year] = 0
+  function accumulateDict(dict, accumulator) {
+    // Loop through each entry in dict
+    for (const [key, value] of Object.entries(dict)) {
+      // If key doesn't exist in accumulator
+      if (!accumulator[key]) { 
+        accumulator[key] = value 
       }
 
-      // Accumulate
-      dict[year] += 1
+      // If key already exists
+      accumulator[key] += value
+    }
 
-      return dict
+    return accumulator
+  }
+
+
+  function countByYear (dataset, yearCol) {
+    // Loop through each ADR record
+    const yearCount = dataset.reduce((countDict, record)=>{
+    // Get the first stage of the ADR
+      const firstStage = record['Adr']['stages'].filter(stage=>stage['stage']=='45')
+      // Get year
+      const year = (new Date(firstStage[yearCol])).getFullYear()
+      
+      // If year doesn't exist
+      if (!countDict[year]) { countDict[year] = 1 }
+
+      // Accumulate
+      countDict[year] += 1
+
+      return countDict
     }, {})
 
-    return dataMap(dict)
+    return dataMap(yearCount)
   } 
+
+  function reduceFinancials(dataset) {
+    return dataset.reduce((agg, record)=>{
+      // Calculate Financials
+      const financials = evaluateFinancials(record)
+      // Aggregate Financials
+      return accumulateDict(financials, agg)
+    }, 
+    {
+      'totalExpectedReimbursement' : 0,
+      'totalPayment' : 0,
+      'totalBalance': 0,
+      'totalActiveBalance': 0,
+      'totalInactiveBalance': 0,
+    })
+  }
   
-  // const stagesByYear = countByYear(data['stages'], 'notification_date', 'count')
+  // SET KPIs
+  useEffect(()=>{
+    // // Aggregate Overall Financials
+    const financials = reduceFinancials(data)
+    // // Set states
+    setTotalExpectedReimbursement(financials['totalExpectedReimbursement'])
+    setTotalPayment(financials['totalPayment'])
+    setTotalBalance(financials['totalBalance'])
+    setTotalActiveBalance(financials['totalActiveBalance'])
+    setTotalInactiveBalance(financials['totalInactiveBalance'])
+  }, data)
 
-  // function countByDecision(adrs, decisions) {
-  //   adrs.map((a)=>{
-  //     decisions.filter(a)
-  //   }
-  //   const dict = decisions.reduce((dict, d)=>{
-  //     // Get decision
-  //     const decision = d['decision']
 
-  //     if (!dict[decision]) {
-  //       dict[decision] = 0
-  //     }
+  // const stagesByYear = countByYear(data, 'notification_date', 'count')
 
-  //     dict[decision]+=1
-  //   })
-  // }
-  
+  // console.log(stagesByYear)
+
   
 
 
@@ -100,7 +150,7 @@ const Dashboard = ({ data }) => {
       
       <Card value={data.length.toLocaleString()} label={'# ADRs'} />
       
-      <Card value={"$" + Math.round(totalExpReimb).toLocaleString()} label={'Total Expected Reimbursement'} />
+      <Card value={"$" + Math.round(totalExpectedReimbursement).toLocaleString()} label={'Total Expected Reimbursement'} />
 
       <Card value={"$" + Math.round(totalPayment).toLocaleString()} label={'Total Payment'} />
 
