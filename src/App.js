@@ -22,17 +22,10 @@ function App() {
     })
   }, [])
 
-  return (
-    <div className="loading flexCol">
-      <Radar />
-      <p>Loading</p>
-    </div>)
-
   if (loading) {
     return (
     <div className="loading flexCol">
       <Radar />
-      <p>Loading</p>
     </div>)
   }
 
