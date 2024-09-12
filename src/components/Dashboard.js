@@ -25,6 +25,27 @@ const Dashboard = ({ data }) => {
   const [ totalInactiveBalance, setTotalInactiveBalance ] = useState(0)
 
 // HELPER FUNCTIONS
+  function dataMap(obj) {
+    return Object.keys(obj).map(key=>{
+      return { x:key, y:obj[key] }
+    })
+  }
+
+  function accumulateDict(dict, accumulator) {
+    // Loop through each entry in dict
+    for (const [key, value] of Object.entries(dict)) {
+      // If key doesn't exist in accumulator
+      if (!accumulator[key]) { 
+        accumulator[key] = value 
+      }
+
+      // If key already exists
+      accumulator[key] += value
+    }
+
+    return accumulator
+  }
+
   // Get the net payment for an ADR record
   function getNetPayment (record) {
     return record['Adr']['srns'].reduce((adrRunSum, srn)=>{
@@ -67,35 +88,22 @@ const Dashboard = ({ data }) => {
     return financials
     }
 
-  function dataMap(obj) {
-    return Object.keys(obj).map(key=>{
-      return { x:key, y:obj[key] }
-    })
-  }
 
-  function accumulateDict(dict, accumulator) {
-    // Loop through each entry in dict
-    for (const [key, value] of Object.entries(dict)) {
-      // If key doesn't exist in accumulator
-      if (!accumulator[key]) { 
-        accumulator[key] = value 
-      }
-
-      // If key already exists
-      accumulator[key] += value
-    }
-
-    return accumulator
-  }
-
-
+  // Reduce dataset into count of ADRs by year of first notification
   function countByYear (dataset, yearCol) {
     // Loop through each ADR record
     const yearCount = dataset.reduce((countDict, record)=>{
-    // Get the first stage of the ADR
-      const firstStage = record['Adr']['stages'].filter(stage=>stage['stage']=='45')
+      // Get the first notification date of the ADR
+      const firstNotificationDate = (new Date(record['Adr']['stages'][0]['notification_date']))
+      // Get the earliest notification date
+      const earliestNotificationDate = record['Adr']['stages']
+        .reduce((runMin, stage)=>{
+          const notificationDate = new Date(stage['notification_date'])
+          return Math.min(runMin, notificationDate)
+        }, firstNotificationDate)
+
       // Get year
-      const year = (new Date(firstStage[yearCol])).getFullYear()
+      const year = (new Date(earliestNotificationDate).getFullYear())
       
       // If year doesn't exist
       if (!countDict[year]) { countDict[year] = 1 }
@@ -109,6 +117,7 @@ const Dashboard = ({ data }) => {
     return dataMap(yearCount)
   } 
 
+  // Reduce overall dataset into a single financial object
   function reduceFinancials(dataset) {
     return dataset.reduce((agg, record)=>{
       // Calculate Financials
@@ -138,9 +147,9 @@ const Dashboard = ({ data }) => {
   }, data)
 
 
-  // const stagesByYear = countByYear(data, 'notification_date', 'count')
+  const stagesByYear = countByYear(data, 'notification_date', 'count')
 
-  // console.log(stagesByYear)
+  console.log(stagesByYear)
 
   
 
@@ -154,7 +163,7 @@ const Dashboard = ({ data }) => {
 
       <Card value={"$" + Math.round(totalPayment).toLocaleString()} label={'Total Payment'} />
 
-      {/* <BarChart 
+      <BarChart 
         data={stagesByYear} 
         xVar={'y'} 
         yVar={'x'} 
@@ -162,7 +171,7 @@ const Dashboard = ({ data }) => {
         title = { "Stages per Year" }
         horizontalLabel={ "# Stages" }
         dims = { dims }
-      /> */}
+      />
 
     </div>
   )
