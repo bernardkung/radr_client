@@ -145,9 +145,9 @@
 
 #Wave1 {
   opacity: 0;
-  animation: 6s linear infinite alternate beamInAndOut1;
+  animation: 9s linear infinite alternate beamInAndOut1;
 }
 #Wave2 {
   opacity: 0;
-  animation: 6s linear infinite alternate beamInAndOut2;
+  animation: 9s linear infinite alternate beamInAndOut2;
 }
