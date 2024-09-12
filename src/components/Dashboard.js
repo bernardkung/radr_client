@@ -10,8 +10,8 @@ const Dashboard = ({ data }) => {
   const dims = { 
     width: 500, height: 500,
     bottomAxisHeight: 15,
-    innerRadius: 120,
-    outerRadius: 220,
+    innerRadius: 80,
+    outerRadius: 100,
     padding: { top: 30, right: 20, bottom: 30, left: 40 }
   }
 
@@ -23,6 +23,7 @@ const Dashboard = ({ data }) => {
   const [ totalBalance, setTotalBalance ] = useState(0)
   const [ totalActiveBalance, setTotalActiveBalance ] = useState(0)
   const [ totalInactiveBalance, setTotalInactiveBalance ] = useState(0)
+  const [ financials, setFinancials ] = useState({})
 
 // HELPER FUNCTIONS
   function dataMap(obj) {
@@ -137,19 +138,19 @@ const Dashboard = ({ data }) => {
   // SET KPIs
   useEffect(()=>{
     // // Aggregate Overall Financials
-    const financials = reduceFinancials(data)
+    const reduction = reduceFinancials(data)
     // // Set states
-    setTotalExpectedReimbursement(financials['totalExpectedReimbursement'])
-    setTotalPayment(financials['totalPayment'])
-    setTotalBalance(financials['totalBalance'])
-    setTotalActiveBalance(financials['totalActiveBalance'])
-    setTotalInactiveBalance(financials['totalInactiveBalance'])
+    setTotalExpectedReimbursement(reduction['totalExpectedReimbursement'])
+    setTotalPayment(reduction['totalPayment'])
+    setTotalBalance(reduction['totalBalance'])
+    setTotalActiveBalance(reduction['totalActiveBalance'])
+    setTotalInactiveBalance(reduction['totalInactiveBalance'])
+    setFinancials(reduction)
   }, data)
 
 
   const stagesByYear = countByYear(data, 'notification_date', 'count')
 
-  console.log(stagesByYear)
 
   
 
@@ -171,6 +172,24 @@ const Dashboard = ({ data }) => {
         title = { "Stages per Year" }
         horizontalLabel={ "# Stages" }
         dims = { dims }
+      />
+
+      <PieChart 
+        data={dataMap({
+          'Payment': financials['totalPayment'],
+          'Active Balance': financials['totalActiveBalance'],
+          'InactiveBalance': financials['totalInactiveBalance'],
+        })}
+        label={ "Financial Breakdown" } 
+        dims={ dims } 
+        colors={[
+            "#e0ac2b",
+            "#e85252",
+            "#6689c6",
+            "#9a6fb0",
+            "#a53253",
+            "#69b3a2",
+        ]} 
       />
 
     </div>

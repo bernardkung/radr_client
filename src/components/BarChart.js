@@ -29,7 +29,7 @@ const BarChart = ({ data, xVar, yVar, orient="horizontal", title, horizontalLabe
   }, [data, dims])
   
   const onMouseEnter = (e, d)=>{
-    console.log("d:", d, d.y, yScale(d.x), yDomain[0])
+    // console.log("d:", d, d.y, yScale(d.x), yDomain[0])
     setTooltipData({
       xPos: xScale(d.x),
       yPos: yScale(d[yVar]),
