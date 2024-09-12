@@ -13,11 +13,9 @@ function App() {
 
   useEffect(()=>{
     Promise.all([
-      d3.json('http://127.0.0.1:8000/dashboard'),
       d3.json('http://127.0.0.1:8000/adrs?full=True'),
-    ]).then(([ res0, res1 ])=>{
+    ]).then(([ res0 ])=>{
       setData(res0['data'])
-      setData(res1['data'])
       setLoading(false)
     })
   }, [])

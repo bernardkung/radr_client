@@ -15,12 +15,38 @@ const Dashboard = ({ data }) => {
     padding: { top: 30, right: 20, bottom: 30, left: 40 }
   }
 
-  const totalExpReimb = data['adrs'].reduce((expReimb, adr)=>{
-    return expReimb + adr['expected_reimbursement']
+  console.log(data)
+
+  const totalExpReimb = data.reduce((expReimb, record)=>{
+    return expReimb + record['Adr']['expected_reimbursement']
   }, 0 )
 
-  const totalPayment = data['payments'].reduce((netPay, pay)=>{
-    return netPay + pay['payment_amount']
+
+  // Get the net payment for an ADR record
+  function getNetPayment (record) {
+    return record['Adr']['srns'].reduce((adrRunSum, srn)=>{
+    // Cumulative sum of each payment
+    const netSrnPay = srn['payments'].reduce((srnRunSum, payment)=>{
+      return srnRunSum + payment['payment_amount']
+    }, 0)
+    // Cumulative sum of each srn
+    return adrRunSum + netSrnPay
+  }, 0)
+
+  }
+
+  const totalPayment = data.reduce((netPay, record)=>{
+    // Map through each SRN
+    // const netAdrPay = record['Adr']['srns'].reduce((adrRunSum, srn)=>{
+    //   // Cumulative sum of each payment
+    //   const netSrnPay = srn['payments'].reduce((srnRunSum, payment)=>{
+    //     return srnRunSum + payment['payment_amount']
+    //   }, 0)
+    //   // Cumulative sum of each srn
+    //   return adrRunSum + netSrnPay
+    // }, 0)
+    const netAdrPay = getNetPayment(record)
+    return netPay + netAdrPay
   }, 0 )
 
   function dataMap(obj) {
@@ -30,9 +56,9 @@ const Dashboard = ({ data }) => {
   }
 
   function countByYear (dataset, yearCol) {
-    const dict = dataset.reduce((dict, row)=>{
+    const dict = dataset.reduce((dict, record)=>{
       // Get year
-      const year = (new Date(row[yearCol])).getFullYear()
+      const year = (new Date(record[yearCol])).getFullYear()
       
       // If year doesn't exist
       if (!dict[year]) {
@@ -48,7 +74,7 @@ const Dashboard = ({ data }) => {
     return dataMap(dict)
   } 
   
-  const stagesByYear = countByYear(data['stages'], 'notification_date', 'count')
+  // const stagesByYear = countByYear(data['stages'], 'notification_date', 'count')
 
   // function countByDecision(adrs, decisions) {
   //   adrs.map((a)=>{
@@ -66,20 +92,19 @@ const Dashboard = ({ data }) => {
   //   })
   // }
   
-  console.log(stagesByYear)
   
 
 
   return (
     <div className={"dashboard flexCol"}>
       
-      <Card value={data['adrs'].length.toLocaleString()} label={'# ADRs'} />
+      <Card value={data.length.toLocaleString()} label={'# ADRs'} />
       
       <Card value={"$" + Math.round(totalExpReimb).toLocaleString()} label={'Total Expected Reimbursement'} />
 
       <Card value={"$" + Math.round(totalPayment).toLocaleString()} label={'Total Payment'} />
 
-      <BarChart 
+      {/* <BarChart 
         data={stagesByYear} 
         xVar={'y'} 
         yVar={'x'} 
@@ -87,7 +112,7 @@ const Dashboard = ({ data }) => {
         title = { "Stages per Year" }
         horizontalLabel={ "# Stages" }
         dims = { dims }
-      />
+      /> */}
 
     </div>
   )
