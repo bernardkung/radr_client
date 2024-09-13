@@ -16,7 +16,7 @@ const PieChart = ({ data, label, dims, colors }) => {
   // Compute an arc generator = a function that transforms arc coordinates in a svg path
   const arcGenerator = d3.arc();
   
-  // For each datapoint
+  // Build the shapes
   const shapes = pie.map(( slice, i ) => { 
     const sliceInfo = {
       innerRadius: dims.innerRadius,
@@ -100,6 +100,7 @@ const PieChart = ({ data, label, dims, colors }) => {
     );
   })
 
+  // Return visualization
   return (
     <div className={"viz piechart"} name={label}>
       <p className={"vizTitle"}>{ label }</p>

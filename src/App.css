@@ -58,8 +58,8 @@
   padding: 10px;
   position: absolute;
 
-  margin-left: 35px;
-  transform: translateY(-50%);
+  /* margin-left: 35px; */
+  /* transform: translate(-50%, -50%); */
 }
 
 .card {
@@ -160,11 +160,11 @@
   }
 }
 
-
 #Wave1 {
   opacity: 0;
   animation: 9s linear infinite alternate beamInAndOut1;
 }
+
 #Wave2 {
   opacity: 0;
   animation: 9s linear infinite alternate beamInAndOut2;
