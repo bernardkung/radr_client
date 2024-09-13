@@ -11,7 +11,7 @@ const Dashboard = ({ data }) => {
     width: 500, height: 500,
     bottomAxisHeight: 15,
     innerRadius: 80,
-    outerRadius: 100,
+    outerRadius: 160,
     padding: { top: 30, right: 20, bottom: 30, left: 40 }
   }
 
@@ -70,7 +70,7 @@ const Dashboard = ({ data }) => {
       // Cumulative sum of each srn
       return adrRunSum + netSrnPay
     }, 0)
-    const netBalance = totalExpectedReimbursement - totalPayment
+    const netBalance = netExpectedReimbursement - netPayment
     const netActiveBalance = record['Adr']['active']
       ? netBalance
       : 0
@@ -139,6 +139,7 @@ const Dashboard = ({ data }) => {
   useEffect(()=>{
     // // Aggregate Overall Financials
     const reduction = reduceFinancials(data)
+    console.log("fins:", reduction)
     // // Set states
     setTotalExpectedReimbursement(reduction['totalExpectedReimbursement'])
     setTotalPayment(reduction['totalPayment'])
@@ -160,9 +161,9 @@ const Dashboard = ({ data }) => {
       
       <Card value={data.length.toLocaleString()} label={'# ADRs'} />
       
-      <Card value={"$" + Math.round(totalExpectedReimbursement).toLocaleString()} label={'Total Expected Reimbursement'} />
+      <Card value={"$" + Math.round(financials['totalExpectedReimbursement']).toLocaleString()} label={'Total Expected Reimbursement'} />
 
-      <Card value={"$" + Math.round(totalPayment).toLocaleString()} label={'Total Payment'} />
+      <Card value={"$" + Math.round(financials['totalPayment']).toLocaleString()} label={'Total Payment'} />
 
       <BarChart 
         data={stagesByYear} 

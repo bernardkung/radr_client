@@ -5,23 +5,13 @@ const PieChart = ({ data, label, dims, colors }) => {
 
   console.log("data:", data)
   // Compute a pie generator = a function that transforms a dataset in a list of arcs
-  const pieGenerator = d3.pie().value((d) => d.y)
+  const pieGenerator = d3.pie().value(d => d.y)
   
   // Use this pie generator on our initial dataset
   const pie = pieGenerator(data)
 
   // Compute an arc generator = a function that transforms arc coordinates in a svg path
   const arcGenerator = d3.arc();
-
-  // For each arc, use the path generator
-  const arcs = pie.map((p) =>
-    arcGenerator({
-      innerRadius: dims.innerRadius,
-      outerRadius: dims.outerRadius,
-      startAngle: p.startAngle,
-      endAngle: p.endAngle,
-    })
-  )
   
   // For each datapoint
   const shapes = pie.map(( slice, i ) => { 
@@ -34,7 +24,6 @@ const PieChart = ({ data, label, dims, colors }) => {
     const centroid = arcGenerator.centroid(sliceInfo);
     const slicePath = arcGenerator(sliceInfo);
 
-    console.log("sp:", slicePath)
     // Second arc is for the legend inflexion point
     const inflexionInfo = sliceInfo
     const inflexionPoint = arcGenerator.centroid(inflexionInfo);
@@ -87,9 +76,6 @@ const PieChart = ({ data, label, dims, colors }) => {
       </g>
     );
   })
-
-  console.log("slices:", shapes)
-
 
   return (
     <div className={"viz piechart"} name={label}>
