@@ -28,7 +28,7 @@ const PieChart = ({ data, label, dims, colors }) => {
     const slicePath = arcGenerator(sliceInfo);
 
     // Second arc is for the legend inflexion point
-    const INFLEXION_PADDING = 40;
+    const INFLEXION_PADDING = 60;
     const inflexionInfo = {
       innerRadius: dims.innerRadius + INFLEXION_PADDING,
       outerRadius: dims.outerRadius + INFLEXION_PADDING,
@@ -45,6 +45,7 @@ const PieChart = ({ data, label, dims, colors }) => {
     const label = slice['data']['x'] + " (" + "$" + Math.round(slice['data']['y']).toLocaleString() + ")";
     const labelName = slice['data']['x']
     const labelValue = "$" + Math.round(slice['data']['y']).toLocaleString()
+    const labelMisc = Math.round( 100 * (slice.endAngle - slice.startAngle ) / 6.283185307179587 ) + "%"
     
     return (
       <g key={i}>
@@ -53,10 +54,13 @@ const PieChart = ({ data, label, dims, colors }) => {
           fill={colors[i]} 
           onMouseMove={()=>
             setInteractionData({
-              xPos: inflexionPoint[0],
-              yPos: inflexionPoint[1],
+              xPos: labelPosX,
+              yPos: labelPosY,
+              // xPos: inflexionPoint[0],
+              // yPos: inflexionPoint[1],
               labelName: labelName,
               labelValue: labelValue,
+              labelMisc: [labelMisc],
             })
           }
           // onMouseLeave={() => setInteractionData(undefined)}
