@@ -64,7 +64,7 @@ const PieChart = ({ data, label, dims, colors }) => {
               labelMisc: [labelMisc],
             })
           }
-          // onMouseLeave={() => setInteractionData(undefined)}
+          onMouseLeave={() => setInteractionData(undefined)}
         />
         <circle cx={centroid[0]} cy={centroid[1]} r={2} />
         <line
@@ -116,18 +116,7 @@ const PieChart = ({ data, label, dims, colors }) => {
           </g>
         </svg>
         
-        <div
-          style={{
-            position: "absolute",
-            width: dims.width,
-            height: dims.height,
-            top: 0,
-            left: 0,
-            pointerEvents: "none",
-          }}
-        >
-          <Tooltip interactionData={interactionData} />
-        </div>
+        <Tooltip interactionData={interactionData} dims={dims} />
       </div>
     </div>
   )
