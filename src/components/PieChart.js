@@ -1,9 +1,12 @@
 import * as d3 from "d3";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import Tooltip from './Tooltip';
 
 const PieChart = ({ data, label, dims, colors }) => {
 
-  console.log("data:", data)
+  const [ interactionData, setInteractionData ] = useState(undefined)
+
+  
   // Compute a pie generator = a function that transforms a dataset in a list of arcs
   const pieGenerator = d3.pie().value(d => d.y)
   
@@ -25,11 +28,19 @@ const PieChart = ({ data, label, dims, colors }) => {
     const slicePath = arcGenerator(sliceInfo);
 
     // Second arc is for the legend inflexion point
-    const inflexionInfo = sliceInfo
+    const INFLEXION_PADDING = 40;
+    const inflexionInfo = {
+      innerRadius: dims.innerRadius + INFLEXION_PADDING,
+      outerRadius: dims.outerRadius + INFLEXION_PADDING,
+      startAngle: slice.startAngle,
+      endAngle: slice.endAngle,
+    };
     const inflexionPoint = arcGenerator.centroid(inflexionInfo);
 
     const isRightLabel = inflexionPoint[0] > 0;
-    const labelPosX = inflexionPoint[0] + 50 * (isRightLabel ? 1 : -1);
+    const labelPosX = inflexionPoint[0] + 20 * (isRightLabel ? 1 : -1);
+    const isTopLabel = inflexionPoint[1] > 0;
+    const labelPosY = inflexionPoint[1] //+ 20 * (isTopLabel ? 1 : -1);
     const textAnchor = isRightLabel ? "start" : "end";
     const label = slice['data']['x'] + " (" + "$" + Math.round(slice['data']['y']).toLocaleString() + ")";
     const labelName = slice['data']['x']
@@ -37,7 +48,19 @@ const PieChart = ({ data, label, dims, colors }) => {
     
     return (
       <g key={i}>
-        <path d={slicePath} fill={colors[i]} />
+        <path 
+          d={slicePath} 
+          fill={colors[i]} 
+          onMouseMove={()=>
+            setInteractionData({
+              xPos: inflexionPoint[0],
+              yPos: inflexionPoint[1],
+              labelName: labelName,
+              labelValue: labelValue,
+            })
+          }
+          // onMouseLeave={() => setInteractionData(undefined)}
+        />
         <circle cx={centroid[0]} cy={centroid[1]} r={2} />
         <line
           x1={centroid[0]}
@@ -51,7 +74,7 @@ const PieChart = ({ data, label, dims, colors }) => {
           x1={inflexionPoint[0]}
           y1={inflexionPoint[1]}
           x2={labelPosX}
-          y2={inflexionPoint[1]}
+          y2={labelPosY}
           stroke={"black"}
           fill={"black"}
         />
@@ -80,13 +103,26 @@ const PieChart = ({ data, label, dims, colors }) => {
   return (
     <div className={"viz piechart"} name={label}>
       <p className={"vizTitle"}>{ label }</p>
-
-      <svg width={dims.width} height={dims.height}>
-        <g transform={`translate(${dims.width / 2}, ${dims.height / 2})`}>
-          { shapes }
-        </g>
-      </svg>
-
+      <div className={"vizPlot"}>
+        <svg width={dims.width} height={dims.height}>
+          <g transform={`translate(${dims.width / 2}, ${dims.height / 2})`}>
+            { shapes }
+          </g>
+        </svg>
+        
+        <div
+          style={{
+            position: "absolute",
+            width: dims.width,
+            height: dims.height,
+            top: 0,
+            left: 0,
+            pointerEvents: "none",
+          }}
+        >
+          <Tooltip interactionData={interactionData} />
+        </div>
+      </div>
     </div>
   )
 }

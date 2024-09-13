@@ -1,6 +1,6 @@
 
-export const Tooltip = ({ data, name }) => {
-  if (!data) {
+export const Tooltip = ({ interactionData, name }) => {
+  if (!interactionData) {
     return null;
   }
 
@@ -8,11 +8,14 @@ export const Tooltip = ({ data, name }) => {
     <div
       className={"tooltip"}
       style={{
-        left: data['xPos'],
-        top: data['xPos'], 
+        left: interactionData['xPos'],
+        top: interactionData['xPos'], 
+        // position: "absolute",
       }}
     >
-      { "x" }
+      { interactionData['labelName'] }
+      <br />
+      { interactionData.labelValue }
     </div>
   )
 }
