@@ -8,7 +8,8 @@ import TimeSeries from './TimeSeries'
 
 const Dashboard = ({ data }) => {
   const dims = { 
-    width: 500, height: 500,
+    width: 500, 
+    height: 500,
     bottomAxisHeight: 15,
     innerRadius: 80,
     outerRadius: 160,

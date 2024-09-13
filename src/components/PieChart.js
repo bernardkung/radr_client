@@ -47,6 +47,8 @@ const PieChart = ({ data, label, dims, colors }) => {
     const labelValue = "$" + Math.round(slice['data']['y']).toLocaleString()
     const labelMisc = Math.round( 100 * (slice.endAngle - slice.startAngle ) / 6.283185307179587 ) + "%"
     
+    const tooltip_padding = 30;
+
     return (
       <g key={i}>
         <path 
@@ -54,10 +56,9 @@ const PieChart = ({ data, label, dims, colors }) => {
           fill={colors[i]} 
           onMouseMove={()=>
             setInteractionData({
-              xPos: labelPosX,
-              yPos: labelPosY,
-              // xPos: inflexionPoint[0],
-              // yPos: inflexionPoint[1],
+              // Translate inflexion cx,cy to x,y
+              xPos: inflexionPoint[0]+(dims.width/2) + tooltip_padding * (isRightLabel ? 1 : -1),
+              yPos: inflexionPoint[1]+(dims.height/2) + tooltip_padding * (isTopLabel ? 1 : -1),
               labelName: labelName,
               labelValue: labelValue,
               labelMisc: [labelMisc],
