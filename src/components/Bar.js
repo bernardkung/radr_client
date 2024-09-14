@@ -1,7 +1,7 @@
 const Bar = ({x, y, d, xScale, yScale, onMouseEnter, onMouseLeave })=>{
   
   return (
-  <g key={y } className={"bar"}>
+  <g key={y } className={"bar shape"}>
     <rect 
       key={y + "Bar"}
       x={xScale(0)}

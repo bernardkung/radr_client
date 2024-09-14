@@ -1,10 +1,11 @@
 import * as d3 from "d3";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef } from "react";
 import Tooltip from './Tooltip';
 
 const PieChart = ({ data, label, dims, colors }) => {
 
-  const [ interactionData, setInteractionData ] = useState(undefined)
+  const [ interactionData, setInteractionData ] = useState(undefined);
+  const ref = useRef(null);
 
   
   // Compute a pie generator = a function that transforms a dataset in a list of arcs
@@ -49,22 +50,41 @@ const PieChart = ({ data, label, dims, colors }) => {
     
     const tooltip_padding = 30;
 
+    const onMouseEnter = () => {
+      // Highlight         
+      if (ref.current) {
+        ref.current.classList.add("hasHighlight");
+      }
+      //Tooltip
+      setInteractionData({
+        // Translate inflexion cx,cy to x,y
+        xPos: inflexionPoint[0]+(dims.width/2) + tooltip_padding * (isRightLabel ? 1 : -1),
+        yPos: inflexionPoint[1]+(dims.height/2) + tooltip_padding * (isTopLabel ? 1 : -1),
+        labelName: labelName,
+        labelValue: labelValue,
+        labelMisc: [labelMisc],
+      })
+
+    }
+
+    const onMouseLeave = () => {
+      // Highlight         
+      if (ref.current) {
+        ref.current.classList.remove("hasHighlight");
+      }
+      // Tooltip
+      setInteractionData(undefined)
+    }
+
+
     return (
       <g key={i}>
         <path 
+          className={"slice shape"}
           d={slicePath} 
           fill={colors[i]} 
-          onMouseMove={()=>
-            setInteractionData({
-              // Translate inflexion cx,cy to x,y
-              xPos: inflexionPoint[0]+(dims.width/2) + tooltip_padding * (isRightLabel ? 1 : -1),
-              yPos: inflexionPoint[1]+(dims.height/2) + tooltip_padding * (isTopLabel ? 1 : -1),
-              labelName: labelName,
-              labelValue: labelValue,
-              labelMisc: [labelMisc],
-            })
-          }
-          onMouseLeave={() => setInteractionData(undefined)}
+          onMouseEnter={() => onMouseEnter()}
+          onMouseLeave={() => onMouseLeave()}
         />
         <circle cx={centroid[0]} cy={centroid[1]} r={2} />
         <line
@@ -111,7 +131,11 @@ const PieChart = ({ data, label, dims, colors }) => {
       <p className={"vizTitle"}>{ label }</p>
       <div className={"vizPlot"}>
         <svg width={dims.width} height={dims.height}>
-          <g transform={`translate(${dims.width / 2}, ${dims.height / 2})`}>
+          <g 
+            className={"vizPlotContainer"}
+            transform={`translate(${dims.width / 2}, ${dims.height / 2})`}
+            ref={ref}
+          >
             { shapes }
           </g>
         </svg>

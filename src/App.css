@@ -48,6 +48,16 @@
   position: relative;
 }
 
+.hasHighlight .shape {
+  filter: saturate(50%);
+  opacity: 0.2;
+}
+
+.hasHighlight .shape:hover {
+    filter: saturate(100%);
+    opacity: 1;
+}
+
 .tooltip {
   width: 85px;
   background: #fff;
