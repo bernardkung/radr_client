@@ -90,6 +90,56 @@ const Dashboard = ({ data }) => {
     return financials
     }
 
+  // Find the last event (submission,decision) in a stage
+  function getLastStageEvent(events) {
+    return events.reduce((lastEvent, event)=>{
+      // If this is the first event checked
+      if (Object.keys(lastEvent).length === 0) {
+        lastEvent = event
+      }
+      else {
+        // Determine event type & date
+        const eventDate = Object.keys(event).includes('submission_date')
+          ? new Date(event.submission_date) 
+          : new Date(event.decision_date)
+        // Determine last event type & date
+        const lastEventDate = Object.keys(lastEvent).includes('submission_date')
+          ? new Date(lastEvent.submission_date) 
+          : new Date(lastEvent.decision_date)
+
+        if (eventDate > lastEventDate) {
+          lastEvent = event
+        }
+      }
+      
+      const lastEventType = Object.keys(lastEvent).includes('submission_date')
+      ? "submission"
+      : "decision"
+
+      return {
+        type: lastEventType,
+        ...lastEvent
+      }
+    }, {})
+  }
+  
+  // Determine whether a claim is Pending Submission or Awaiting Decision
+  function evaluateStatus (record) {
+    console.log("adr", record.Adr)
+    // Find last stage
+
+    const events = [record.Adr.stages.map(stage=>{
+      return [...stage.submissions, ...stage.decisions]
+    })]
+    console.log(events.flat(2))
+    const lastEvent = getLastStageEvent([...record.Adr.stages[0]['submissions'], ...record.Adr.stages[0]['decisions']])
+    console.log("LE", lastEvent)
+    // record.Adr.stages.reduce((lastEvent, stage)=>{
+
+    // }, {})
+  }
+
+  evaluateStatus(data[9209])
 
   // Reduce dataset into count of ADRs by year of first notification
   function countByYear (dataset, yearCol) {
