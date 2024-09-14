@@ -90,8 +90,29 @@ const Dashboard = ({ data }) => {
     return financials
     }
 
+  // Find the last stage in an ADR
+  function getLastStage(record) {
+    const stagePriority = {
+      '45' : 1,
+      '120': 2,
+      '180': 3,
+      'ALJ': 4,
+    }
+    const lastStage = record.Adr.stages.reduce((iterStage, stage)=>{
+      if (Object.keys(iterStage).length==0){
+        iterStage = stage
+      } else {
+        iterStage = stagePriority[stage.stage] > stagePriority[iterStage.stage]
+          ? stage
+          : iterStage
+      }
+      return iterStage
+    }, {})
+    return lastStage
+  }
+
   // Find the last event (submission,decision) in a stage
-  function getLastStageEvent(events) {
+  function getLastEvent(events) {
     return events.reduce((lastEvent, event)=>{
       // If this is the first event checked
       if (Object.keys(lastEvent).length === 0) {
@@ -125,18 +146,21 @@ const Dashboard = ({ data }) => {
   
   // Determine whether a claim is Pending Submission or Awaiting Decision
   function evaluateStatus (record) {
-    console.log("adr", record.Adr)
+    
     // Find last stage
+    const lastStage = getLastStage(record)
 
-    const events = [record.Adr.stages.map(stage=>{
-      return [...stage.submissions, ...stage.decisions]
-    })]
-    console.log(events.flat(2))
-    const lastEvent = getLastStageEvent([...record.Adr.stages[0]['submissions'], ...record.Adr.stages[0]['decisions']])
-    console.log("LE", lastEvent)
-    // record.Adr.stages.reduce((lastEvent, stage)=>{
+    // Find last event
+    const events = [...lastStage.submissions, ...lastStage.decisions]
+    // const events = [record.Adr.stages.map(stage=>{
+    //   return [...stage.submissions, ...stage.decisions]
+    // })]
+    const lastEvent = getLastEvent(events)
 
-    // }, {})
+    // If Adr is inactive
+    if (adr.active == false) {
+      
+    }
   }
 
   evaluateStatus(data[9209])
