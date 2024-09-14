@@ -5,7 +5,7 @@ import Bar from './Bar'
 import Tooltip from './Tooltip'
 
 const BarChart = ({ data, xVar, yVar, orient="horizontal", title, horizontalLabel, dims }) => {
-  const [ interactionData, setInteractionData ] = useState({});
+  const [ interactionData, setInteractionData ] = useState(undefined);
   const ref = useRef(null);
 
   const xMin = 0
