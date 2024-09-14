@@ -19,11 +19,11 @@ const Dashboard = ({ data }) => {
   console.log(data)
 
   // KPIs
-  const [ totalExpectedReimbursement, setTotalExpectedReimbursement ] = useState(0)
-  const [ totalPayment, setTotalPayment ] = useState(0)
-  const [ totalBalance, setTotalBalance ] = useState(0)
-  const [ totalActiveBalance, setTotalActiveBalance ] = useState(0)
-  const [ totalInactiveBalance, setTotalInactiveBalance ] = useState(0)
+  // const [ totalExpectedReimbursement, setTotalExpectedReimbursement ] = useState(0)
+  // const [ totalPayment, setTotalPayment ] = useState(0)
+  // const [ totalBalance, setTotalBalance ] = useState(0)
+  // const [ totalActiveBalance, setTotalActiveBalance ] = useState(0)
+  // const [ totalInactiveBalance, setTotalInactiveBalance ] = useState(0)
   const [ financials, setFinancials ] = useState({})
 
 // HELPER FUNCTIONS
@@ -158,7 +158,7 @@ const Dashboard = ({ data }) => {
     const lastEvent = getLastEvent(events)
 
     // If Adr is inactive
-    if (adr.active == false) {
+    if (record.Adr.active == false) {
       
     }
   }
@@ -214,13 +214,7 @@ const Dashboard = ({ data }) => {
   useEffect(()=>{
     // // Aggregate Overall Financials
     const reduction = reduceFinancials(data)
-    console.log("fins:", reduction)
     // // Set states
-    setTotalExpectedReimbursement(reduction['totalExpectedReimbursement'])
-    setTotalPayment(reduction['totalPayment'])
-    setTotalBalance(reduction['totalBalance'])
-    setTotalActiveBalance(reduction['totalActiveBalance'])
-    setTotalInactiveBalance(reduction['totalInactiveBalance'])
     setFinancials(reduction)
   }, data)
 
