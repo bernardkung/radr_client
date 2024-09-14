@@ -78,9 +78,9 @@ const PieChart = ({ data, label, dims, colors }) => {
 
 
     return (
-      <g key={i}>
+      <g key={i} className={"shape"}>
         <path 
-          className={"slice shape"}
+          className={"slice"}
           d={slicePath} 
           fill={colors[i]} 
           onMouseEnter={() => onMouseEnter()}
