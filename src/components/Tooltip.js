@@ -3,12 +3,10 @@ export const Tooltip = ({ interactionData, dims }) => {
   if (!interactionData) {
     return null;
   }
-
-  // Build a wrapper that fits over the visualization,
-  // and a tooltip that floats inside the wrapper
-
+  
   return (
 
+    // Build a wrapper that fits over the visualization area
     <div
       style={{
         position: "absolute",
@@ -20,6 +18,7 @@ export const Tooltip = ({ interactionData, dims }) => {
       }}
     >
     
+    {/* Tooltip that floats inside the wrapper */}
     <div
       className={"tooltip"}
       style={{

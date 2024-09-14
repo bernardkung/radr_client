@@ -5,7 +5,7 @@ import Bar from './Bar'
 import Tooltip from './Tooltip'
 
 const BarChart = ({ data, xVar, yVar, orient="horizontal", title, horizontalLabel, dims }) => {
-  const [ tooltipData, setTooltipData ] = useState({})
+  const [ interactionData, setInteractionData ] = useState({})
 
   const xMin = 0
   const xMax = d3.max(data.map(d=>d[xVar]))
@@ -29,42 +29,46 @@ const BarChart = ({ data, xVar, yVar, orient="horizontal", title, horizontalLabe
   }, [data, dims])
   
   const onMouseEnter = (e, d)=>{
-    // console.log("d:", d, d.y, yScale(d.x), yDomain[0])
-    setTooltipData({
-      xPos: xScale(d.x),
-      yPos: yScale(d[yVar]),
-      name: "tooltip",
+    setInteractionData({
+      xPos: xScale(d[xVar])+20,
+      yPos: yScale(d[yVar]) + (yScale.bandwidth() / 2),
+      labelName: d.x,
+      labelValue: d.y,
     })
   }
 
   const onMouseLeave = (e)=>{
-    // console.log(e)
+    setInteractionData(undefined)
   }
   
 
   return (
     <div className={"viz barchart"} name={title}>
       <p className={"vizTitle"}>{ title }</p>
+      <div className={"vizPlot"}>
 
-      <svg width={dims.width} height={dims.height}>
-        {data.map(d=>(
-          <Bar 
-            key={d[xVar]} 
-            x={d[xVar]} 
-            y={d[yVar]} 
-            d={d}
-            xScale={xScale} 
-            yScale={yScale}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-          />
-        ))}
+        <svg width={dims.width} height={dims.height}>
+          {data.map(d=>(
+            <Bar 
+              key={d[xVar]} 
+              x={d[xVar]} 
+              y={d[yVar]} 
+              d={d}
+              xScale={xScale} 
+              yScale={yScale}
+              onMouseEnter={onMouseEnter}
+              onMouseLeave={onMouseLeave}
+            />
+          ))}
 
 
-        <HorizontalAxis scale={xScale} xScale={xScale} axisLabel={ horizontalLabel } dims={dims} numberOfTicksTarget={10}/>
-        <Tooltip data={tooltipData}/>
-      </svg>
+          <HorizontalAxis scale={xScale} xScale={xScale} axisLabel={ horizontalLabel } dims={dims} numberOfTicksTarget={10}/>
 
+        </svg>
+
+        <Tooltip interactionData={interactionData} dims={dims} />
+
+      </div>
     </div>
   )
 }
