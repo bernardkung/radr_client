@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import Card from './Card'
 import BarChart from './BarChart'
 import PieChart from './PieChart'
@@ -10,7 +10,7 @@ const Dashboard = ({ data }) => {
   const dims = { 
     width: 500, 
     height: 500,
-    bottomAxisHeight: 15,
+    axisHeight: 15,
     innerRadius: 80,
     outerRadius: 160,
     padding: { top: 30, right: 20, bottom: 30, left: 40 }
@@ -275,8 +275,8 @@ const Dashboard = ({ data }) => {
   }, data)
 
 
-  const stagesByYear = countByYear(data, 'notification_date', 'count')
-  const adrsByStatus = countByStatus(data)
+  const stagesByYear = useMemo(()=>countByYear(data, 'notification_date', 'count'))
+  const adrsByStatus = useMemo(()=>countByStatus(data))
 
 
   

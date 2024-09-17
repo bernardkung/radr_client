@@ -9,7 +9,7 @@ const BarChart = ({ data, xVar, yVar, orient="horizontal", title, axisLabel, dim
   const [ interactionData, setInteractionData ] = useState(undefined);
   const ref = useRef(null);
 
-  console.log("bardata", data)
+  // console.log("bardata", data)
 
   // Horizontal
   const xMin = 0
@@ -35,23 +35,23 @@ const BarChart = ({ data, xVar, yVar, orient="horizontal", title, axisLabel, dim
     }
   }, [data, dims])
 
-  // compensate for axis padding depending on orientation
   const yScale = useMemo(()=>{
     if (orient=="horizontal") {
       return d3.scaleBand()
         .domain(yDomain)
-        .range([dims.height-dims.padding.bottom-dims.bottomAxisHeight, dims.padding.top])
+        .range([dims.height-dims.padding.bottom-dims.axisHeight, dims.padding.top])
         .padding(0.1)
     } else if (orient=="vertical") {
       return d3.scaleLinear()
         .domain([yMin, yMax])
-        .range([dims.height-dims.padding.bottom-dims.bottomAxisHeight, dims.padding.top])
+        .range([dims.height-dims.padding.bottom-dims.axisHeight, dims.padding.top])
         .nice()
     }
   }, [data, dims])
 
-  
+  // MOUSEOVER Interactions
   const onMouseEnter = (e, d)=>{ 
+    console.log("ms:", "Y", d[yVar], "YS", yScale(d[yVar]), yScale.range())
     // Highlight         
     if (ref.current) {
       ref.current.classList.add("hasHighlight");
@@ -59,7 +59,7 @@ const BarChart = ({ data, xVar, yVar, orient="horizontal", title, axisLabel, dim
     // Tooltip
     setInteractionData({
       xPos: orient=="horizontal" 
-        ? xScale(d[xVar]) + 20 
+        ? xScale(d[xVar]) + 70 
         : xScale(d[xVar]) + (xScale.bandwidth() / 2),
       yPos: orient=="horizontal" 
         ? yScale(d[yVar]) + (yScale.bandwidth() / 2) 
@@ -76,7 +76,7 @@ const BarChart = ({ data, xVar, yVar, orient="horizontal", title, axisLabel, dim
     setInteractionData(undefined)
   }
 
-  const shapes = data.map(d=>{
+  const shapes = useMemo(()=>data.map(d=>{
     return (
       <Bar 
         key={d[xVar]} 
@@ -89,11 +89,12 @@ const BarChart = ({ data, xVar, yVar, orient="horizontal", title, axisLabel, dim
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       />
-  )})
+  )}))
   
-  const axis = orient == "horizontal"
+  const axis = useMemo(()=>orient == "horizontal"
     ? <HorizontalAxis xScale={xScale} axisLabel={ axisLabel } dims={dims} numberOfTicksTarget={10}/>
     : <VerticalAxis yScale={yScale} axisLabel={ axisLabel } dims={dims} numberOfTicksTarget={10}/>
+  )
 
   return (
     <div className={"viz barchart"} name={title}>
