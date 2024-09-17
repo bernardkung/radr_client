@@ -27,16 +27,31 @@ const Dashboard = ({ data }) => {
   const [ financials, setFinancials ] = useState({})
 
 // HELPER FUNCTIONS
-  function dataMap(obj) {
-    return Object.keys(obj).map(key=>{
-      return { x:key, y:obj[key] }
+  function dataMap(obj, sort=null) {
+    const sorted = sort == null
+      ? Object.entries(obj)
+      : sort=='desc'
+        ? Object.entries(obj).sort((a,b)=> a[1]-b[1])
+        : Object.entries(obj).sort((a,b)=> b[1]-a[1])
+    const output = sorted.map((row) => {
+      return { x:row[0], y:row[1] }
     })
+    return output
   }
 
   function buildDict(acc, key) {
     if (!acc[key]) { acc[key] = 0}
     acc[key]+=1
     return acc
+  }
+
+  function isEmpty(obj) {
+    for (const prop in obj) {
+      if (Object.hasOwn(obj, prop)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   function accumulateDict(dict, accumulator) {
@@ -158,14 +173,14 @@ const Dashboard = ({ data }) => {
   }
   
   function findLastEvent(stages) {
-    for (const stage in stages) {
+    for (const stage of stages) {
       // Check for last decision
-      if (Object.keys(stage).includes('decisions')) {
-        return getLastEvent(stage.decisions)
+      if (stage.decisions.length > 0) {
+        return getLastEvent(stage, 'decisions')
       } 
       // Check for last submission if no decision
-      else if (Object.keys(stage).includes('submissions')) {
-        return getLastEvent(stage.submissions)
+      else if (stage.submissions.length > 0) {
+        return getLastEvent(stage, 'submissions')
       } 
       // If no decisions or submissions, loop to next stage
     }
@@ -185,9 +200,9 @@ const Dashboard = ({ data }) => {
       // Loop through stages, in order of due date
       // Find last decision or submission
       const lastEvent = findLastEvent(stages)
-
+      // console.log("LE", lastEvent, lastEvent == null)
       // If last event was a submission
-      if (lastEvent == null || lastEvent.type == 'decision') {
+      if (isEmpty(lastEvent) || lastEvent.type == 'decision') {
         return 'Pending Submission'
       }
       // If last event was a decision, or no last event
@@ -278,6 +293,16 @@ const Dashboard = ({ data }) => {
   const stagesByYear = useMemo(()=>countByYear(data, 'notification_date', 'count'))
   const adrsByStatus = useMemo(()=>countByStatus(data))
 
+  function findAdr(adr_id, dataset=data) {
+    return dataset.filter(record=>record['Adr']['adr_id']==adr_id)
+  }
+
+  
+  // const testAdr = findAdr(10074) // pending submission
+  // const testAdr = findAdr(10024) // awaiting decision
+  // console.log("adr", testAdr, evaluateStatus(testAdr[0]))
+
+
 
   
 
@@ -292,7 +317,7 @@ const Dashboard = ({ data }) => {
       <Card value={"$" + Math.round(financials['totalPayment']).toLocaleString()} label={'Total Payment'} />
 
       <BarChart 
-        data={dataMap(adrsByStatus)} 
+        data={dataMap(adrsByStatus, 'desc')} 
         xVar={'y'} 
         yVar={'x'} 
         orient = { "horizontal" }
@@ -311,7 +336,7 @@ const Dashboard = ({ data }) => {
         dims = { dims }
       />
 
-      <BarChart 
+      {/* <BarChart 
         data={stagesByYear} 
         xVar={'y'} 
         yVar={'x'} 
@@ -319,7 +344,7 @@ const Dashboard = ({ data }) => {
         title = { "Stages per Year" }
         axisLabel={ "# Stages" }
         dims = { dims }
-      />
+      /> */}
 
       <PieChart 
         data={dataMap({
