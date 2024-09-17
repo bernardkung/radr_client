@@ -3,31 +3,51 @@ import { useMemo, useState, useRef } from "react"
 import { HorizontalAxis } from './HorizontalAxis';
 import Bar from './Bar'
 import Tooltip from './Tooltip'
+import { VerticalAxis } from "./VerticalAxis";
 
 const BarChart = ({ data, xVar, yVar, orient="horizontal", title, horizontalLabel, dims }) => {
   const [ interactionData, setInteractionData ] = useState(undefined);
   const ref = useRef(null);
 
+  console.log(data)
+
   const xMin = 0
   const xMax = d3.max(data.map(d=>d[xVar]))
-  // const yMin = d3.min(data.map(d=>d[yVar]))
-  // const yMax = d3.max(data.map(d=>d[yVar]))
+  const xDomain = data.map(d=>d[xVar])
+  const yMin = 0
+  const yMax = d3.max(data.map(d=>d[yVar]))
   const yDomain = data.map(d=>d[yVar])
 
-
   const xScale = useMemo(()=>{
-    return d3.scaleLinear()
-      .domain([xMin, xMax])
-      .range([dims.padding.left, dims.width-dims.padding.right-dims.padding.left])
-      .nice()
+    if (orient=="horizontal") {
+      return d3.scaleLinear()
+        .domain([xMin, xMax])
+        .range([dims.padding.left, dims.width-dims.padding.right-dims.padding.left])
+        .nice()
+    } else if (orient=="vertical") {
+      return d3.scaleBand()
+        .domain(xDomain)
+        .range([dims.padding.left, dims.width-dims.padding.right-dims.padding.left])
+        .padding(0.1)
+    }
   }, [data, dims])
 
   const yScale = useMemo(()=>{
-    return d3.scaleBand()
-      .domain(yDomain)
-      .range([dims.height-dims.padding.bottom-dims.bottomAxisHeight, dims.padding.top])
-      .padding(0.1)
+    if (orient=="horizontal") {
+      return d3.scaleBand()
+        .domain(yDomain)
+        .range([dims.height-dims.padding.bottom-dims.bottomAxisHeight, dims.padding.top])
+        .padding(0.1)
+    } else if (orient=="vertical") {
+      return d3.scaleLinear()
+        .domain([xMin, xMax])
+        .range([dims.height-dims.padding.bottom-dims.bottomAxisHeight, dims.padding.top])
+        .nice()
+    }
   }, [data, dims])
+
+  console.log("xs", xScale(xMin), xScale(xMax))
+  console.log("ys", xScale(yMin), xScale(yMax))
   
   const onMouseEnter = (e, d)=>{ 
     // Highlight         
@@ -36,7 +56,7 @@ const BarChart = ({ data, xVar, yVar, orient="horizontal", title, horizontalLabe
     }
     // Tooltip
     setInteractionData({
-      xPos: xScale(d[xVar])+20,
+      xPos: xScale(d[xVar]) + 20,
       yPos: yScale(d[yVar]) + (yScale.bandwidth() / 2),
       labelName: d.x,
       labelValue: d.y,
@@ -49,7 +69,25 @@ const BarChart = ({ data, xVar, yVar, orient="horizontal", title, horizontalLabe
     }
     setInteractionData(undefined)
   }
+
+  const shapes = data.map(d=>{
+    return (
+      <Bar 
+        key={d[xVar]} 
+        x={d[xVar]} 
+        y={d[yVar]} 
+        d={d}
+        xScale={xScale} 
+        yScale={yScale}
+        orient={orient}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      />
+  )})
   
+  const axis = orient == "horizontal"
+    ? <HorizontalAxis xScale={xScale} axisLabel={ horizontalLabel } dims={dims} numberOfTicksTarget={10}/>
+    : <VerticalAxis yScale={xScale} axisLabel={ horizontalLabel } dims={dims} numberOfTicksTarget={10}/>
 
   return (
     <div className={"viz barchart"} name={title}>
@@ -63,21 +101,10 @@ const BarChart = ({ data, xVar, yVar, orient="horizontal", title, horizontalLabe
             ref={ref}
           >
               
-            {data.map(d=>(
-              <Bar 
-                key={d[xVar]} 
-                x={d[xVar]} 
-                y={d[yVar]} 
-                d={d}
-                xScale={xScale} 
-                yScale={yScale}
-                onMouseEnter={onMouseEnter}
-                onMouseLeave={onMouseLeave}
-              />
-            ))}
+            { shapes }
 
 
-            <HorizontalAxis scale={xScale} xScale={xScale} axisLabel={ horizontalLabel } dims={dims} numberOfTicksTarget={10}/>
+            { axis }
 
           </g>
         </svg>

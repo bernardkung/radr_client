@@ -1,4 +1,4 @@
-const Bar = ({x, y, d, xScale, yScale, onMouseEnter, onMouseLeave })=>{
+const Bar = ({x, y, d, xScale, yScale, orient="horizontal", onMouseEnter, onMouseLeave })=>{
   
   return (
   <g key={y } className={"bar shape"}>
@@ -6,8 +6,8 @@ const Bar = ({x, y, d, xScale, yScale, onMouseEnter, onMouseLeave })=>{
       key={y + "Bar"}
       x={xScale(0)}
       y={yScale(y)}
-      width={xScale(x)-xScale(0)}
-      height={yScale.bandwidth()}
+      width={orient=="horizontal" ? xScale(x)-xScale(0) : xScale.bandwidth()}
+      height={orient=="horizontal" ? yScale.bandwidth() : yScale(y)-yScale(0)}
       opacity={0.7}
       stroke="#9d174d"
       fill="#9d174d"

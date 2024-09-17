@@ -33,6 +33,12 @@ const Dashboard = ({ data }) => {
     })
   }
 
+  function buildDict(acc, key) {
+    if (!acc[key]) { acc[key] = 0}
+    acc[key]+=1
+    return acc
+  }
+
   function accumulateDict(dict, accumulator) {
     // Loop through each entry in dict
     for (const [key, value] of Object.entries(dict)) {
@@ -116,11 +122,11 @@ const Dashboard = ({ data }) => {
     const events = []
     
     if (eventType != 'submissions' && 'decisions' in stage) {
-      events.push(stage['decisions'])
+      events.push(...stage['decisions'])
     } else if ('submissions' in stage) {
-      events.push(stage['submissions'])
+      events.push(...stage['submissions'])
     }
-
+    
     return events.reduce((lastEvent, event)=>{
       // If this is the first event checked
       if (Object.keys(lastEvent).length === 0) {
@@ -145,26 +151,25 @@ const Dashboard = ({ data }) => {
       ? "submission"
       : "decision"
 
-      return {
-        type: lastEventType,
-        ...lastEvent
-      }
+      lastEvent['type'] = lastEventType
+
+      return lastEvent
     }, {})
   }
   
   function findLastEvent(stages) {
     for (const stage in stages) {
       // Check for last decision
-      if (stage.decisions.length > 0) {
+      if (Object.keys(stage).includes('decisions')) {
         return getLastEvent(stage.decisions)
       } 
       // Check for last submission if no decision
-      else if (stage.submissions.length > 0) {
+      else if (Object.keys(stage).includes('submissions')) {
         return getLastEvent(stage.submissions)
       } 
       // If no decisions or submissions, loop to next stage
     }
-    // If no decisions or submissions found at all, presumably it's anew Adr
+    // If no decisions or submissions found at all, presumably it's a new Adr
     return null
   }
 
@@ -180,10 +185,15 @@ const Dashboard = ({ data }) => {
       // Loop through stages, in order of due date
       // Find last decision or submission
       const lastEvent = findLastEvent(stages)
-      
-      return lastEvent.type == 'submission' 
-        ? 'Pending Submission' 
-        : 'Awaiting Decision'
+
+      // If last event was a submission
+      if (lastEvent == null || lastEvent.type == 'decision') {
+        return 'Pending Submission'
+      }
+      // If last event was a decision, or no last event
+      else {
+        return 'Awaiting Decision'
+      }
     } 
 
     // If Adr is Inactive
@@ -192,7 +202,7 @@ const Dashboard = ({ data }) => {
         // Find last decision
         const lastEvent = getLastEvent(stage, 'decisions')
       
-        if (Object.keys(lastEvent).includes('decisions') && lastEvent.decision == 'Paid in Full') {
+        if (Object.keys(lastEvent).includes('decision') && lastEvent.decision == 'PAID IN FULL') {
           return 'Paid in Full'
         }
         // If not paid in full, or no decision otherwise rendered
@@ -202,11 +212,6 @@ const Dashboard = ({ data }) => {
       }
     }
   }
-
-  const testAdr = data[9209]
-  const status = evaluateStatus(testAdr)
-  console.log(testAdr)
-  console.log(status)
 
   // Reduce dataset into count of ADRs by year of first notification
   function countByYear (dataset, yearCol) {
@@ -225,7 +230,7 @@ const Dashboard = ({ data }) => {
       const year = (new Date(earliestNotificationDate).getFullYear())
       
       // If year doesn't exist
-      if (!countDict[year]) { countDict[year] = 1 }
+      if (!countDict[year]) { countDict[year] = 0 }
 
       // Accumulate
       countDict[year] += 1
@@ -235,6 +240,14 @@ const Dashboard = ({ data }) => {
 
     return dataMap(yearCount)
   } 
+
+  function countByStatus (dataset) {
+    const statusCount = dataset.reduce((countDict, record) => {
+      const status = evaluateStatus(record)
+      return buildDict(countDict, status)
+    }, {})
+    return statusCount
+  }
 
   // Reduce overall dataset into a single financial object
   function reduceFinancials(dataset) {
@@ -263,6 +276,7 @@ const Dashboard = ({ data }) => {
 
 
   const stagesByYear = countByYear(data, 'notification_date', 'count')
+  const adrsByStatus = countByStatus(data)
 
 
   
@@ -278,14 +292,24 @@ const Dashboard = ({ data }) => {
       <Card value={"$" + Math.round(financials['totalPayment']).toLocaleString()} label={'Total Payment'} />
 
       <BarChart 
-        data={stagesByYear} 
+        data={dataMap(adrsByStatus)} 
         xVar={'y'} 
         yVar={'x'} 
         orient = { "horizontal" }
+        title = { "ADRs by Status" }
+        horizontalLabel={ "# ADRs" }
+        dims = { dims }
+      />
+
+      {/* <BarChart 
+        data={stagesByYear} 
+        xVar={'x'} 
+        yVar={'y'} 
+        orient = { "vertical" }
         title = { "Stages per Year" }
         horizontalLabel={ "# Stages" }
         dims = { dims }
-      />
+      /> */}
 
       <PieChart 
         data={dataMap({
