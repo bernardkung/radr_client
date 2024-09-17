@@ -120,6 +120,7 @@ const Dashboard = ({ data }) => {
     } else if ('submissions' in stage) {
       events.push(stage['submissions'])
     }
+
     return events.reduce((lastEvent, event)=>{
       // If this is the first event checked
       if (Object.keys(lastEvent).length === 0) {
@@ -188,11 +189,10 @@ const Dashboard = ({ data }) => {
     // If Adr is Inactive
     else if (!record.Adr.active) {
       for (const stage of stages) {
-        console.log("st:", stage)
         // Find last decision
         const lastEvent = getLastEvent(stage, 'decisions')
       
-        if (Object.keys(lastEvent).includes('decision') && lastEvent.decision == 'Paid in Full') {
+        if (Object.keys(lastEvent).includes('decisions') && lastEvent.decision == 'Paid in Full') {
           return 'Paid in Full'
         }
         // If not paid in full, or no decision otherwise rendered
