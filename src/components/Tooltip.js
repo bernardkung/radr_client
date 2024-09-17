@@ -28,7 +28,7 @@ export const Tooltip = ({ interactionData, dims }) => {
     >
       { interactionData['labelName'] }
       <br />
-      { interactionData.labelValue }
+      { interactionData.labelValue } { interactionData.labelUnit }
       <br />
       { interactionData.labelMisc }
     </div>

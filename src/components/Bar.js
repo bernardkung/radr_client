@@ -4,9 +4,10 @@ const Bar = ({x, y, d, xScale, yScale, orient="horizontal", onMouseEnter, onMous
 
 
   const shape = useMemo(()=>(
-    <g key={y } className={"bar shape"}>
+    <g key={y } className={"bar shapeGroup"}>
       <rect 
         key={y + "Bar"}
+        className={"shape"}
         x={ orient == "horizontal" 
           ? xScale.range()[0] 
           : xScale(x)
@@ -26,38 +27,41 @@ const Bar = ({x, y, d, xScale, yScale, orient="horizontal", onMouseEnter, onMous
         opacity={0.7}
         stroke="#9d174d"
         fill="#9d174d"
-        fillOpacity={0.3}
-        strokeWidth={1}
+        // fillOpacity={0.3}
+        // strokeWidth={1}
         onMouseEnter={e=>onMouseEnter(e, d)}
         onMouseLeave={onMouseLeave}
         data-value={yScale.range()[0]}
       />
+
       {/* VALUE */}
       <text
         key={y + "Value"}
-        className={"value"}
+        className={"shapeValue"}
         x={orient=="horizontal" 
           ? xScale(x) - 13 
           : xScale(x) + xScale.bandwidth() / 2 
         }
         y={orient=="horizontal" 
           ? yScale(y) + yScale.bandwidth() / 2 
-          : yScale(y) + 13 
+          : yScale(y) + 17 
         }
         textAnchor={orient=="horizontal" ? "end" : "middle"}
         alignmentBaseline={orient=="horizontal" ? "central" : "middle"}
-        fontSize={12}
+        fontSize={12} 
+        // hide label if bar is not wide enough
         opacity={orient=="horizontal" 
           ? xScale(x) > 120 ? 1 : 0
           : yScale(y) < yScale.range()[0] - 120 ? 1 : 0
-        } // hide label if bar is not wide enough
+        }
       >
         { orient == "horizontal" ? x : y }
       </text>
+
       {/* LABEL */}
       <text
         key={y + "Label"}
-        className={"label"}
+        className={"shapeLabel"}
         // x={ xScale.range()[0] + 13}
         // y={ yScale(y) + yScale.bandwidth() / 2 }
         x={orient=="horizontal" 
@@ -72,10 +76,11 @@ const Bar = ({x, y, d, xScale, yScale, orient="horizontal", onMouseEnter, onMous
         alignmentBaseline={orient=="horizontal" ? "central" : "middle"}
         fontSize={14}
         fontWeight={600}
+        // // hide label if bar is not wide enough
         // opacity={orient=="horizontal" 
         //   ? xScale(x) > 90 ? 1 : 0
         //   : yScale(y) > 90 ? 1 : 0
-        // } // hide label if bar is not wide enough
+        // }
       >
         { orient == "horizontal" ? y : x }
       </text>

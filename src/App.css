@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+
+
 .App {
   text-align: center;
   /* height: 100vh;
@@ -7,6 +10,7 @@
   /* flex-flow: column nowrap; */
   justify-content: center;
   align-items: center;
+  font-family: "Noto Sans", sans-serif;
 }
 
 
@@ -26,6 +30,13 @@
   align-items: center;
 }
 
+.flexColCentered {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
 .flexRow {
   display: flex;
   flex-flow: row nowrap;
@@ -41,6 +52,7 @@
 }
 
 .vizTitle {
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -48,12 +60,17 @@
   position: relative;
 }
 
-.hasHighlight .shape {
+.shape {
+  stroke-width: 1px;
+  fill-opacity: 0.4;
+}
+
+.hasHighlight .shapeGroup {
   filter: saturate(50%);
   opacity: 0.2;
 }
 
-.hasHighlight .shape:hover {
+.hasHighlight .shapeGroup:hover {
     filter: saturate(100%);
     opacity: 1;
 }
@@ -87,9 +104,35 @@
   font-weight: bold;
 }
 
+/* Card Styles */
 .card {
   height: 80px;
   width: 160px;
+}
+
+.cardValue {
+  font-size: 26px;
+  font-weight: 400;
+  flex-shrink: 1; 
+  margin: auto;
+  padding: auto;
+}
+
+.cardLabel {
+  font-size: 12px;
+  font-weight: 300;
+  flex-shrink: 1; 
+  margin: 0;
+  padding: 0;
+}
+
+/* Shape Styles */
+.shapeLabel {
+  font-size: 12px;
+}
+
+.shapeValue {
+  font-size: 10px;
 }
 
 /* Radar Animation */

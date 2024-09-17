@@ -78,10 +78,11 @@ const PieChart = ({ data, label, dims, colors }) => {
 
 
     return (
-      <g key={i} className={"shape"}>
+      <g key={i} className={"shapeGroup"}>
         <path 
-          className={"slice"}
+          className={"shape"}
           d={slicePath} 
+          stroke={colors[i]} 
           fill={colors[i]} 
           onMouseEnter={() => onMouseEnter()}
           onMouseLeave={() => onMouseLeave()}

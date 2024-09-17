@@ -2,9 +2,9 @@
 const Card = ({ value, label }) => {
   
   return (
-    <div className={"card viz"}>
-      <p>{ String(value) }</p>
-      <p className={"vizTitle"}>{ label }</p>
+    <div className={"card viz flexColCentered"}>
+      <p className={"cardValue"}>{ String(value) }</p>
+      <p className={"cardLabel"}>{ label }</p>
     </div>
   )
 }
