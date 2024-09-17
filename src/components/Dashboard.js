@@ -144,23 +144,56 @@ const Dashboard = ({ data }) => {
     }, {})
   }
   
+  function findLastEvent(stages) {        
+    for (const stage in stages) {
+      // Check for last decision
+      if (stage.decisions.length > 0) {
+        return getLastEvent(stage.decisions)
+      } 
+      // Check for last submission if no decision
+      else if (stage.submissions.length > 0) {
+        return getLastEvent(stage.submissions)
+      } 
+      // If no decisions or submissions, loop to next stage
+    }
+    // If no decisions or submissions found at all, presumably it's anew Adr
+    return null
+  }
+
   // Determine whether a claim is Pending Submission or Awaiting Decision
   function evaluateStatus (record) {
+
+    const stages = record.Adr.stages.sort((a,b)=>{
+      return (new Date(a.due_date))>(new Date(b.due_date))
+    })
     
-    // Find last stage
-    const lastStage = getLastStage(record)
-
-    // Find last event
-    const events = [...lastStage.submissions, ...lastStage.decisions]
-    // const events = [record.Adr.stages.map(stage=>{
-    //   return [...stage.submissions, ...stage.decisions]
-    // })]
-    const lastEvent = getLastEvent(events)
-
-    // If Adr is inactive
-    if (record.Adr.active == false) {
+    // If Adr is Active
+    if (record.Adr.active) {
+      // Loop through stages, in order of due date
+      // Find last decision or submission
+      const lastEvent = findLastEvent(stages)
       
+      return lastEvent.type == 'submission' 
+        ? 'Pending Submission' 
+        : 'Awaiting Decision'
+    } 
+
+    // If Adr is Inactive
+    else if (!record.Adr.active) {
+      for (const stage in stages) {
+        // Find last decision
+        const lastEvent = getLastEvent(record.Adr.stage.decisions)
+        if (Object.keys(lastEvent).includes('decision') && lastEvent.decision == 'Paid in Full') {
+          return 'Paid in Full'
+        }
+        // If not paid in full, or no decision otherwise rendered
+        else {
+          return 'Uncontested'
+        }
+      }
     }
+
+
   }
 
   evaluateStatus(data[9209])
