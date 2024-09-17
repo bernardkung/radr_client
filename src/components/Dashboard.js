@@ -112,7 +112,14 @@ const Dashboard = ({ data }) => {
   }
 
   // Find the last event (submission,decision) in a stage
-  function getLastEvent(events) {
+  function getLastEvent(stage, eventType='all') {
+    const events = []
+    
+    if (eventType != 'submissions' && 'decisions' in stage) {
+      events.push(stage['decisions'])
+    } else if ('submissions' in stage) {
+      events.push(stage['submissions'])
+    }
     return events.reduce((lastEvent, event)=>{
       // If this is the first event checked
       if (Object.keys(lastEvent).length === 0) {
@@ -144,7 +151,7 @@ const Dashboard = ({ data }) => {
     }, {})
   }
   
-  function findLastEvent(stages) {        
+  function findLastEvent(stages) {
     for (const stage in stages) {
       // Check for last decision
       if (stage.decisions.length > 0) {
@@ -180,9 +187,11 @@ const Dashboard = ({ data }) => {
 
     // If Adr is Inactive
     else if (!record.Adr.active) {
-      for (const stage in stages) {
+      for (const stage of stages) {
+        console.log("st:", stage)
         // Find last decision
-        const lastEvent = getLastEvent(record.Adr.stage.decisions)
+        const lastEvent = getLastEvent(stage, 'decisions')
+      
         if (Object.keys(lastEvent).includes('decision') && lastEvent.decision == 'Paid in Full') {
           return 'Paid in Full'
         }
@@ -192,11 +201,12 @@ const Dashboard = ({ data }) => {
         }
       }
     }
-
-
   }
 
-  evaluateStatus(data[9209])
+  const testAdr = data[9209]
+  const status = evaluateStatus(testAdr)
+  console.log(testAdr)
+  console.log(status)
 
   // Reduce dataset into count of ADRs by year of first notification
   function countByYear (dataset, yearCol) {
