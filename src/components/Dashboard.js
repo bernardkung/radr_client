@@ -297,19 +297,29 @@ const Dashboard = ({ data }) => {
         yVar={'x'} 
         orient = { "horizontal" }
         title = { "ADRs by Status" }
-        horizontalLabel={ "# ADRs" }
+        axisLabel={ "# ADRs" }
         dims = { dims }
       />
 
-      {/* <BarChart 
+      <BarChart 
         data={stagesByYear} 
         xVar={'x'} 
         yVar={'y'} 
         orient = { "vertical" }
         title = { "Stages per Year" }
-        horizontalLabel={ "# Stages" }
+        axisLabel={ "# Stages" }
         dims = { dims }
-      /> */}
+      />
+
+      <BarChart 
+        data={stagesByYear} 
+        xVar={'y'} 
+        yVar={'x'} 
+        orient = { "horizontal" }
+        title = { "Stages per Year" }
+        axisLabel={ "# Stages" }
+        dims = { dims }
+      />
 
       <PieChart 
         data={dataMap({
