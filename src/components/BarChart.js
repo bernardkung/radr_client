@@ -51,7 +51,6 @@ const BarChart = ({ data, xVar, yVar, orient="horizontal", title, axisLabel, dim
 
   // MOUSEOVER Interactions
   const onMouseEnter = (e, d)=>{ 
-    console.log("ms:", "Y", d[yVar], "YS", yScale(d[yVar]), yScale.range())
     // Highlight         
     if (ref.current) {
       ref.current.classList.add("hasHighlight");
