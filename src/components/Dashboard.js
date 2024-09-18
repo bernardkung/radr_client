@@ -309,23 +309,48 @@ const Dashboard = ({ data }) => {
 
   return (
     <div className={"dashboard flexCol"}>
-      
-      <Card value={data.length.toLocaleString()} label={'# ADRs'} />
-      
-      <Card value={"$" + Math.round(financials['totalExpectedReimbursement']).toLocaleString()} label={'Total Expected Reimbursement'} />
 
-      <Card value={"$" + Math.round(financials['totalPayment']).toLocaleString()} label={'Total Payment'} />
+      <div className={'dashGroup flexRow'}>
+        
+        <div className={'flexColCenter'} >
+          <Card value={data.length.toLocaleString()} label={'# ADRs'} />
 
-      <BarChart 
-        data={dataMap(adrsByStatus, 'desc')} 
-        xVar={'y'} 
-        yVar={'x'} 
-        orient = { "horizontal" }
-        title = { "ADRs by Status" }
-        axisLabel={ "# ADRs" }
-        dims = { dims }
-      />
+          <Card value={data.filter(record=>record.Adr.active).length.toLocaleString()} label={'# Active'} />
+          
+          <Card value={"$" + Math.round(financials['totalExpectedReimbursement']).toLocaleString()} label={'Total Expected Reimbursement'} />
 
+          <Card value={"$" + Math.round(financials['totalPayment']).toLocaleString()} label={'Total Payment'} />
+        </div>
+
+        <PieChart 
+          data={dataMap({
+            'Payment': financials['totalPayment'],
+            'Active Balance': financials['totalActiveBalance'],
+            'InactiveBalance': financials['totalInactiveBalance'],
+          })}
+          label={ "Financial Breakdown" } 
+          dims={ dims } 
+          colors={[
+            "#377CB5",
+            "#B5373D",
+            "#B5AF37", 
+          ]} 
+        />
+
+        <BarChart 
+          data={dataMap(adrsByStatus, 'desc')} 
+          xVar={'y'} 
+          yVar={'x'} 
+          orient = { "horizontal" }
+          title = { "ADRs by Status" }
+          axisLabel={ "# ADRs" }
+          dims = { dims }
+        />
+
+      </div>
+
+
+    <div className={'flexRow'}>
       <BarChart 
         data={stagesByYear} 
         xVar={'x'} 
@@ -342,30 +367,9 @@ const Dashboard = ({ data }) => {
         ]}
       />
 
-      {/* <BarChart 
-        data={stagesByYear} 
-        xVar={'y'} 
-        yVar={'x'} 
-        orient = { "horizontal" }
-        title = { "Stages per Year" }
-        axisLabel={ "# Stages" }
-        dims = { dims }
-      /> */}
+      </div>
 
-      <PieChart 
-        data={dataMap({
-          'Payment': financials['totalPayment'],
-          'Active Balance': financials['totalActiveBalance'],
-          'InactiveBalance': financials['totalInactiveBalance'],
-        })}
-        label={ "Financial Breakdown" } 
-        dims={ dims } 
-        colors={[
-          "#377CB5",
-          "#B5373D",
-          "#B5AF37", 
-        ]} 
-      />
+
 
     </div>
   )
