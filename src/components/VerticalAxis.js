@@ -11,7 +11,7 @@ export const VerticalAxis = ({ yScale, dims, axisLabel, axisPosition="left", num
     }))
   }, [yScale]);
 
-  const axisOffset      = axisPosition=="left" ? dims.padding.left : dims.width - dims.padding.right - dims.padding.left
+  const axisOffset      = axisPosition=="left" ? 1.5*dims.padding.left : dims.width - dims.padding.right - dims.padding.left
   const tickXTransform  = axisPosition=="left" ? axisOffset - tickLength : axisOffset + tickLength
   const tickVector      = axisPosition=="left" ? tickLength : -tickLength
   const textTransform   = axisPosition=="left" ? `-10px` : `10px`

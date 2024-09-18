@@ -31,8 +31,8 @@ const BarChart = ({ data, xVar, yVar, orient="horizontal", title, axisLabel, col
       return d3.scaleBand()
         .domain(xDomain)
         .range([
-          dims.padding.left, 
-          dims.width-dims.padding.right-dims.padding.left
+          dims.padding.left+1.5*dims.axisHeight, 
+          dims.width-dims.padding.right-dims.padding.left+dims.axisHeight
         ])
         .padding(0.1)
     }
@@ -51,7 +51,7 @@ const BarChart = ({ data, xVar, yVar, orient="horizontal", title, axisLabel, col
       return d3.scaleLinear()
         .domain([yMin, yMax])
         .range([
-          dims.height-dims.padding.bottom-dims.axisHeight, 
+          dims.height-dims.padding.bottom, 
           dims.padding.top
         ])
         .nice()
