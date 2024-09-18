@@ -86,7 +86,6 @@ const BarChart = ({ data, xVar, yVar, orient="horizontal", title, axisLabel, col
 
 
   const shapes = useMemo(()=>data.map((d,i)=>{
-    console.log(d, i, colors[i])
     return (
       <Bar 
         key={d[xVar]} 
