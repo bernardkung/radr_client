@@ -73,7 +73,7 @@ red  */
 }
 
 .hasHighlight .shapeGroup {
-  filter: saturate(50%);
+  filter: saturate(40%);
   opacity: 0.2;
 }
 

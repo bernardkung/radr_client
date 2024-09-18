@@ -19,11 +19,6 @@ const Dashboard = ({ data }) => {
   console.log(data)
 
   // KPIs
-  // const [ totalExpectedReimbursement, setTotalExpectedReimbursement ] = useState(0)
-  // const [ totalPayment, setTotalPayment ] = useState(0)
-  // const [ totalBalance, setTotalBalance ] = useState(0)
-  // const [ totalActiveBalance, setTotalActiveBalance ] = useState(0)
-  // const [ totalInactiveBalance, setTotalInactiveBalance ] = useState(0)
   const [ financials, setFinancials ] = useState({})
 
 // HELPER FUNCTIONS
@@ -33,8 +28,8 @@ const Dashboard = ({ data }) => {
       : sort=='desc'
         ? Object.entries(obj).sort((a,b)=> a[1]-b[1])
         : Object.entries(obj).sort((a,b)=> b[1]-a[1])
-    const output = sorted.map((row) => {
-      return { x:row[0], y:row[1] }
+    const output = sorted.map(([a,b]) => {
+      return { x:a, y:b }
     })
     return output
   }
@@ -49,7 +44,19 @@ const Dashboard = ({ data }) => {
   function cumulativeDict(dict) {
     
     // Sort
-    const sorted = Object.entries(dict).sort((a,b)=>a[0]-b[0]).map(([key,value])=>{return {key:value}})
+    let cumSum = 0
+    const sorted = (Object.entries(dict)
+      .sort((a,b)=>(new Date(a[0]))-(new Date(b[0])))
+      .map(([key, value])=>{
+        cumSum += value
+        return {
+          date: key,
+          value: value,
+          cumulativeSum: cumSum,
+        }
+      })
+    )
+
     return sorted
     // Running Total
   }
@@ -319,7 +326,7 @@ const Dashboard = ({ data }) => {
 
   // Calculate volume of ADRs due soon
   const pendingAdrs = getPending(data)
-  console.log("pending", pendingAdrs)
+  // console.log("pending", pendingAdrs)
   
   // const testAdr = findAdr(10074) // pending submission
   // const testAdr = findAdr(10024) // awaiting decision
@@ -351,9 +358,10 @@ const Dashboard = ({ data }) => {
           label={ "Financial Breakdown" } 
           dims={ dims } 
           colors={[
-            "#377CB5",
+            "#82B541",
             "#B5373D",
             "#B5AF37", 
+            // "#B9B9B9",
           ]} 
         />
 
@@ -385,6 +393,16 @@ const Dashboard = ({ data }) => {
           "#d067bd",
           "#ed484f",
         ]}
+      />
+
+      <BarChart
+        data={pendingAdrs}
+        xVar={'date'} 
+        yVar={'cumulativeSum'} 
+        orient = { "vertical" }
+        title = { "Upcoming Due Dates" }
+        axisLabel={ "Running Total" }
+        dims = { dims }
       />
 
       </div>
