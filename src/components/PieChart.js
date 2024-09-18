@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import { useMemo, useState, useRef } from "react";
 import Tooltip from './Tooltip';
 
-const PieChart = ({ data, label, dims, colors }) => {
+const PieChart = ({ data, title, dims, colors }) => {
 
   const [ interactionData, setInteractionData ] = useState(undefined);
   const ref = useRef(null);
@@ -128,8 +128,8 @@ const PieChart = ({ data, label, dims, colors }) => {
 
   // Return visualization
   return (
-    <div className={"viz piechart"} name={label}>
-      <p className={"vizTitle"}>{ label }</p>
+    <div className={"viz piechart"} name={title}>
+      <p className={"vizTitle"}>{ title }</p>
       <div className={"vizPlot"}>
         <svg width={dims.width} height={dims.height}>
           <g 

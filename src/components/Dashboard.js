@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import Card from './Card'
 import BarChart from './BarChart'
 import PieChart from './PieChart'
-import LineChart from './PieChart'
+import LineChart from './LineChart'
 import ScatterChart from './ScatterChart'
 import TimeSeries from './TimeSeries'
 
@@ -336,16 +336,11 @@ const Dashboard = ({ data }) => {
 
   return (
     <div className={"dashboard flexCol"}>
-
       <div className={'dashGroup flexRow'}>
-        
         <div className={'flexColCenter'} >
           <Card value={data.length.toLocaleString()} label={'# ADRs'} />
-
           <Card value={data.filter(record=>record.Adr.active).length.toLocaleString()} label={'# Active'} />
-          
           <Card value={"$" + Math.round(financials['totalExpectedReimbursement']).toLocaleString()} label={'Total Expected Reimbursement'} />
-
           <Card value={"$" + Math.round(financials['totalPayment']).toLocaleString()} label={'Total Payment'} />
         </div>
 
@@ -355,7 +350,7 @@ const Dashboard = ({ data }) => {
             'Active Balance': financials['totalActiveBalance'],
             'InactiveBalance': financials['totalInactiveBalance'],
           })}
-          label={ "Financial Breakdown" } 
+          title={ "Financial Breakdown" } 
           dims={ dims } 
           colors={[
             "#82B541",
@@ -378,32 +373,31 @@ const Dashboard = ({ data }) => {
       </div>
 
 
-    <div className={'flexRow'}>
-      <BarChart 
-        data={adrsByYear} 
-        xVar={'x'} 
-        yVar={'y'} 
-        orient = { "vertical" }
-        title = { "ADRs per Year" }
-        axisLabel={ "# ADRs" }
-        dims = { dims }
-        colors = {[
-          "#28aeca",
-          "#6597e9",
-          "#d067bd",
-          "#ed484f",
-        ]}
-      />
+      <div className={'flexRow'}>
+        <BarChart 
+          data={adrsByYear} 
+          xVar={'x'} 
+          yVar={'y'} 
+          orient = { "vertical" }
+          title = { "ADRs per Year" }
+          axisLabel={ "# ADRs" }
+          dims = { dims }
+          colors = {[
+            "#28aeca",
+            "#6597e9",
+            "#d067bd",
+            "#ed484f",
+          ]}
+        />
 
-      <BarChart
-        data={pendingAdrs}
-        xVar={'date'} 
-        yVar={'cumulativeSum'} 
-        orient = { "vertical" }
-        title = { "Upcoming Due Dates" }
-        axisLabel={ "Running Total" }
-        dims = { dims }
-      />
+        <LineChart
+          data={pendingAdrs}
+          xVar={'date'} 
+          yVar={'cumulativeSum'} 
+          title = { "Upcoming Due Dates" }
+          axisLabel={ "Running Total" }
+          dims = { dims }
+        />
 
       </div>
 
