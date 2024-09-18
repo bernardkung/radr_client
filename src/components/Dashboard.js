@@ -40,9 +40,18 @@ const Dashboard = ({ data }) => {
   }
 
   function buildDict(acc, key) {
+    // If key doesn't exist
     if (!acc[key]) { acc[key] = 0}
     acc[key]+=1
     return acc
+  }
+
+  function cumulativeDict(dict) {
+    
+    // Sort
+    const sorted = Object.entries(dict).sort((a,b)=>a[0]-b[0]).map(([key,value])=>{return {key:value}})
+    return sorted
+    // Running Total
   }
 
   function isEmpty(obj) {
@@ -280,6 +289,17 @@ const Dashboard = ({ data }) => {
       'totalInactiveBalance': 0,
     })
   }
+
+  function getPending(dataset) {
+    const pending = (dataset
+      .filter(record=>evaluateStatus(record)=="Pending Submission")
+      .reduce((dueDict, record)=>{
+        const lastStage = getLastStage(record)
+        return buildDict(dueDict, lastStage.due_date, true)
+      }, {})
+    )
+    return cumulativeDict(pending)
+  }
   
   // SET KPIs
   useEffect(()=>{
@@ -290,21 +310,21 @@ const Dashboard = ({ data }) => {
   }, data)
 
 
-  const stagesByYear = useMemo(()=>countByYear(data, 'notification_date', 'count'))
+  const adrsByYear = useMemo(()=>countByYear(data, 'notification_date', 'count'))
   const adrsByStatus = useMemo(()=>countByStatus(data))
 
   function findAdr(adr_id, dataset=data) {
     return dataset.filter(record=>record['Adr']['adr_id']==adr_id)
   }
 
+  // Calculate volume of ADRs due soon
+  const pendingAdrs = getPending(data)
+  console.log("pending", pendingAdrs)
   
   // const testAdr = findAdr(10074) // pending submission
   // const testAdr = findAdr(10024) // awaiting decision
   // console.log("adr", testAdr, evaluateStatus(testAdr[0]))
 
-
-
-  
 
 
   return (
@@ -352,12 +372,12 @@ const Dashboard = ({ data }) => {
 
     <div className={'flexRow'}>
       <BarChart 
-        data={stagesByYear} 
+        data={adrsByYear} 
         xVar={'x'} 
         yVar={'y'} 
         orient = { "vertical" }
-        title = { "Stages per Year" }
-        axisLabel={ "# Stages" }
+        title = { "ADRs per Year" }
+        axisLabel={ "# ADRs" }
         dims = { dims }
         colors = {[
           "#28aeca",
