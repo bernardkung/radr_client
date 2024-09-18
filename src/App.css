@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
 
+/* blue
+#28aeca
+#459fe6
+#a082de
+#e159a6
+#ed484f 
+red  */
 
 .App {
   text-align: center;
@@ -111,8 +118,8 @@
 }
 
 .cardValue {
-  font-size: 26px;
-  font-weight: 400;
+  font-size: 24px;
+  font-weight: 500;
   flex-shrink: 1; 
   margin: auto;
   padding: auto;

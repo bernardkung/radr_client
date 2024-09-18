@@ -334,6 +334,12 @@ const Dashboard = ({ data }) => {
         title = { "Stages per Year" }
         axisLabel={ "# Stages" }
         dims = { dims }
+        colors = {[
+          "#28aeca",
+          "#6597e9",
+          "#d067bd",
+          "#ed484f",
+        ]}
       />
 
       {/* <BarChart 
@@ -355,12 +361,9 @@ const Dashboard = ({ data }) => {
         label={ "Financial Breakdown" } 
         dims={ dims } 
         colors={[
-            "#e0ac2b",
-            "#e85252",
-            "#6689c6",
-            "#9a6fb0",
-            "#a53253",
-            "#69b3a2",
+          "#377CB5",
+          "#B5373D",
+          "#B5AF37", 
         ]} 
       />
 

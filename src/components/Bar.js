@@ -1,6 +1,6 @@
 import { useMemo } from "react"
 
-const Bar = ({x, y, d, xScale, yScale, orient="horizontal", onMouseEnter, onMouseLeave })=>{
+const Bar = ({x, y, d, color="#377CB5", xScale, yScale, orient="horizontal", onMouseEnter, onMouseLeave })=>{
 
 
   const shape = useMemo(()=>(
@@ -25,8 +25,8 @@ const Bar = ({x, y, d, xScale, yScale, orient="horizontal", onMouseEnter, onMous
           : yScale(0) - yScale(y)
         }
         opacity={0.7}
-        stroke="#9d174d"
-        fill="#9d174d"
+        stroke={color}
+        fill={color}
         // fillOpacity={0.3}
         // strokeWidth={1}
         onMouseEnter={e=>onMouseEnter(e, d)}

@@ -5,7 +5,7 @@ import Bar from './Bar'
 import Tooltip from './Tooltip'
 import { VerticalAxis } from "./VerticalAxis";
 
-const BarChart = ({ data, xVar, yVar, orient="horizontal", title, axisLabel, dims }) => {
+const BarChart = ({ data, xVar, yVar, orient="horizontal", title, axisLabel, colors=[], dims }) => {
   const [ interactionData, setInteractionData ] = useState(undefined);
   const ref = useRef(null);
 
@@ -30,7 +30,10 @@ const BarChart = ({ data, xVar, yVar, orient="horizontal", title, axisLabel, dim
     } else if (orient=="vertical") {
       return d3.scaleBand()
         .domain(xDomain)
-        .range([dims.padding.left, dims.width-dims.padding.right-dims.padding.left])
+        .range([
+          dims.padding.left, 
+          dims.width-dims.padding.right-dims.padding.left
+        ])
         .padding(0.1)
     }
   }, [data, dims])
@@ -39,12 +42,18 @@ const BarChart = ({ data, xVar, yVar, orient="horizontal", title, axisLabel, dim
     if (orient=="horizontal") {
       return d3.scaleBand()
         .domain(yDomain)
-        .range([dims.height-dims.padding.bottom-dims.axisHeight, dims.padding.top])
+        .range([
+          dims.height-dims.padding.bottom-dims.axisHeight, 
+          dims.padding.top
+        ])
         .padding(0.1)
     } else if (orient=="vertical") {
       return d3.scaleLinear()
         .domain([yMin, yMax])
-        .range([dims.height-dims.padding.bottom-dims.axisHeight, dims.padding.top])
+        .range([
+          dims.height-dims.padding.bottom-dims.axisHeight, 
+          dims.padding.top
+        ])
         .nice()
     }
   }, [data, dims])
@@ -75,7 +84,9 @@ const BarChart = ({ data, xVar, yVar, orient="horizontal", title, axisLabel, dim
     setInteractionData(undefined)
   }
 
-  const shapes = useMemo(()=>data.map(d=>{
+
+  const shapes = useMemo(()=>data.map((d,i)=>{
+    console.log(d, i, colors[i])
     return (
       <Bar 
         key={d[xVar]} 
@@ -87,6 +98,7 @@ const BarChart = ({ data, xVar, yVar, orient="horizontal", title, axisLabel, dim
         orient={orient}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
+        color={colors[i]}
       />
   )}))
   
