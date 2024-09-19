@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { ScaleLinear } from "d3";
 
 
-export const VerticalAxis = ({ yScale, dims, axisLabel, axisPosition="left", numberOfTicksTarget, tickLength = 5}) => {
+export const VerticalAxis = ({ yScale, dims, axisLabel, axisPosition="left", otherAxis={left:false,top:false,right:false,bottom:false}, numberOfTicksTarget, tickLength = 5}) => {
 
   const ticks = useMemo(() => {
     return yScale.ticks(numberOfTicksTarget).map((value) => ({

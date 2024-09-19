@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import * as d3 from "d3";
 
 
-export const HorizontalAxis = ({ xScale, dims, axisLabel, axisPosition="bottom", numberOfTicksTarget, tickLength = 5}) => {
+export const HorizontalAxis = ({ xScale, dims, axisLabel, axisPosition="bottom", otherAxis={left:false,top:false,right:false,bottom:false}, numberOfTicksTarget, tickLength = 5}) => {
 
   const ticks = useMemo(() => {
     return xScale.ticks(numberOfTicksTarget).map((value) => ({
@@ -12,7 +12,9 @@ export const HorizontalAxis = ({ xScale, dims, axisLabel, axisPosition="bottom",
     ))
   }, [xScale]);
 
-  const axisOffset      = axisPosition=="bottom" ? dims.height - dims.padding.bottom - 13 : dims.padding.top
+  const axisOffset      = axisPosition=="bottom" 
+                            ? dims.height - dims.padding.bottom - 13 
+                            : dims.padding.top
   const tickYTransform  = axisPosition=="bottom" ? axisOffset - tickLength : axisOffset + tickLength
   const tickVector      = axisPosition=="bottom" ? tickLength : -tickLength
   const textTransform   = axisPosition=="bottom" ? `18px` : `-12px`

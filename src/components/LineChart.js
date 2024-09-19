@@ -5,7 +5,7 @@ import Circle from './Circle';
 import { HorizontalAxis } from './HorizontalAxis';
 import { VerticalAxis } from "./VerticalAxis";
 
-const LineChart = ({ data, xVar, yVar, title, dims, colors }) => {
+const LineChart = ({ data, xVar, yVar, title, dims, fill="#9a6fb0" }) => {
 
   console.log("linedata", data)
   const [ interactionData, setInteractionData ] = useState(undefined);
@@ -21,10 +21,10 @@ const LineChart = ({ data, xVar, yVar, title, dims, colors }) => {
     return d3.scaleTime()
       .domain([xMin, xMax])
       .range([
-        dims.padding.left, 
-        dims.width-dims.padding.right-dims.padding.left,
-        // dims.padding.left+1.5*dims.axisHeight, 
-        // dims.width-dims.padding.right-dims.padding.left+dims.axisHeight
+        // dims.padding.left, 
+        // dims.width-dims.padding.right-dims.padding.left,
+        dims.padding.left+1.5*dims.axisHeight, 
+        dims.width-dims.padding.right-dims.padding.left+dims.axisHeight
       ])
       .nice()
   })
@@ -42,6 +42,13 @@ const LineChart = ({ data, xVar, yVar, title, dims, colors }) => {
     .y(d=>yScale(d[yVar]))
 
   const linePath = lineGenerator(data)  
+
+  const areaGenerator = d3.area()
+    .x(d=>xScale((new Date(d[xVar]))))
+    .y1(d=>yScale(d[yVar]))
+    .y0(yScale(yMin))
+
+  const areaPath = areaGenerator(data)
 
 
   const circles = data.map((d, i)=>{  
@@ -62,12 +69,12 @@ const LineChart = ({ data, xVar, yVar, title, dims, colors }) => {
     }
   
     const onMouseLeave = () => {
-      // // Highlight         
-      // if (ref.current) {
-      //   ref.current.classList.remove("hasHighlight");
-      // }
-      // // Tooltip
-      // setInteractionData(undefined)
+      // Highlight         
+      if (ref.current) {
+        ref.current.classList.remove("hasHighlight");
+      }
+      // Tooltip
+      setInteractionData(undefined)
     }
     
     return (
@@ -76,8 +83,8 @@ const LineChart = ({ data, xVar, yVar, title, dims, colors }) => {
         cx={ xScale((new Date(d[xVar]))) } 
         // cx={ xScale(d[xVar]) } 
         cy={ yScale(d[yVar]) }
-        radius={7}
-        fill={"#9a6fb0"}
+        radius={5}
+        fill={fill}
         onMouseEnter={ onMouseEnter }
         onMouseLeave={ onMouseLeave }
         xScale={xScale}
@@ -98,10 +105,20 @@ const LineChart = ({ data, xVar, yVar, title, dims, colors }) => {
             ref={ref}
           >
             <path 
+              key={'line'}
+              className={"line shapeGroup"}
               d={ linePath }
-              stroke="#9a6fb0"
+              stroke={fill}
               fill="none"
               strokeWidth={2}
+            />
+            <path
+              key={'area'}
+              className={"area shapeGroup"}
+              d={ areaPath }
+              stroke={fill}
+              fill={fill}
+              strokeWidth={0}
             />
 
             { circles }

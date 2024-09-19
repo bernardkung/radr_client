@@ -3,8 +3,9 @@
 export const Circle = ({ cx, cy, radius=7, fill, onMouseEnter, onMouseLeave, xScale, yScale })=>{
 
   return (
-  <g className={"circle"}>
+  <g className={"circle shapeGroup"}>
     <circle
+      className={"shape"}
       r = { radius } // radius
       cx = { cx } // position on the X axis
       cy = { cy } // on the Y axis

@@ -82,6 +82,10 @@ red  */
     opacity: 1;
 }
 
+.area {
+  fill-opacity: 0.4;
+}
+
 .tooltip {
   width: 85px;
   background: #fff;
