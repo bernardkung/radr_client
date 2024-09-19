@@ -55,7 +55,7 @@ const Bar = ({x, y, d, color="#377CB5", xScale, yScale, orient="horizontal", onM
           : yScale(y) < yScale.range()[0] - 120 ? 1 : 0
         }
       >
-        { orient == "horizontal" ? x : y }
+        { orient == "horizontal" ? x.toLocaleString() : y.toLocaleString() }
       </text>
 
       {/* LABEL */}

@@ -396,6 +396,7 @@ const Dashboard = ({ data }) => {
           yVar={'cumulativeSum'} 
           title = { "Upcoming Due Dates" }
           axisLabel={ "Running Total" }
+          area={false}
           dims = { dims }
         />
 

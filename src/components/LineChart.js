@@ -5,7 +5,7 @@ import Circle from './Circle';
 import { HorizontalAxis } from './HorizontalAxis';
 import { VerticalAxis } from "./VerticalAxis";
 
-const LineChart = ({ data, xVar, yVar, title, dims, fill="#9a6fb0" }) => {
+const LineChart = ({ data, xVar, yVar, title, dims, fill="#9a6fb0", scatter=true, area=true }) => {
 
   const [ interactionData, setInteractionData ] = useState(undefined);
   const ref = useRef(null);
@@ -47,6 +47,7 @@ const LineChart = ({ data, xVar, yVar, title, dims, fill="#9a6fb0" }) => {
 
   const linePath = lineGenerator(data)  
 
+
   const areaGenerator = d3.area()
     .x(d=>xScale((new Date(d[xVar]))))
     .y1(d=>yScale(d[yVar]))
@@ -54,9 +55,18 @@ const LineChart = ({ data, xVar, yVar, title, dims, fill="#9a6fb0" }) => {
 
   const areaPath = areaGenerator(data)
 
+  const areaShape = area
+    ? (<path
+      key={'area'}
+      className={"area shapeGroup"}
+      d={ areaPath }
+      stroke={fill}
+      fill={fill}
+      strokeWidth={0}
+    />)
+    : <></>
 
-  const circles = data.map((d, i)=>{  
-
+  const circles = !scatter ? <></> : data.map((d, i)=>{  
     const onMouseEnter = () => {
       // Highlight         
       if (ref.current) {
@@ -116,15 +126,7 @@ const LineChart = ({ data, xVar, yVar, title, dims, fill="#9a6fb0" }) => {
               fill="none"
               strokeWidth={2}
             />
-            <path
-              key={'area'}
-              className={"area shapeGroup"}
-              d={ areaPath }
-              stroke={fill}
-              fill={fill}
-              strokeWidth={0}
-            />
-
+            { area }
             { circles }
             <HorizontalAxis xScale={xScale} axisLabel={ 'Date' } dims={dims} numberOfTicksTarget={10}/>
             <VerticalAxis yScale={yScale} axisLabel={ 'Total Due' } dims={dims} numberOfTicksTarget={10}/>

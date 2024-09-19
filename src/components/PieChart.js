@@ -88,6 +88,7 @@ const PieChart = ({ data, title, dims, colors }) => {
           onMouseLeave={() => onMouseLeave()}
         />
         <circle cx={centroid[0]} cy={centroid[1]} r={2} />
+        {/* Label Leader Line First Segment */}
         <line
           x1={centroid[0]}
           y1={centroid[1]}
@@ -96,6 +97,7 @@ const PieChart = ({ data, title, dims, colors }) => {
           stroke={"black"}
           fill={"black"}
         />
+        {/* Label Leader Line Second Segment */}
         <line
           x1={inflexionPoint[0]}
           y1={inflexionPoint[1]}
@@ -104,7 +106,9 @@ const PieChart = ({ data, title, dims, colors }) => {
           stroke={"black"}
           fill={"black"}
         />
+        {/* Label Name */}
         <text 
+          className={"shapeLabel"}
           x={labelPosX + (isRightLabel ? 2 : -2)}
           y={inflexionPoint[1]-6}
           textAnchor={textAnchor}
@@ -113,7 +117,9 @@ const PieChart = ({ data, title, dims, colors }) => {
         >
           {labelName}
         </text>
+        {/* Label Value */}
         <text 
+          className={"shapeValue"}
           x={labelPosX + (isRightLabel ? 2 : -2)}
           y={inflexionPoint[1]+6}
           textAnchor={textAnchor}
