@@ -1,6 +1,9 @@
 import * as d3 from "d3";
 import { useMemo, useState, useRef } from "react";
 import Tooltip from './Tooltip';
+import Circle from './Circle';
+import { HorizontalAxis } from './HorizontalAxis';
+import { VerticalAxis } from "./VerticalAxis";
 
 const LineChart = ({ data, xVar, yVar, title, dims, colors }) => {
 
@@ -34,45 +37,52 @@ const LineChart = ({ data, xVar, yVar, title, dims, colors }) => {
       ])
   })
   
-  const onMouseEnter = () => {
-    // // Highlight         
-    // if (ref.current) {
-    //   ref.current.classList.add("hasHighlight");
-    // }
-    // // Tooltip
-    // setInteractionData({
-    //   xPos: orient=="horizontal" 
-    //     ? xScale(d[xVar]) + 70 
-    //     : xScale(d[xVar]) + (xScale.bandwidth() / 2),
-    //   yPos: orient=="horizontal" 
-    //     ? yScale(d[yVar]) + (yScale.bandwidth() / 2) 
-    //     : yScale(d[yVar]) - 40,
-    //   labelName: d.x,
-    //   labelValue: d.y,
-    // })
-  }
-
-  const onMouseLeave = () => {
-    // Highlight         
-    if (ref.current) {
-      ref.current.classList.remove("hasHighlight");
-    }
-    // Tooltip
-    setInteractionData(undefined)
-  }
-  
   const lineGenerator = d3.line()
     .x(d=>xScale((new Date(d[xVar]))))
     .y(d=>yScale(d[yVar]))
 
   const linePath = lineGenerator(data)  
-  
-  console.log(linePath)
-  
+
+
   const circles = data.map((d, i)=>{  
+
+    const onMouseEnter = () => {
+      // Highlight         
+      if (ref.current) {
+        ref.current.classList.add("hasHighlight");
+      }
+      // Tooltip
+      setInteractionData({
+        xPos: xScale((new Date(d[xVar]))),
+        yPos: yScale(d[yVar])-50,
+        labelName: d[xVar],
+        labelValue: 'due: ' + d['value'],
+        labelMisc: 'total: ' + d[yVar],
+      })
+    }
+  
+    const onMouseLeave = () => {
+      // // Highlight         
+      // if (ref.current) {
+      //   ref.current.classList.remove("hasHighlight");
+      // }
+      // // Tooltip
+      // setInteractionData(undefined)
+    }
+    
     return (
-      <g key={i} className={"circle"}>
-      </g>
+      <Circle 
+        key={i}
+        cx={ xScale((new Date(d[xVar]))) } 
+        // cx={ xScale(d[xVar]) } 
+        cy={ yScale(d[yVar]) }
+        radius={7}
+        fill={"#9a6fb0"}
+        onMouseEnter={ onMouseEnter }
+        onMouseLeave={ onMouseLeave }
+        xScale={xScale}
+        yScale={yScale}
+      />
     )
   })
 
@@ -80,13 +90,11 @@ const LineChart = ({ data, xVar, yVar, title, dims, colors }) => {
   return (
     <div className={"viz lineChart"} name={title}>
       <p className={"vizTitle"}>{ title }</p>
-      <div className={"visPlot"}>
+      <div className={"vizPlot"}>
 
         <svg width={dims.width} height={dims.height}>
           <g
             className={"vizPlotContainer"}
-            // transform={`translate(${ 0 }, ${dims.height / 2})`}
-            // transform={`translate(${dims.width / 2}, ${dims.height / 2})`}
             ref={ref}
           >
             <path 
@@ -95,6 +103,10 @@ const LineChart = ({ data, xVar, yVar, title, dims, colors }) => {
               fill="none"
               strokeWidth={2}
             />
+
+            { circles }
+            <HorizontalAxis xScale={xScale} axisLabel={ 'Date' } dims={dims} numberOfTicksTarget={10}/>
+            <VerticalAxis yScale={yScale} axisLabel={ 'Total Due' } dims={dims} numberOfTicksTarget={10}/>
           </g>
           
         </svg>

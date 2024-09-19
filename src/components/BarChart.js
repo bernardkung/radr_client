@@ -1,8 +1,8 @@
 import * as d3 from "d3"
 import { useMemo, useState, useRef } from "react"
-import { HorizontalAxis } from './HorizontalAxis';
 import Bar from './Bar'
 import Tooltip from './Tooltip'
+import { HorizontalAxis } from './HorizontalAxis';
 import { VerticalAxis } from "./VerticalAxis";
 
 const BarChart = ({ data, xVar, yVar, orient="horizontal", title, axisLabel, colors=[], dims }) => {
