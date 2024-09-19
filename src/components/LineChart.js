@@ -11,6 +11,11 @@ const LineChart = ({ data, xVar, yVar, title, dims, fill="#9a6fb0" }) => {
   const [ interactionData, setInteractionData ] = useState(undefined);
   const ref = useRef(null);
 
+  // Placeholder format wrapper
+  const format = (d)=>{        
+    return value instanceof Date ? d3.timeParse("%Y-%m-%d")(d.date) : value
+  }
+
   // Need handling for date type vs numeric type
   const xMin = d3.min(data.map(d=>(new Date(d[xVar]))))
   const xMax = d3.max(data.map(d=>(new Date(d[xVar]))))

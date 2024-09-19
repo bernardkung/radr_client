@@ -6,7 +6,7 @@ export const HorizontalAxis = ({ xScale, dims, axisLabel, axisPosition="bottom",
 
   const ticks = useMemo(() => {
     return xScale.ticks(numberOfTicksTarget).map((value) => ({
-        value: value instanceof Date ? d3.utcFormat("%Y")(value) : value,
+        value: value instanceof Date ? d3.utcFormat("%m/%d/%Y")(value) : value,
         xOffset: xScale(value),
       }
     ))
@@ -25,6 +25,7 @@ export const HorizontalAxis = ({ xScale, dims, axisLabel, axisPosition="bottom",
     <g className={`axis horizontal ${axisPosition}`}>
       {/* Main horizontal line */}
       <path
+        name={'axisHorizontalMainLine'}
         d={["M", xScale.range()[0], axisOffset, "L", xScale.range()[1], axisOffset].join(" ")}
         fill="none"
         stroke="currentColor"
@@ -49,10 +50,12 @@ export const HorizontalAxis = ({ xScale, dims, axisLabel, axisPosition="bottom",
       
       {/* Axis Label */}
       <g
+        name={'axisLabelGroup'}
         transform= {`translate(${dims.padding.left+(xScale.range()[1])/2}, ${axisOffset + 35})`}
       >
         { axisLabel 
           ? <text
+            name={"axisLabel"}
             style={{
               fontSize: "10px",
               textAnchor: "middle",
@@ -64,6 +67,7 @@ export const HorizontalAxis = ({ xScale, dims, axisLabel, axisPosition="bottom",
           : <></>
         }
       </g>
+      
     </g>
   );
 };
