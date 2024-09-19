@@ -7,7 +7,6 @@ import { VerticalAxis } from "./VerticalAxis";
 
 const LineChart = ({ data, xVar, yVar, title, dims, fill="#9a6fb0" }) => {
 
-  console.log("linedata", data)
   const [ interactionData, setInteractionData ] = useState(undefined);
   const ref = useRef(null);
 
