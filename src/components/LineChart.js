@@ -13,7 +13,7 @@ const LineChart = ({ data, xVar, yVar, title, dims, fill="#9a6fb0" }) => {
 
   // Placeholder format wrapper
   const format = (d)=>{        
-    return value instanceof Date ? d3.timeParse("%Y-%m-%d")(d.date) : value
+    return d instanceof Date ? d3.timeParse("%Y-%m-%d")(d) : d
   }
 
   // Need handling for date type vs numeric type
