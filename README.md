@@ -23,3 +23,9 @@ Key Components
 - Pie Chart: Claims Received This Year broken down by Net Payment, Current Balance, and Uncontested Balance
 - Bar Chart: Claim Breakdown by Stage
 - Submissions over Time
+
+## ADR List
+- Tracker-style table
+
+## Individual ADR
+- Display an individual ADR and its child tables

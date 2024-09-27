@@ -126,7 +126,7 @@ const LineChart = ({ data, xVar, yVar, title, dims, fill="#9a6fb0", scatter=true
               fill="none"
               strokeWidth={2}
             />
-            { area }
+            { areaShape }
             { circles }
             <HorizontalAxis xScale={xScale} axisLabel={ 'Date' } dims={dims} numberOfTicksTarget={10}/>
             <VerticalAxis yScale={yScale} axisLabel={ 'Total Due' } dims={dims} numberOfTicksTarget={10}/>
