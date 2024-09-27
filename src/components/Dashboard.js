@@ -5,6 +5,7 @@ import PieChart from './PieChart'
 import LineChart from './LineChart'
 import ScatterChart from './ScatterChart'
 import TimeSeries from './TimeSeries'
+import Adr from './Adr'
 
 const Dashboard = ({ data }) => {
   const dims = { 
@@ -400,6 +401,8 @@ const Dashboard = ({ data }) => {
         />
 
       </div>
+
+      <Adr adrData={ data[0] }/>
 
 
 
