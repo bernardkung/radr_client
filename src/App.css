@@ -146,6 +146,38 @@ red  */
   font-size: 10px;
 }
 
+.tableContainer {
+  background-color: #ececec;
+  padding: 10px;
+}
+
+.tableTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #000;
+  /* opacity: 0.4; */
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+table {
+  font-size: 14px;
+  font-weight: 400;
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #000;
+}
+
+tr {
+  border-bottom: 1px solid #000;
+}
+
+tr:nth-child(even) {
+  background-color: rgb(256, 256, 256, 0.8);
+}
+
+
+
 /* Radar Animation */
 .loading {
   padding: 0;
