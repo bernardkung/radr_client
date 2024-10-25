@@ -27,11 +27,12 @@ export const Adr = ({ adrData }) => {
   }
 
   function generateTable(dict, dictName) {
+    console.log(dictName, dict)
     return (
       <div>
         <p className={"tableTitle"}>{dictName}</p>
         <table className={"tableTable"}>  
-          <tbody classname={"tableBody"}>
+          <tbody className={"tableBody"}>
             { generateRows(dict) }
           </tbody>
         </table>
