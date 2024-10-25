@@ -15,44 +15,56 @@ export const Adr = ({ adrData }) => {
   })
 
   function generateRows(dict) {
-    return Object.entries(dict).map(([key, value],i)=>{
+    const tRows = Object.entries(dict).map(([key, value],i)=>{
       if (typeof(value) !== 'object') {
-        return (          
+        const tRow =  (       
           <tr key={i} className={"tableRow"}>
             <th className={"tableHeader"}>{ key }</th>
             <td className={"tableValue"}>{ value }</td>
           </tr>
-      )}
+        )
+        return tRow
+      }
     })
+    return tRows
   }
 
-  function generateTable(dict, dictName) {
-    console.log(dictName, dict)
-    return (
-      <div>
-        <p className={"tableTitle"}>{dictName}</p>
-        <table className={"tableTable"}>  
-          <tbody className={"tableBody"}>
+  function generateTable(dict, dictName) {    
+    const div = (
+      <div className={"tableContainer"} name={ dictName }>
+        <p className={"tableTitle"}>{ dictName }</p>
+        <table className={ "tableTable" }>  
+          <tbody className={ "tableBody" }>
             { generateRows(dict) }
           </tbody>
         </table>
       </div>
     )
+
+    return div
   }
+
+  function sortStages(stages) {
+    const stageOrder =['45', '120', '180', 'ALJ']
+    const ordering = {}
+    for (let i = 0; i<stageOrder.length; i++) {
+      ordering[stageOrder[i]] = i;
+    }
+
+    return stages.sort( (a,b) => ordering[a.stage] - ordering[b.stage] )
+  }
+
+  const facilityDiv = generateTable(adrData.Facility, "Facility")
+  const patientDiv = generateTable(adrData.Patient, "Patient")
+  const adrDiv = generateTable(adrData.Adr, "ADR")
+  const stagesDiv = sortStages(adrData.Adr.stages).map(stage=> generateTable(stage, "Stage") )
   
   return (
-    <div>
-      {generateTable(adrData.Facility, "Facility")}
-      
-      {generateTable(adrData.Patient, "Patient")}
-
-      {generateTable(adrData.Adr, "ADR")}
-      
-      {adrData.Adr.stages.map(stage=>{
-        {generateTable(stage, "Stage")}
-      })}
-      
-
+    <div name={"adr_container"} className={"adrContainer"}>
+      { facilityDiv }
+      { patientDiv }
+      { adrDiv }
+      { stagesDiv }
     </div>
   )
 }
