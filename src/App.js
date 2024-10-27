@@ -1,6 +1,8 @@
 import './App.css'
 import * as d3 from "d3"
 import Dashboard from "./components/Dashboard"
+import Adr from './components/Adr'
+import AdrTable from './components/AdrTable'
 import Radar from "./components/Radar"
 import { useState, useEffect, useRef } from 'react'
 
@@ -29,7 +31,9 @@ function App() {
 
   return (
     <div className="App">
-      <Dashboard data={ data } />
+      {/* <Dashboard data={ data } /> */}
+      {/* <Adr adrData={ data[440] }/> */}
+      { <AdrTable data={ data } /> }
     </div>
 
   )
