@@ -10,6 +10,14 @@ import Dashboard from "./components/Dashboard"
 import Adr from './components/Adr'
 import Radar from "./components/Radar"
 
+export async function loadData() { 
+  Promise.all([
+    d3.json('http://127.0.0.1:8000/adrs?full=True'),
+  ]).then(([ res ])=>{
+    return res['data']
+  })
+}
+
 function App() {
   
   
@@ -17,14 +25,15 @@ function App() {
   const [ data, setData ] = useState([])
 
 
-  useEffect(()=>{
-    Promise.all([
-      d3.json('http://127.0.0.1:8000/adrs?full=True'),
-    ]).then(([ res0 ])=>{
-      setData(res0['data'])
-      setLoading(false)
-    })
-  }, [])
+
+  // useEffect(()=>{
+  //   Promise.all([
+  //     d3.json('http://127.0.0.1:8000/adrs?full=True'),
+  //   ]).then(([ res0 ])=>{
+  //     setData(res0['data'])
+  //     setLoading(false)
+  //   })
+  // }, [])
 
 
   const router = createBrowserRouter([
@@ -37,6 +46,7 @@ function App() {
       element: <Adrs loading={loading} data={data}/>,
     },
   ])
+  
   
   ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
