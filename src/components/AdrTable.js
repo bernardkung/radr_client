@@ -1,23 +1,30 @@
-import { memo, useMemo } from "react";
+import { memo, useEffect, useState, useMemo } from "react";
 
 export const AdrTable = ({ data }) => {
-  console.log(data)
+  const [content, setContent] = useState([])
 
-  const list = data.map(d=>{ return (
-    <tr>
-      <td>{ d.Facility.dl_id }</td>
-      <td>{ d.Facility.dl_name }</td>
+  useEffect(()=>{ 
+    if (data) {
+      const listDivs = data.map(d=>{ return (
+        <tr>
+          <td>{ d.Facility.dl_id }</td>
+          <td>{ d.Facility.dl_name }</td>
+  
+          <td>{ d.Patient.mrn }</td>
+          <td>{ d.Patient.first_name + " " + d.Patient.last_name }</td>
+  
+          <td>{ d.Adr.adr_id }</td>
+          <td>{ d.Adr.from_date }</td>
+          <td>{ d.Adr.to_date }</td>
+  
+          <td>{ d.Adr.expected_reimbursement }</td>
+        </tr>
+      )})
+      setContent(listDivs)
+    } 
 
-      <td>{ d.Patient.mrn }</td>
-      <td>{ d.Patient.first_name + " " + d.Patient.last_name }</td>
+  })
 
-      <td>{ d.Adr.adr_id }</td>
-      <td>{ d.Adr.from_date }</td>
-      <td>{ d.Adr.to_date }</td>
-
-      <td>{ d.Adr.expected_reimbursement }</td>
-    </tr>
-  )})
 
   return (
     <table>
@@ -34,7 +41,7 @@ export const AdrTable = ({ data }) => {
         
         <th>Expected Reimbursement</th>
       </tr>
-      { list }
+      { content }
     </table>
   )
 }

@@ -5,29 +5,44 @@ import * as React from "react";
 import * as ReactDOM from "react-dom/client"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Root from "./routes/root";
+import Adrs from './routes/Adrs'
 import Dashboard from "./components/Dashboard"
 import Adr from './components/Adr'
-import AdrTable from './components/AdrTable'
 import Radar from "./components/Radar"
 
 function App() {
   
+  
   const [ loading, setLoading ] = useState(true)
   const [ data, setData ] = useState([])
-  const [ testData, setTestData ] = useState([])
+
+
+  useEffect(()=>{
+    Promise.all([
+      d3.json('http://127.0.0.1:8000/adrs?full=True'),
+    ]).then(([ res0 ])=>{
+      setData(res0['data'])
+      setLoading(false)
+    })
+  }, [])
+
 
   const router = createBrowserRouter([
     {
       path: "/",
       element: <Root />,
-    }
+    },
+    {
+      path: "adrs/",
+      element: <Adrs loading={loading} data={data}/>,
+    },
   ])
   
   ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
       <RouterProvider router={router} />
     </React.StrictMode>
-  );
+  )
 }
 
 export default App;
