@@ -10,14 +10,22 @@ import {
   Link,
 } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
+import Root from "./routes/root";
+import Adrs from './routes/Adrs';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
-);
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+  },
+]);
+
+
+// Create root outside of the component
+const container = document.getElementById("root");
+const root = ReactDOM.createRoot(container);
+root.render(<App />);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
