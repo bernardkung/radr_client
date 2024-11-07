@@ -11,13 +11,18 @@ import {
 } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 import Root from "./routes/root";
-import Adrs from './routes/Adrs';
+import Adrs from './routes/adrs';
+import Dashboard from './routes/dashboard';
 
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+  },
+  {
+    path: "adrs/",
+    element: <Adrs />,
   },
 ]);
 

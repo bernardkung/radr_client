@@ -1,7 +1,22 @@
 import { memo, useEffect, useState, useMemo } from "react";
+import * as d3 from "d3"
 
-export const AdrTable = ({ data }) => {
+export const AdrTable = ({  }) => {
   const [content, setContent] = useState([])
+
+  const [ loading, setLoading ] = useState(true)
+  const [ data, setData ] = useState([])
+
+
+
+  useEffect(()=>{
+    Promise.all([
+      d3.json('http://127.0.0.1:8000/adrs?full=True'),
+    ]).then(([ res0 ])=>{
+      setData(res0['data'])
+      setLoading(false)
+    })
+  }, [])
 
   useEffect(()=>{ 
     if (data) {
