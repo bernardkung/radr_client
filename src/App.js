@@ -17,6 +17,9 @@ import Manatee from './components/Manatee';
 import Narwhal from './components/Narwhal';
 import Whale from './components/Whale';
 
+import onlineTest from './assets/online-test.svg';
+import assessment from './assets/assessment.svg';
+
 
 export async function loadData() { 
   Promise.all([
@@ -31,35 +34,57 @@ export default function App() {
   const [ data, setData ] = useState([])
 
 
+  useEffect(()=>{
+    Promise.all([
+      d3.json('http://127.0.0.1:8000/adrs?full=True'),
+    ]).then(([ res0 ])=>{
+      setData(res0['data'])
+      setLoading(false)
+    })
+  }, [])
 
-  // useEffect(()=>{
-  //   Promise.all([
-  //     d3.json('http://127.0.0.1:8000/adrs?full=True'),
-  //   ]).then(([ res0 ])=>{
-  //     setData(res0['data'])
-  //     setLoading(false)
-  //   })
-  // }, [])
 
   return (
-    <div className="wrapper">
-      <h1>Marine Mammals</h1>
-      <BrowserRouter>
-        <nav>
-          <ul>
-            <li><Link to="/manatee">Manatee</Link></li>
-            <li><Link to="/narwhal">Narwhal</Link></li>
-            <li><Link to="/whale">Whale</Link></li>
-            <li><Link to="/whale/beluga">Beluga Whale</Link></li>
-            <li><Link to="/whale/blue">Blue Whale</Link></li>
-          </ul>
-        </nav>
-        <Routes>
-          <Route path="/manatee" element={<Manatee />} />
-          <Route path="/narwhal" element={<Narwhal />} />
-          <Route path="/whale/*" element={<Whale />} />
-        </Routes>
-      </BrowserRouter>
+    <div className="App">
+      <div className={"menuWrapper flexColCentered"} >
+        <BrowserRouter>
+          <nav className={"menu flexColCentered"} >
+            <h1>radr</h1>
+            <ul className={"menuList"}>
+              <li>
+                <Link to="/dashboard">
+                  <img className={"menuIcon"} src={assessment} />
+                  Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link to="/narwhal">
+                  <img className={"menuIcon"}  src={onlineTest} />
+                  ADRs
+                </Link>
+              </li>
+            </ul>
+          </nav>
+
+            
+          <div className={"container"} >
+
+              <Routes>
+                <Route 
+                  path="/dashboard" 
+                  element={<Dashboard loading={loading} data={data} />} 
+                />
+                <Route 
+                  path="/narwhal" 
+                  element={<Narwhal />} 
+                />
+              </Routes>
+
+          </div>
+
+        </BrowserRouter>
+      </div>
+
     </div>
   );
   

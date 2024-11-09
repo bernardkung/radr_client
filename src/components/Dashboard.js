@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import * as d3 from "d3"
+import Radar from './Radar'
 import Card from './Card'
 import BarChart from './BarChart'
 import PieChart from './PieChart'
@@ -12,16 +13,6 @@ const Dashboard = ({  }) => {
   const [ loading, setLoading ] = useState(true)
   const [ data, setData ] = useState([])
 
-
-
-  useEffect(()=>{
-    Promise.all([
-      d3.json('http://127.0.0.1:8000/adrs?full=True'),
-    ]).then(([ res0 ])=>{
-      setData(res0['data'])
-      setLoading(false)
-    })
-  }, [])
 
   const dims = { 
     width: 500, 

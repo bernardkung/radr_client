@@ -15,16 +15,16 @@ import Adrs from './routes/adrs';
 import Dashboard from './routes/dashboard';
 
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Root />,
-  },
-  {
-    path: "adrs/",
-    element: <Adrs />,
-  },
-]);
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <Root />,
+//   },
+//   {
+//     path: "adrs/",
+//     element: <Adrs />,
+//   },
+// ]);
 
 
 // Create root outside of the component
