@@ -17,8 +17,9 @@ import Manatee from './components/Manatee';
 import Narwhal from './components/Narwhal';
 import Whale from './components/Whale';
 
-import onlineTest from './assets/online-test.svg';
-import assessment from './assets/assessment.svg';
+import onlineTestIcon from './assets/online-test.svg';
+import assessmentIcon from './assets/assessment.svg';
+import homeIcon from './assets/home.svg';
 
 
 export async function loadData() { 
@@ -43,67 +44,66 @@ export default function App() {
     })
   }, [])
 
+  useEffect(()=>{
+    console.log(data)
+  }, [data])
+
 
   return (
     <div className="App">
-      <div className={"menuWrapper flexColCentered"} >
         <BrowserRouter>
+        <div className={"menuWrapper flexColCentered"} >
           <nav className={"menu flexColCentered"} >
             <h1>radr</h1>
             <ul className={"menuList"}>
               <li>
+                <Link to="/">
+                  <img className={"menuIcon"}  src={homeIcon} />
+                  Home
+                </Link>
+              </li>
+              <li>
                 <Link to="/dashboard">
-                  <img className={"menuIcon"} src={assessment} />
+                  <img className={"menuIcon"} src={assessmentIcon} />
                   Dashboard
                 </Link>
               </li>
               <li>
-                <Link to="/narwhal">
-                  <img className={"menuIcon"}  src={onlineTest} />
+                <Link to="/adrs">
+                  <img className={"menuIcon"}  src={onlineTestIcon} />
                   ADRs
                 </Link>
               </li>
             </ul>
           </nav>
+        </div>
 
-            
-          <div className={"container"} >
+          
+        <div className={"contentContainer flexCol"} >
+            <Routes>
 
-              <Routes>
-                <Route 
-                  path="/dashboard" 
-                  element={<Dashboard loading={loading} data={data} />} 
-                />
-                <Route 
-                  path="/narwhal" 
-                  element={<Narwhal />} 
-                />
-              </Routes>
+            <Route 
+                path="/" 
+                element={<Narwhal />} 
+              />
 
-          </div>
+              <Route 
+                path="/dashboard" 
+                element={<Dashboard loading={loading} data={data} />} 
+              />
 
-        </BrowserRouter>
-      </div>
+              <Route 
+                path="/adrs" 
+                element={<AdrTable loading={loading} data={data} />} 
+              />
+
+            </Routes>
+        </div>
+
+      </BrowserRouter>
 
     </div>
   );
   
-
-  // if (loading) {
-  //   return (
-  //     <div className="loading flexCol">
-  //       <Radar />
-  //     </div>
-  //   )
-  // }
-  
-  // return (
-  //   <div>
-  //     {/* <AdrTable /> */}
-  //     <Dashboard data={data} />
-  //   </div>
-  // )
-
-
 }
 

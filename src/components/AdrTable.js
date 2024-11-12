@@ -1,62 +1,57 @@
 import { memo, useEffect, useState, useMemo } from "react";
+import Radar from "../components/Radar"
 import * as d3 from "d3"
 
-export const AdrTable = ({  }) => {
+export const AdrTable = ({ loading, data }) => {
   const [content, setContent] = useState([])
 
-  const [ loading, setLoading ] = useState(true)
-  const [ data, setData ] = useState([])
 
+  if (loading) {
+    return (
+    <div className="loading flexCol">
+      <Radar />
+    </div>)
+  }
 
+  const listDivs = data.map((d,i)=>{ return (
+    <tr key={i}>
+      <td>{ d.Facility.dl_id }</td>
+      <td>{ d.Facility.dl_name }</td>
 
-  useEffect(()=>{
-    Promise.all([
-      d3.json('http://127.0.0.1:8000/adrs?full=True'),
-    ]).then(([ res0 ])=>{
-      setData(res0['data'])
-      setLoading(false)
-    })
-  }, [])
+      <td>{ d.Patient.mrn }</td>
+      <td>{ d.Patient.first_name + " " + d.Patient.last_name }</td>
 
-  useEffect(()=>{ 
-    if (data) {
-      const listDivs = data.map(d=>{ return (
-        <tr>
-          <td>{ d.Facility.dl_id }</td>
-          <td>{ d.Facility.dl_name }</td>
-  
-          <td>{ d.Patient.mrn }</td>
-          <td>{ d.Patient.first_name + " " + d.Patient.last_name }</td>
-  
-          <td>{ d.Adr.adr_id }</td>
-          <td>{ d.Adr.from_date }</td>
-          <td>{ d.Adr.to_date }</td>
-  
-          <td>{ d.Adr.expected_reimbursement }</td>
-        </tr>
-      )})
-      setContent(listDivs)
-    } 
+      <td>{ d.Adr.adr_id }</td>
+      <td>{ d.Adr.from_date }</td>
+      <td>{ d.Adr.to_date }</td>
 
-  })
+      <td>{ d.Adr.expected_reimbursement }</td>
+    </tr>
+  )})
 
 
   return (
-    <table>
-      <tr>
-        <th>DL ID</th>
-        <th>DL Name</th>
+    <table className={"adrTable"}>
+      <thead>
+        <tr>
+          <th>DL ID</th>
+          <th>DL Name</th>
 
-        <th>MRN</th>
-        <th>Patient Name</th>
+          <th>MRN</th>
+          <th>Patient Name</th>
 
-        <th>ADR ID</th>
-        <th>From Date</th>
-        <th>To Date</th>
-        
-        <th>Expected Reimbursement</th>
-      </tr>
-      { content }
+          <th>ADR ID</th>
+          <th>From Date</th>
+          <th>To Date</th>
+          
+          <th>Expected Reimbursement</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        { listDivs }
+
+      </tbody>
     </table>
   )
 }

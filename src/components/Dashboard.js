@@ -8,11 +8,10 @@ import LineChart from './LineChart'
 import ScatterChart from './ScatterChart'
 import TimeSeries from './TimeSeries'
 
-const Dashboard = ({  }) => {
+const Dashboard = ({ loading, data }) => {
 
-  const [ loading, setLoading ] = useState(true)
-  const [ data, setData ] = useState([])
-
+  // KPIs
+  const [ financials, setFinancials ] = useState({})
 
   const dims = { 
     width: 500, 
@@ -25,8 +24,6 @@ const Dashboard = ({  }) => {
 
   console.log(data)
 
-  // KPIs
-  const [ financials, setFinancials ] = useState({})
 
 // HELPER FUNCTIONS
   function dataMap(obj, sort=null) {
@@ -317,11 +314,13 @@ const Dashboard = ({  }) => {
   
   // SET KPIs
   useEffect(()=>{
-    // // Aggregate Overall Financials
-    const reduction = reduceFinancials(data)
-    // // Set states
-    setFinancials(reduction)
-  }, data)
+    if (data) {
+      // // Aggregate Overall Financials
+      const reduction = reduceFinancials(data)
+      // // Set states
+      setFinancials(reduction)
+    }
+  }, [data])
 
 
   const adrsByYear = useMemo(()=>countByYear(data, 'notification_date', 'count'))
@@ -339,6 +338,13 @@ const Dashboard = ({  }) => {
   // const testAdr = findAdr(10024) // awaiting decision
   // console.log("adr", testAdr, evaluateStatus(testAdr[0]))
 
+
+  if (loading) {
+    return (
+    <div className="loading flexCol">
+      <Radar />
+    </div>)
+  }
 
 
   return (

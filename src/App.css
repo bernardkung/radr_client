@@ -8,44 +8,19 @@
 #ed484f 
 red  */
 
+/* GENERAL */
 .App {
   text-align: center;
   height: 100vh;
-  width: 100vh;
+  width: 100vw;
   margin: 0;
   padding: 0;
   /* background-color: #1d1c1c; */
   display: flex;
-  /* flex-flow: column nowrap; */
-  justify-content: center;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
   align-items: center;
   font-family: "Noto Sans", sans-serif;
-}
-
-.menu {
-  width: 100px;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-items: center;
-}
-
-.menu > * {
-  margin: 0;
-  padding: 10px 0 10px 0;
-}
-
-.menuList {
-  list-style-type: none;
-}
-
-.dashboard {
-  /* color: #e4e4e4; */
-  text-align: center;
-}
-
-.App {
-  text-align: center;
 }
 
 .flexCol {
@@ -67,6 +42,41 @@ red  */
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
+}
+
+/* STRUCTURE */
+.menu {
+  width: 100px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 10px 0 10px 0;
+}
+
+.menuList {
+  list-style-type: none;
+}
+
+.contentContainer {
+  margin: auto;
+}
+
+/* ADR TABLE */
+thead {
+  overflow: auto;
+}
+
+thead th {
+  position: sticky;
+}
+
+/* DASHBOARD */
+
+.dashboard {
+  /* color: #e4e4e4; */
+  text-align: center;
 }
 
 .viz {
