@@ -45,31 +45,80 @@ red  */
 }
 
 /* STRUCTURE */
+
+.menuContainer {
+  width: 110px;
+  text-align: center;
+  background-color: #d9e4f5;
+}
+
+.titleIcon {
+  width: 40px;
+  height: 40px;
+}
+
+.title {
+  margin-top: 0;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
 .menu {
-  width: 100px;
+  height: 100vh;
+  width: 100%;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
   margin: 0;
-  padding: 10px 0 10px 0;
+  /* padding: 0; */
+  padding: 0 0 0 6px;
 }
 
 .menuList {
   list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.menu a {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 5px;
+  font-size: 14px;
+}
+
+.menuIcon {
+  width: 45px;
+  height: 45px;
 }
 
 .contentContainer {
   margin: auto;
+  padding: 20px;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
 }
 
 /* ADR TABLE */
-thead {
-  overflow: auto;
-}
 
 thead th {
-  position: sticky;
+  background-color: #dadada;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #eeeeee;
 }
 
 /* DASHBOARD */

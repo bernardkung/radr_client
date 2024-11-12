@@ -14,9 +14,10 @@ import AdrTable from './components/AdrTable'
 import Radar from "./components/Radar"
 
 import Manatee from './components/Manatee';
-import Narwhal from './components/Narwhal';
+import Home from './components/Home';
 import Whale from './components/Whale';
 
+import radrIcon from './assets/satellite-dish.svg';
 import onlineTestIcon from './assets/online-test.svg';
 import assessmentIcon from './assets/assessment.svg';
 import homeIcon from './assets/home.svg';
@@ -52,9 +53,10 @@ export default function App() {
   return (
     <div className="App">
         <BrowserRouter>
-        <div className={"menuWrapper flexColCentered"} >
-          <nav className={"menu flexColCentered"} >
-            <h1>radr</h1>
+        <div className={"menuContainer"} >
+          <div className={"menu"} >
+            <img className={"titleIcon"} src={radrIcon} />
+            <h1 className={"title"}>radr</h1>
             <ul className={"menuList"}>
               <li>
                 <Link to="/">
@@ -75,7 +77,7 @@ export default function App() {
                 </Link>
               </li>
             </ul>
-          </nav>
+          </div>
         </div>
 
           
@@ -84,7 +86,7 @@ export default function App() {
 
             <Route 
                 path="/" 
-                element={<Narwhal />} 
+                element={<Home />} 
               />
 
               <Route 
