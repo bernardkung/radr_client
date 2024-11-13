@@ -348,7 +348,7 @@ const Dashboard = ({ loading, data }) => {
 
 
   return (
-    <div className={"dashboard flexCol"}>
+    <div className={"dashboard"}>
       <div className={'dashGroup flexRow'}>
         <div className={'flexColCenter'} >
           <Card value={data.length.toLocaleString()} label={'# ADRs'} />

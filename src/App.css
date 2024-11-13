@@ -49,7 +49,7 @@ red  */
 .menuContainer {
   width: 110px;
   text-align: center;
-  background-color: #d9e4f5;
+  background-color: #eeeeee;
 }
 
 .titleIcon {
@@ -110,6 +110,8 @@ ul {
   width: 100%;
   box-sizing: border-box;
   overflow: hidden;
+  background-color: #dfdfdf;
+  /* background-color: #ececec; */
 }
 
 /* ADR TABLE */
@@ -153,10 +155,14 @@ tbody tr:nth-child(even) {
 .dashboardContainer {
   padding: 10px; 
   overflow: hidden; 
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .dashboard {
-  height: 90vh;
+  height: 100%;
   width: 100%;
   max-width: 1400px;
   text-align: center;
@@ -164,9 +170,9 @@ tbody tr:nth-child(even) {
 }
 
 .viz {
-  background-color: #ececec;
+  background-color: #eeeeee;
   padding: 10px;
-  border-radius: 3px;
+  border-radius: 10px;
   margin: 5px;
 }
 
@@ -231,6 +237,8 @@ tbody tr:nth-child(even) {
 .card {
   height: 80px;
   width: 160px;
+  border-radius: 10px;
+  background-color: #eeeeee;
 }
 
 .cardValue {
