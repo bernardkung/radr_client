@@ -109,6 +109,7 @@ ul {
   height: 100%;
   width: 100%;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 /* ADR TABLE */
@@ -148,18 +149,18 @@ tbody tr:nth-child(even) {
   background-color: #eeeeee;
 }
 
-/* .adrTable { */
-  /* width: 90%; */
-  /* font-size: 14px; */
-  /* font-weight: 400; */
-/* } */
-
-
 /* DASHBOARD */
+.dashboardContainer {
+  padding: 10px; 
+  overflow: hidden; 
+}
 
 .dashboard {
-  /* color: #e4e4e4; */
+  height: 90vh;
+  width: 100%;
+  max-width: 1400px;
   text-align: center;
+  overflow: auto;
 }
 
 .viz {

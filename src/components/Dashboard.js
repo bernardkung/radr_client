@@ -414,9 +414,6 @@ const Dashboard = ({ loading, data }) => {
 
       </div>
 
-
-
-
     </div>
   )
 
