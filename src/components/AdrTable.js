@@ -15,44 +15,48 @@ export const AdrTable = ({ loading, data }) => {
 
   const listDivs = data.map((d,i)=>{ return (
     <tr key={i}>
+      <td>{ d.Adr.adr_id }</td>
+
       <td>{ d.Facility.dl_id }</td>
       <td>{ d.Facility.dl_name }</td>
 
       <td>{ d.Patient.mrn }</td>
       <td>{ d.Patient.first_name + " " + d.Patient.last_name }</td>
 
-      <td>{ d.Adr.adr_id }</td>
       <td>{ d.Adr.from_date }</td>
       <td>{ d.Adr.to_date }</td>
 
-      <td>{ d.Adr.expected_reimbursement }</td>
+      <td>${ d.Adr.expected_reimbursement }</td>
     </tr>
   )})
 
 
   return (
-    <table className={"adrTable"}>
-      <thead>
-        <tr>
-          <th>DL ID</th>
-          <th>DL Name</th>
+    <div className={"tableContainer flexCol"} >
+      <table className={"adrTable fixed-header"}>
+        <thead className={"header"}>
+          <tr>
+            <th>ADR ID</th>
 
-          <th>MRN</th>
-          <th>Patient Name</th>
+            <th>DL ID</th>
+            <th>DL Name</th>
 
-          <th>ADR ID</th>
-          <th>From Date</th>
-          <th>To Date</th>
-          
-          <th>Expected Reimbursement</th>
-        </tr>
-      </thead>
-      <tbody>
+            <th>MRN</th>
+            <th>Patient Name</th>
 
-        { listDivs }
+            <th>From Date</th>
+            <th>To Date</th>
+            
+            <th>Expected Reimbursement</th>
+          </tr>
+        </thead>
+        <tbody className={"scrollable"}>
 
-      </tbody>
-    </table>
+          { listDivs }
+
+        </tbody>
+      </table>
+    </div>
   )
 }
 

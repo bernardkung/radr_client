@@ -74,8 +74,8 @@ ul {
   justify-content: center;
   align-items: center;
   margin: 0;
-  /* padding: 0; */
-  padding: 0 0 0 6px;
+  padding: 0;
+  /* padding: 0 0 0 6px; */
 }
 
 .menuList {
@@ -106,20 +106,54 @@ ul {
 .contentContainer {
   margin: auto;
   padding: 20px;
-  overflow: hidden;
   height: 100%;
   width: 100%;
+  box-sizing: border-box;
 }
 
 /* ADR TABLE */
+.tableContainer {
+  max-height: 90vh;
+  width: 100%;
+  overflow-y: auto;
+}
 
-thead th {
+.tableContainer table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #666666;
+}
+
+.tableContainer th {
+  padding: 4px 8px;
+  border: 1px solid #666666;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.tableContainer td {
+  padding: 4px 8px;
+  border: 1px solid #666666;
+  text-align: left;
+}
+
+.tableContainer thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1; /* Ensures header stays on top */
   background-color: #dadada;
 }
 
-tbody tr:nth-child(odd) {
+tbody tr:nth-child(even) {
   background-color: #eeeeee;
 }
+
+/* .adrTable { */
+  /* width: 90%; */
+  /* font-size: 14px; */
+  /* font-weight: 400; */
+/* } */
+
 
 /* DASHBOARD */
 
@@ -221,36 +255,6 @@ tbody tr:nth-child(odd) {
 
 .shapeValue {
   font-size: 10px;
-}
-
-.tableContainer {
-  background-color: #ececec;
-  padding: 10px;
-}
-
-.tableTitle {
-  font-size: 14px;
-  font-weight: 600;
-  color: #000;
-  /* opacity: 0.4; */
-  width: 100%;
-  margin-bottom: 5px;
-}
-
-table {
-  font-size: 14px;
-  font-weight: 400;
-  border-collapse: collapse;
-  width: 100%;
-  border: 1px solid #000;
-}
-
-tr {
-  border-bottom: 1px solid #000;
-}
-
-tr:nth-child(even) {
-  background-color: rgb(256, 256, 256, 0.8);
 }
 
 
