@@ -4,18 +4,12 @@ import { useState, useEffect, useRef } from 'react'
 import * as React from "react";
 import * as ReactDOM from "react-dom/client"
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
-// import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-// import Root from "./routes/root";
-// import Adrs from './routes/adrs'
-// import Dashboard from './routes/dashboard'
+
+import Home from './components/Home';
 import Dashboard from "./components/Dashboard"
 import Adr from './components/Adr'
 import AdrTable from './components/AdrTable'
 import Radar from "./components/Radar"
-
-import Manatee from './components/Manatee';
-import Home from './components/Home';
-import Whale from './components/Whale';
 
 import radrIcon from './assets/satellite-dish.svg';
 import onlineTestIcon from './assets/online-test.svg';
