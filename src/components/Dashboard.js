@@ -7,6 +7,7 @@ import PieChart from './PieChart'
 import LineChart from './LineChart'
 import ScatterChart from './ScatterChart'
 import TimeSeries from './TimeSeries'
+import FinancialSummary from './FinancialSummary'
 
 const Dashboard = ({ loading, data }) => {
 
@@ -349,7 +350,11 @@ const Dashboard = ({ loading, data }) => {
 
   return (
     <div className={"dashboard"}>
-      <div className={'dashGroup flexRow'}>
+      <div className={'flexRow'}>
+        <FinancialSummary data={financials}/>
+      </div>
+
+      <div className={'flexRow'}>
         <div className={'flexColCenter'} >
           <Card value={data.length.toLocaleString()} label={'# ADRs'} />
           <Card value={data.filter(record=>record.Adr.active).length.toLocaleString()} label={'# Active'} />

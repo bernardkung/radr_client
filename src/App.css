@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
 
 /* blue
 #28aeca
@@ -20,7 +23,7 @@ red  */
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
-  font-family: "Noto Sans", sans-serif;
+  font-family: "Roboto Flex", sans-serif;
 }
 
 .flexCol {
@@ -35,6 +38,13 @@ red  */
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
+}
+
+.flexColLeft {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .flexRow {
@@ -57,7 +67,7 @@ red  */
   height: 40px;
 }
 
-.title {
+h1 {
   margin-top: 0;
 }
 
@@ -154,7 +164,9 @@ tbody tr:nth-child(even) {
 /* DASHBOARD */
 .dashboardContainer {
   padding: 10px; 
-  overflow: hidden; 
+  max-width: none; /* Remove max-width to allow full horizontal stretching */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  overflow-y: hidden; /* Disable vertical scrolling */
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
@@ -164,9 +176,11 @@ tbody tr:nth-child(even) {
 .dashboard {
   height: 100%;
   width: 100%;
-  max-width: 1400px;
+  max-width: none; /* Remove max-width to allow full horizontal stretching */
   text-align: center;
-  overflow: auto;
+  overflow: scroll; /* Keep overflow visible */
+  padding-left: 0;
+  margin-left: 0;
 }
 
 .viz {
@@ -183,6 +197,11 @@ tbody tr:nth-child(even) {
 
 .vizPlot {
   position: relative;
+}
+
+.a2{
+  width: 500px;
+  height: 250px;
 }
 
 .shape {
@@ -233,6 +252,51 @@ tbody tr:nth-child(even) {
   font-weight: bold;
 }
 
+/* Financial Summary */
+.summary {
+  position: relative;
+}
+
+.summaryTitle {
+  position: absolute;
+  top: 30px;
+  left: 32px;
+  font-size: 18px;
+  font-weight: 800;
+  flex-shrink: 1; 
+  color: #2d4c91;
+  margin: 0;
+  padding: 10px auto 10px 0;
+}
+
+.summaryCol {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding-bottom: 75px;
+  height: 100%;
+}
+
+.summaryValue {
+  font-size: 28px;
+  font-weight: 700;
+  flex-shrink: 1; 
+  margin: 10px 0 0 0;
+  padding: 10px auto 10px 0;
+  font-variation-settings:  
+    "wdth" 100;
+}
+
+.summaryLabel {
+  font-size: 14px;
+  font-weight: 600;
+  flex-shrink: 1; 
+  margin: 0 0 10px 0;
+  padding: 10px auto 10px 0;
+  color: #adadad;
+
+}
 /* Card Styles */
 .card {
   height: 80px;
@@ -243,7 +307,7 @@ tbody tr:nth-child(even) {
 
 .cardValue {
   font-size: 24px;
-  font-weight: 500;
+  font-weight: 600;
   flex-shrink: 1; 
   margin: auto;
   padding: auto;
