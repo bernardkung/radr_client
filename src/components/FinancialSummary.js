@@ -45,9 +45,9 @@ export default function FinancialSummary({ data }) {
           title={ "" } 
           dims={ dims } 
           colors={[
-            "#82B541",
-            "#B5373D",
-            "#B5AF37", 
+            "#377CB5",
+            "#a8b2e9",
+            "#b4b4b4", 
             // "#B9B9B9",
           ]} 
           options={ {'label': false } }

@@ -269,7 +269,8 @@ tbody tr:nth-child(even) {
   font-size: 20px;
   font-weight: 800;
   flex-shrink: 1; 
-  color: #39548f;
+  color: hsla(207, 53%, 46%, 0.8);
+  /* color: #a8b2e9; */
   margin: 0;
   padding: 10px auto 10px 0;
 }

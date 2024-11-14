@@ -353,6 +353,7 @@ const Dashboard = ({ loading, data }) => {
     <div className={"dashboard"}>
       <div className={'flexRow'}>
         <FinancialSummary data={financials}/>
+        <Forecast data={financials} />
       </div>
 
       <div className={'flexRow'}>
