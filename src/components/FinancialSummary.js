@@ -29,10 +29,10 @@ export default function FinancialSummary({ data }) {
       <h2 className={"summaryTitle"}>Financial Summary</h2>
 
       <div className={"summaryCol"}>
+        <p className={"summaryValue"}>{ Math.round(100* data['totalPayment'] / data['totalExpectedReimbursement'], 2) }%</p>
+        <h3 className={"summaryLabel"}>Payment Rate</h3>
         <p className={"summaryValue"}>${ Math.round(data['totalExpectedReimbursement']).toLocaleString() }</p>
         <h3 className={"summaryLabel"}>Total Expected Reimbursement</h3>
-        <p className={"summaryValue"}>${ Math.round(0.8 * data['totalExpectedReimbursement']).toLocaleString() }</p>
-        <h3 className={"summaryLabel"}>Exp. Medicare Reimbursement</h3>
       </div>
       
       <div className={"summaryPlot"}>
