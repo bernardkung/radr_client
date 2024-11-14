@@ -39,9 +39,9 @@ export default function App() {
     })
   }, [])
 
-  useEffect(()=>{
-    console.log(data)
-  }, [data])
+  // useEffect(()=>{
+  //   console.log(data)
+  // }, [data])
 
 
   return (

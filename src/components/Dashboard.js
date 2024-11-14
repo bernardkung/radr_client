@@ -352,8 +352,8 @@ const Dashboard = ({ loading, data }) => {
   return (
     <div className={"dashboard"}>
       <div className={'flexRow'}>
+        <Forecast data={data} />
         <FinancialSummary data={financials}/>
-        <Forecast data={financials} />
       </div>
 
       <div className={'flexRow'}>

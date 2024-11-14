@@ -1,55 +1,104 @@
-import PieChart from "../components/PieChart"
+import { count } from "d3";
+import BarChart from "../components/BarChart"
 
 export default function Forecast({ data }) {
 
   const dims = { 
-    width: 225, 
-    height: 225,
+    width: 200, 
+    height: 200,
     axisHeight: 15,
     innerRadius: 0,
-    outerRadius: 90,
-    padding: { top: 30, right: 20, bottom: 30, left: 40 }
+    outerRadius: 80,
+    padding: { top: 30, right: 0, bottom: 30, left: 40 }
   }
 
-  function dataMap(obj, sort=null) {
-    const sorted = sort == null
-      ? Object.entries(obj)
-      : sort=='desc'
-        ? Object.entries(obj).sort((a,b)=> a[1]-b[1])
-        : Object.entries(obj).sort((a,b)=> b[1]-a[1])
-    const output = sorted.map(([a,b]) => {
-      return { x:a, y:b }
+  // console.log(data)
+  // console.log(new Date('2024-02-14'))
+
+  // Get a count of stages due and submitted in next 4 weeks
+  function getStagesDue(data, startDate=new Date()) {
+
+    function addDays(date, days) {
+      const newDate = new Date(date);
+      newDate.setDate(date.getDate() + days);
+      return newDate;
+    }
+
+    const weeks = [0, 1, 2, 3].map(w=>{
+      return {
+        label: "Week " + w.toString(),
+        startDate : addDays(startDate, w*7),
+        stopDate  : addDays(startDate, (w*7)+6),
+        stages    : [],
+        due       : [],
+        submitted : [],
+        count     : 0,
+      }
     })
-    return output
+
+    const stagesDue = data.map(d=>{
+      weeks.forEach(week=>{
+        
+        const newStages = d.Adr.stages.filter(stage=>{
+          const dueDate = new Date(stage['due_date'])
+          return week.startDate <= dueDate && dueDate <= week.stopDate
+        })
+
+        newStages.forEach(stage=>{
+          if (stage.submissions.length > 0) {
+            week.submitted = [...week.submitted, stage]
+          } else {
+            week.due = [...week.due, stage]
+          }
+        })
+
+        week.stages = [...week.stages, ...newStages]
+        week.count = week.count + newStages.length
+      })
+    })
+
+    return weeks
+  }
+  
+  const weeks = getStagesDue(data, new Date('2024-02-01 EST'))
+  console.log(weeks)
+
+
+  function barMap(weeks) {
+    return weeks.map(week=>{
+      return {
+        x: week.label,
+        y: week.count,
+      }
+    })
   }
 
   return (
     <div className={"viz a2 flexRow summary"}>
       
-      <h2 className={"summaryTitle"}>Financial Summary</h2>
+      <h2 className={"summaryTitle"}>Upcoming ADRs</h2>
 
       <div className={"summaryCol"}>
-        <p className={"summaryValue"}>${ Math.round(data['totalExpectedReimbursement']).toLocaleString() }</p>
-        <h3 className={"summaryLabel"}>Total Expected Reimbursement</h3>
-        <p className={"summaryValue"}>${ Math.round(0.8 * data['totalExpectedReimbursement']).toLocaleString() }</p>
-        <h3 className={"summaryLabel"}>Exp. Medicare Reimbursement</h3>
+        <p className={"summaryValue"}>{ weeks.reduce((acc, week)=>week.due.length + acc, 0) }</p>
+        <h3 className={"summaryLabel"}>Due</h3>
+        <p className={"summaryValue"}>{ weeks.reduce((acc, week)=>week.submitted.length + acc, 0) }</p>
+        <h3 className={"summaryLabel"}>Submitted</h3>
       </div>
-      
-      <PieChart 
-          data={dataMap({
-            'Payment': data['totalPayment'],
-            'Active Balance': data['totalActiveBalance'],
-            'InactiveBalance': data['totalInactiveBalance'],
-          })}
-          title={ "" } 
-          dims={ dims } 
-          colors={[
-            "#82B541",
-            "#B5373D",
-            "#B5AF37", 
-            // "#B9B9B9",
-          ]} 
+
+      <div className={"summaryPlot"}>
+
+        <BarChart 
+          data={ barMap(weeks) }
+          xVar={'x'} 
+          yVar={'y'} 
+          orient = { "vertical" }
+          title = { "" }
+          axisLabel={ "" }
+          dims = { dims }
         />
+
+
+      </div>
 
     </div>
   )
