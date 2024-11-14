@@ -260,8 +260,8 @@ tbody tr:nth-child(even) {
 .summaryTitle {
   position: absolute;
   top: 30px;
-  left: 32px;
-  font-size: 18px;
+  left: 34px;
+  font-size: 20px;
   font-weight: 800;
   flex-shrink: 1; 
   color: #2d4c91;
