@@ -48,7 +48,7 @@ const PieChart = ({ data, title, dims, colors, options={} }) => {
     const labelValue = "$" + Math.round(slice['data']['y']).toLocaleString()
     const labelMisc = Math.round( 100 * (slice.endAngle - slice.startAngle ) / 6.283185307179587 ) + "%"
     
-    const tooltip_padding = 30;
+    const tooltip_padding = 0.1*dims.outerRadius;
 
     const onMouseEnter = () => {
       // Highlight         
@@ -130,7 +130,7 @@ const PieChart = ({ data, title, dims, colors, options={} }) => {
         )
       }
     }
-    
+
     const labelValueShape = () => {
       if (options['label']!=false) {
         return (

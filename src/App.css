@@ -200,8 +200,8 @@ tbody tr:nth-child(even) {
 }
 
 .a2{
-  width: 500px;
-  height: 250px;
+  width: 450px;
+  height: 200px;
 }
 
 .shape {
@@ -255,16 +255,21 @@ tbody tr:nth-child(even) {
 /* Financial Summary */
 .summary {
   position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 10px 10px 25px;
 }
 
 .summaryTitle {
   position: absolute;
   top: 30px;
-  left: 34px;
+  left: 25px;
   font-size: 20px;
   font-weight: 800;
   flex-shrink: 1; 
-  color: #2d4c91;
+  color: #39548f;
   margin: 0;
   padding: 10px auto 10px 0;
 }
@@ -274,29 +279,39 @@ tbody tr:nth-child(even) {
   flex-flow: column nowrap;
   justify-content: flex-end;
   align-items: flex-start;
-  padding-bottom: 75px;
+  padding-bottom: 25px;
   height: 100%;
 }
 
 .summaryValue {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 700;
   flex-shrink: 1; 
-  margin: 10px 0 0 0;
+  margin: 0 0 0 0;
   padding: 10px auto 10px 0;
   font-variation-settings:  
     "wdth" 100;
 }
 
 .summaryLabel {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   flex-shrink: 1; 
   margin: 0 0 10px 0;
   padding: 10px auto 10px 0;
   color: #adadad;
-
 }
+
+.summaryPlot {
+  margin: 0;
+  padding: 0;
+}
+
+.summaryPlot > .viz {
+  padding: 0;
+  margin: 0;
+}
+
 /* Card Styles */
 .card {
   height: 80px;

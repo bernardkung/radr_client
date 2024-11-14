@@ -3,12 +3,12 @@ import PieChart from "../components/PieChart"
 export default function FinancialSummary({ data }) {
 
   const dims = { 
-    width: 225, 
-    height: 225,
+    width: 200, 
+    height: 200,
     axisHeight: 15,
     innerRadius: 0,
-    outerRadius: 90,
-    padding: { top: 30, right: 20, bottom: 30, left: 40 }
+    outerRadius: 80,
+    padding: { top: 30, right: 0, bottom: 30, left: 40 }
   }
 
   function dataMap(obj, sort=null) {
@@ -35,7 +35,8 @@ export default function FinancialSummary({ data }) {
         <h3 className={"summaryLabel"}>Exp. Medicare Reimbursement</h3>
       </div>
       
-      <PieChart 
+      <div className={"summaryPlot"}>
+        <PieChart 
           data={dataMap({
             'Payment': data['totalPayment'],
             'Active Balance': data['totalActiveBalance'],
@@ -51,6 +52,7 @@ export default function FinancialSummary({ data }) {
           ]} 
           options={ {'label': false } }
         />
+      </div>
 
     </div>
   )
