@@ -43,7 +43,7 @@ const PieChart = ({ data, title, dims, colors, options={} }) => {
     const isTopLabel = inflexionPoint[1] > 0;
     const labelPosY = inflexionPoint[1] //+ 20 * (isTopLabel ? 1 : -1);
     const textAnchor = isRightLabel ? "start" : "end";
-    const label = slice['data']['x'] + " (" + "$" + Math.round(slice['data']['y']).toLocaleString() + ")";
+    const labelText = slice['data']['x'] + " (" + "$" + Math.round(slice['data']['y']).toLocaleString() + ")";
     const labelName = slice['data']['x']
     const labelValue = "$" + Math.round(slice['data']['y']).toLocaleString()
     const labelMisc = Math.round( 100 * (slice.endAngle - slice.startAngle ) / 6.283185307179587 ) + "%"
@@ -76,6 +76,78 @@ const PieChart = ({ data, title, dims, colors, options={} }) => {
       setInteractionData(undefined)
     }
 
+    const leaderLineDot = () => {
+      if (options['label']!=false) {
+        return (
+          <circle cx={centroid[0]} cy={centroid[1]} r={2} />
+        )
+      }
+    }
+
+    const leaderLineFirstSegment = () => {
+      if (options['label']!=false) {
+        return (
+          <line
+            x1={centroid[0]}
+            y1={centroid[1]}
+            x2={inflexionPoint[0]}
+            y2={inflexionPoint[1]}
+            stroke={"black"}
+            fill={"black"}
+          />
+        )
+      } 
+    }
+
+    const leaderLineSecondSegment = () => {
+      if (options['label']!=false) {
+        return (
+          <line
+            x1={inflexionPoint[0]}
+            y1={inflexionPoint[1]}
+            x2={labelPosX}
+            y2={labelPosY}
+            stroke={"black"}
+            fill={"black"}
+          />
+        )
+      }
+    }
+
+    const labelNameShape = () => {
+      if (options['label']!=false) {
+        return (
+          <text 
+            className={"shapeLabel"}
+            x={labelPosX + (isRightLabel ? 2 : -2)}
+            y={inflexionPoint[1]-6}
+            textAnchor={textAnchor}
+            dominantBaseline="middle"
+            fontSize={14}
+          >
+            {labelName}
+          </text>
+        )
+      }
+    }
+    
+    const labelValueShape = () => {
+      if (options['label']!=false) {
+        return (
+          <text 
+            className={"shapeValue"}
+            x={labelPosX + (isRightLabel ? 2 : -2)}
+            y={inflexionPoint[1]+6}
+            textAnchor={textAnchor}
+            dominantBaseline="middle"
+            fontSize={14}
+          >
+            {labelValue}
+          </text>
+        )
+      }
+    }
+
 
     return (
       <g key={i} className={"shapeGroup"}>
@@ -87,47 +159,18 @@ const PieChart = ({ data, title, dims, colors, options={} }) => {
           onMouseEnter={() => onMouseEnter()}
           onMouseLeave={() => onMouseLeave()}
         />
-        <circle cx={centroid[0]} cy={centroid[1]} r={2} />
+
+        {/* Label Leader Line Dot */}
+        { leaderLineDot() }
+        {/* <circle cx={centroid[0]} cy={centroid[1]} r={2} /> */}
         {/* Label Leader Line First Segment */}
-        <line
-          x1={centroid[0]}
-          y1={centroid[1]}
-          x2={inflexionPoint[0]}
-          y2={inflexionPoint[1]}
-          stroke={"black"}
-          fill={"black"}
-        />
+        { leaderLineFirstSegment() }
         {/* Label Leader Line Second Segment */}
-        <line
-          x1={inflexionPoint[0]}
-          y1={inflexionPoint[1]}
-          x2={labelPosX}
-          y2={labelPosY}
-          stroke={"black"}
-          fill={"black"}
-        />
+        { leaderLineSecondSegment() }
         {/* Label Name */}
-        <text 
-          className={"shapeLabel"}
-          x={labelPosX + (isRightLabel ? 2 : -2)}
-          y={inflexionPoint[1]-6}
-          textAnchor={textAnchor}
-          dominantBaseline="middle"
-          fontSize={14}
-        >
-          {labelName}
-        </text>
+        { labelNameShape() }
         {/* Label Value */}
-        <text 
-          className={"shapeValue"}
-          x={labelPosX + (isRightLabel ? 2 : -2)}
-          y={inflexionPoint[1]+6}
-          textAnchor={textAnchor}
-          dominantBaseline="middle"
-          fontSize={14}
-        >
-          {labelValue}
-        </text>
+        { labelValueShape() }
       </g>
     );
   })
