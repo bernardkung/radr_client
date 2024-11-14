@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import { useMemo, useState, useRef } from "react";
 import Tooltip from './Tooltip';
 
-const PieChart = ({ data, title, dims, colors }) => {
+const PieChart = ({ data, title, dims, colors, options={} }) => {
 
   const [ interactionData, setInteractionData ] = useState(undefined);
   const ref = useRef(null);
