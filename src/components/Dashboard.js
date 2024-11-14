@@ -8,6 +8,7 @@ import LineChart from './LineChart'
 import ScatterChart from './ScatterChart'
 import TimeSeries from './TimeSeries'
 import FinancialSummary from './FinancialSummary'
+import Forecast from './Forecast'
 
 const Dashboard = ({ loading, data }) => {
 
