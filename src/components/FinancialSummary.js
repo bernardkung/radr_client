@@ -49,6 +49,7 @@ export default function FinancialSummary({ data }) {
             "#B5AF37", 
             // "#B9B9B9",
           ]} 
+          options={ {'label': false } }
         />
 
     </div>
