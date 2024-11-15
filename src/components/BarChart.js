@@ -5,7 +5,7 @@ import Tooltip from './Tooltip'
 import { HorizontalAxis } from './HorizontalAxis';
 import { VerticalAxis } from "./VerticalAxis";
 
-const BarChart = ({ data, xVar, yVar, orient="horizontal", title, axisLabel, colors=[], dims }) => {
+const BarChart = ({ data, xVar, yVar, orient="horizontal", title, axisLabel, colors=[], dims, options={} }) => {
   const [ interactionData, setInteractionData ] = useState(undefined);
   const ref = useRef(null);
 
@@ -34,7 +34,7 @@ const BarChart = ({ data, xVar, yVar, orient="horizontal", title, axisLabel, col
           dims.padding.left+1.5*dims.axisHeight, 
           dims.width-dims.padding.right-dims.padding.left+dims.axisHeight
         ])
-        .padding(0.1)
+        .padding(dims.padding.bar ? dims.padding.bar : 0.1)
     }
   }, [data, dims])
 
@@ -98,12 +98,15 @@ const BarChart = ({ data, xVar, yVar, orient="horizontal", title, axisLabel, col
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         color={colors[i]}
+        options = { options }
       />
   )}))
   
-  const axis = useMemo(()=>orient == "horizontal"
-    ? <HorizontalAxis xScale={xScale} axisLabel={ axisLabel } dims={dims} numberOfTicksTarget={10}/>
-    : <VerticalAxis yScale={yScale} axisLabel={ axisLabel } dims={dims} numberOfTicksTarget={10}/>
+  const axis = useMemo(()=>options['axes']!= false
+    ? orient == "horizontal"
+      ? <HorizontalAxis xScale={xScale} axisLabel={ axisLabel } dims={dims} numberOfTicksTarget={10}/>
+      : <VerticalAxis yScale={yScale} axisLabel={ axisLabel } dims={dims} numberOfTicksTarget={10}/>
+    : <></>
   )
 
   return (

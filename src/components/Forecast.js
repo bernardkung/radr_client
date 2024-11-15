@@ -4,12 +4,12 @@ import BarChart from "../components/BarChart"
 export default function Forecast({ data }) {
 
   const dims = { 
-    width: 200, 
-    height: 200,
+    width: 350, 
+    height: 150,
     axisHeight: 15,
     innerRadius: 0,
     outerRadius: 80,
-    padding: { top: 30, right: 0, bottom: 30, left: 40 }
+    padding: { top: 30, right: 0, bottom: 0, left: 40, bar: 0.5 }
   }
 
   // console.log(data)
@@ -95,6 +95,11 @@ export default function Forecast({ data }) {
           title = { "" }
           axisLabel={ "" }
           dims = { dims }
+          options = {{
+            axes: false,
+            labels: false,
+            values: false
+          }}
         />
 
 
