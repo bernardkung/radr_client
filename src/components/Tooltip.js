@@ -1,9 +1,10 @@
 
 export const Tooltip = ({ interactionData, dims }) => {
+  
   if (!interactionData) {
     return null;
   }
-  
+    
   return (
 
     // Build a wrapper that fits over the visualization area
@@ -28,7 +29,7 @@ export const Tooltip = ({ interactionData, dims }) => {
     >
       { interactionData['labelName'] }
       <br />
-      { interactionData.labelValue.toLocaleString() } { interactionData.labelUnit }
+      { interactionData.labelValue } { interactionData.labelUnit }
       <br />
       { interactionData.labelMisc }
     </div>

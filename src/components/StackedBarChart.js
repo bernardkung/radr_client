@@ -1,7 +1,7 @@
 import * as d3 from "d3"
 import { useMemo, useState, useRef } from "react"
 import Bar from './Bar'
-import Tooltip from './Tooltip'
+import Tooltip2 from './Tooltip2'
 import { HorizontalAxis } from './HorizontalAxis';
 import { VerticalAxis } from "./VerticalAxis";
 
@@ -9,7 +9,7 @@ export default function StackedBarChart ({ data, xVar, yVar, subgroups=[], stack
   const [ interactionData, setInteractionData ] = useState(undefined);
   const ref = useRef(null);
 
-  console.log("bardata", data)
+  // console.log("bardata", data)
 
   // Horizontal
   const xMin = 0
@@ -25,7 +25,7 @@ export default function StackedBarChart ({ data, xVar, yVar, subgroups=[], stack
   const stack = d3.stack()
     .keys(subgroups)
   const stackedData = stack(data)
-  console.log("sd:", stackedData)
+  // console.log("sd:", stackedData)
 
   const xScale = useMemo(()=>{
     if (orient=="horizontal") {
@@ -70,7 +70,8 @@ export default function StackedBarChart ({ data, xVar, yVar, subgroups=[], stack
     if (ref.current) {
       ref.current.classList.add("hasHighlight");
     }
-    console.log(ref.current)
+    // console.log("d:", d, subgroups, subgroups.map(sg=>d[sg]))
+
     // Tooltip
     setInteractionData({
       xPos: orient=="horizontal" 
@@ -79,8 +80,10 @@ export default function StackedBarChart ({ data, xVar, yVar, subgroups=[], stack
       yPos: orient=="horizontal" 
         ? yScale(d[yVar]) + (yScale.bandwidth() / 2) 
         : yScale(d[yVar]) - 40,
-      labelName: d.x,
-      labelValue: d.y,
+      labelTitle: d[xVar],
+      data: subgroups.map(sg=>{return {
+        [sg]: d[sg]
+      }})
     })
   }
 
@@ -139,7 +142,7 @@ export default function StackedBarChart ({ data, xVar, yVar, subgroups=[], stack
           </g>
         </svg>
 
-        {/* <Tooltip interactionData={interactionData} dims={dims} /> */}
+        <Tooltip2 interactionData={interactionData} dims={dims} />
 
       </div>
     </div>
