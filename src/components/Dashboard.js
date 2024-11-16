@@ -380,7 +380,7 @@ const Dashboard = ({ loading, data }) => {
           ]} 
         />
 
-        <BarChart 
+        {/* <BarChart 
           data={dataMap(adrsByStatus, 'desc')} 
           xVar={'y'} 
           yVar={'x'} 
@@ -388,13 +388,13 @@ const Dashboard = ({ loading, data }) => {
           title = { "ADRs by Status" }
           axisLabel={ "# ADRs" }
           dims = { dims }
-        />
+        /> */}
 
       </div>
 
 
       <div className={'flexRow'}>
-        <BarChart 
+        {/* <BarChart 
           data={adrsByYear} 
           xVar={'x'} 
           yVar={'y'} 
@@ -408,16 +408,16 @@ const Dashboard = ({ loading, data }) => {
             "#d067bd",
             "#ed484f",
           ]}
-        />
+        /> */}
 
-        <LineChart
+        {/* <LineChart
           data={pendingAdrs}
           xVar={'date'} 
           yVar={'cumulativeSum'} 
           title = { "Upcoming Due Dates" }
           axisLabel={ "Running Total" }
           dims = { dims }
-        />
+        /> */}
 
       </div>
 

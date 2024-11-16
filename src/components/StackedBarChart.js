@@ -5,11 +5,11 @@ import Tooltip from './Tooltip'
 import { HorizontalAxis } from './HorizontalAxis';
 import { VerticalAxis } from "./VerticalAxis";
 
-const BarChart = ({ data, xVar, yVar, subgroups=[], stacked=true, orient="horizontal", title, axisLabel, colors=[], dims, options={} }) => {
+export default function StackedBarChart ({ data, xVar, yVar, subgroups=[], stacked=true, orient="horizontal", title, axisLabel, colors=[], dims, options={} }) {
   const [ interactionData, setInteractionData ] = useState(undefined);
   const ref = useRef(null);
 
-  // console.log("bardata", data)
+  console.log("bardata", data)
 
   // Horizontal
   const xMin = 0
@@ -20,6 +20,12 @@ const BarChart = ({ data, xVar, yVar, subgroups=[], stacked=true, orient="horizo
   const xDomain = data.map(d=>d[xVar])
   const yMin = 0
   const yMax = d3.max(data.map(d=>d[yVar]))
+
+  // If building a stacked bar chart
+  const stack = d3.stack()
+    .keys(subgroups)
+  const stackedData = stack(data)
+  console.log("sd:", stackedData)
 
   const xScale = useMemo(()=>{
     if (orient=="horizontal") {
@@ -64,6 +70,7 @@ const BarChart = ({ data, xVar, yVar, subgroups=[], stacked=true, orient="horizo
     if (ref.current) {
       ref.current.classList.add("hasHighlight");
     }
+    console.log(ref.current)
     // Tooltip
     setInteractionData({
       xPos: orient=="horizontal" 
@@ -85,21 +92,28 @@ const BarChart = ({ data, xVar, yVar, subgroups=[], stacked=true, orient="horizo
   }
 
 
-  const shapes = useMemo(()=>data.map((d,i)=>{
+  const shapes = useMemo(()=>stackedData.map((subgroup,s)=>{
     return (
-      <Bar 
-        key={d[xVar]} 
-        x={d[xVar]} 
-        y={d[yVar]} 
-        d={d}
-        xScale={xScale} 
-        yScale={yScale}
-        orient={orient}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        color={colors[i]}
-        options = { options }
-      />
+      <g key={s}>
+        {subgroup.map((d,i)=>{
+          return (
+            <Bar 
+              key={d.data[xVar]} 
+              x={d.data[xVar]} 
+              y={d[1]} 
+              y0={d[0]}
+              d={d.data}
+              xScale={xScale} 
+              yScale={yScale}
+              orient={orient}
+              onMouseEnter={onMouseEnter}
+              onMouseLeave={onMouseLeave}
+              color={colors[s]}
+              options = { options }
+            />
+          )
+        })}
+      </g>
   )}))
   
   const axis = useMemo(()=>options['axes']!= false
@@ -125,11 +139,9 @@ const BarChart = ({ data, xVar, yVar, subgroups=[], stacked=true, orient="horizo
           </g>
         </svg>
 
-        <Tooltip interactionData={interactionData} dims={dims} />
+        {/* <Tooltip interactionData={interactionData} dims={dims} /> */}
 
       </div>
     </div>
   )
 }
-
-export default BarChart

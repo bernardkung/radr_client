@@ -1,5 +1,5 @@
 import { count } from "d3";
-import BarChart from "../components/BarChart"
+import StackedBarChart from "../components/StackedBarChart"
 
 export default function Forecast({ data }) {
 
@@ -30,9 +30,13 @@ export default function Forecast({ data }) {
         startDate : addDays(startDate, w*7),
         stopDate  : addDays(startDate, (w*7)+6),
         stages    : [],
-        due       : [],
-        submitted : [],
+        due       : 0,
+        submitted : 0,
+        // due       : [],
+        // submitted : [],
         count     : 0,
+        countDue      : 0,
+        countSubmitted: 0,
       }
     })
 
@@ -46,9 +50,13 @@ export default function Forecast({ data }) {
 
         newStages.forEach(stage=>{
           if (stage.submissions.length > 0) {
-            week.submitted = [...week.submitted, stage]
+            // week.submitted = [...week.submitted, stage]
+            week.submitted += 1
+            week.countSubmitted += 1
           } else {
-            week.due = [...week.due, stage]
+            // week.due = [...week.due, stage]
+            week.due += 1
+            week.countDue += 1
           }
         })
 
@@ -60,7 +68,7 @@ export default function Forecast({ data }) {
     return weeks
   }
   
-  const weeks = getStagesDue(data, new Date('2024-02-01 EST'))
+  const weeks = getStagesDue(data, new Date('2024-08-28 EST'))
   console.log(weeks)
 
 
@@ -73,28 +81,35 @@ export default function Forecast({ data }) {
     })
   }
 
+  
   return (
     <div className={"viz a2 flexRow summary"}>
       
       <h2 className={"summaryTitle"}>Upcoming ADRs</h2>
 
       <div className={"summaryCol"}>
-        <p className={"summaryValue"}>{ weeks.reduce((acc, week)=>week.due.length + acc, 0) }</p>
+        <p className={"summaryValue"}>{ weeks.reduce((acc, week)=>week.due + acc, 0) }</p>
         <h3 className={"summaryLabel"}>Due</h3>
-        <p className={"summaryValue"}>{ weeks.reduce((acc, week)=>week.submitted.length + acc, 0) }</p>
+        <p className={"summaryValue"}>{ weeks.reduce((acc, week)=>week.submitted + acc, 0) }</p>
         <h3 className={"summaryLabel"}>Submitted</h3>
       </div>
 
       <div className={"summaryPlot"}>
 
-        <BarChart 
-          data={ barMap(weeks) }
-          xVar={'x'} 
-          yVar={'y'} 
+        <StackedBarChart 
+          data={ weeks }
+          xVar={'label'} 
+          yVar={'count'}
+          subgroups={['submitted', 'due']}
           orient = { "vertical" }
           title = { "" }
           axisLabel={ "" }
           dims = { dims }
+          colors = {[
+            "#377CB5",
+            "#b4b4b4", 
+            "#a8b2e9",
+          ]}
           options = {{
             axes: false,
             labels: false,
