@@ -1,6 +1,6 @@
 import { useMemo } from "react"
 
-const Bar = ({x, y, x0=0, y0=0, d, color="#377CB5", xScale, yScale, orient="horizontal", onMouseEnter, onMouseLeave, options={} })=>{
+const Bar = ({x, y, x0=0, y0=0, d, color="#377CB5", xScale, yScale, className="", orient="horizontal", onMouseEnter, onMouseLeave, options={} })=>{
 
   const value = ()=>{
     if (options['values']!=false) {
@@ -68,7 +68,7 @@ const Bar = ({x, y, x0=0, y0=0, d, color="#377CB5", xScale, yScale, orient="hori
     <g key={y } className={"bar shapeGroup"}>
       <rect 
         key={y + "Bar"}
-        className={"shape"}
+        className={`shape ${className}`}
         x={ orient == "horizontal" 
           ? xScale.range()[0] 
           : xScale(x)

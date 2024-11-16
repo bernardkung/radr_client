@@ -70,7 +70,7 @@ export default function StackedBarChart ({ data, xVar, yVar, subgroups=[], stack
     if (ref.current) {
       ref.current.classList.add("hasHighlight");
     }
-    // console.log("d:", d, subgroups, subgroups.map(sg=>d[sg]))
+    console.log("d:", d.label)
 
     // Tooltip
     setInteractionData({
@@ -99,6 +99,7 @@ export default function StackedBarChart ({ data, xVar, yVar, subgroups=[], stack
     return (
       <g key={s}>
         {subgroup.map((d,i)=>{
+          console.log(d, interactionData && d.data.label==interactionData.labelTitle ? "dimmed" : "")
           return (
             <Bar 
               key={d.data[xVar]} 
@@ -109,6 +110,10 @@ export default function StackedBarChart ({ data, xVar, yVar, subgroups=[], stack
               xScale={xScale} 
               yScale={yScale}
               orient={orient}
+              className={interactionData && d.data.label==interactionData.labelTitle 
+                ? "" 
+                : "dimmed"
+              }
               onMouseEnter={onMouseEnter}
               onMouseLeave={onMouseLeave}
               color={colors[s]}

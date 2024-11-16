@@ -100,13 +100,13 @@ export default function Forecast({ data }) {
           data={ weeks }
           xVar={'label'} 
           yVar={'count'}
-          subgroups={['submitted', 'due']}
+          subgroups={['due', 'submitted']}
           orient = { "vertical" }
           title = { "" }
           axisLabel={ "" }
           dims = { dims }
           colors = {[
-            "#377CB5",
+            "#B5373D",
             "#b4b4b4", 
             "#a8b2e9",
           ]}

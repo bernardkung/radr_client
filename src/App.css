@@ -24,6 +24,7 @@ red  */
   justify-content: flex-start;
   align-items: center;
   font-family: "Roboto Flex", sans-serif;
+  color: #474747;
 }
 
 .flexCol {
@@ -209,15 +210,20 @@ tbody tr:nth-child(even) {
   fill-opacity: 0.4;
 }
 
-.hasHighlight .shapeGroup {
+/* .hasHighlight .shapeGroup {
+  filter: saturate(40%);
+  opacity: 0.2;
+} */
+
+.dimmed {
   filter: saturate(40%);
   opacity: 0.2;
 }
 
-.hasHighlight .shapeGroup:hover {
+/* .hasHighlight .shapeGroup:hover {
     filter: saturate(100%);
     opacity: 1;
-}
+} */
 
 .area {
   fill-opacity: 0.4;
@@ -237,10 +243,6 @@ tbody tr:nth-child(even) {
   left: 50%; 
   top: 50%;
   transform: translate(-50%, -50%); 
-
-
-  /* margin-left: 35px; */
-  /* transform: translate(100%, 100%); */
 }
 
 .tooltip > p {
@@ -252,7 +254,7 @@ tbody tr:nth-child(even) {
 
 .tooltipTitle {
   font-weight: 800;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .tooltipRow {
@@ -268,7 +270,7 @@ tbody tr:nth-child(even) {
 .tooltipLabel {
   font-size: 14px;
   font-weight: 400;
-  color: #adadad;
+  color: #707070;
 }
 
 .tooltipValue {

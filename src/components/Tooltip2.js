@@ -6,10 +6,8 @@ export default function Tooltip2 ({ interactionData, dims }) {
   }
 
   const rows = (data) => {
-    console.log("rows", data)
     return (
       data.map((d,i)=>{
-        console.log("2:", d)
         return (
           <p className="tooltipRow" key={i}>
             <span className={"tooltipLabel"}>{ Object.keys(d)[0] }</span>
