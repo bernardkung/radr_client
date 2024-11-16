@@ -41,7 +41,7 @@ export default function Tooltip2 ({ interactionData, dims }) {
           top: interactionData['yPos'], 
         }}
       >
-        <p className={"tooltipTitle"}>{ interactionData['labelTitle'] }</p>
+        <h3 className={"tooltipTitle"}>{ interactionData['labelTitle'] }</h3>
         { rows(interactionData.data) }
       </div>
     </div>

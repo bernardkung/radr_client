@@ -70,7 +70,6 @@ export default function StackedBarChart ({ data, xVar, yVar, subgroups=[], stack
     if (ref.current) {
       ref.current.classList.add("hasHighlight");
     }
-    console.log("d:", d.label)
 
     // Tooltip
     setInteractionData({

@@ -253,8 +253,10 @@ tbody tr:nth-child(even) {
 }
 
 .tooltipTitle {
-  font-weight: 800;
-  font-size: 16px;
+  font-weight: 600;
+  font-size: 14px;
+  height: 20px;
+  margin:  0 0 2px 0;
 }
 
 .tooltipRow {
@@ -268,14 +270,14 @@ tbody tr:nth-child(even) {
 }
 
 .tooltipLabel {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
   color: #707070;
 }
 
 .tooltipValue {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 800;
 }
 
 /* Financial Summary */
