@@ -227,6 +227,7 @@ tbody tr:nth-child(even) {
   width: 85px;
   background: #fff;
   border: 1px solid #f5f5f5;
+  border-radius: 5px;
   box-shadow: 3px 3px 3px rgb(0 0 0 / 10%);
   font-size: 11px;
   max-width: 200px;
@@ -236,6 +237,7 @@ tbody tr:nth-child(even) {
   left: 50%; 
   top: 50%;
   transform: translate(-50%, -50%); 
+
 
   /* margin-left: 35px; */
   /* transform: translate(100%, 100%); */
@@ -249,7 +251,29 @@ tbody tr:nth-child(even) {
 }
 
 .tooltipTitle {
-  font-weight: bold;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.tooltipRow {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tooltipLabel {
+  font-size: 14px;
+  font-weight: 400;
+  color: #adadad;
+}
+
+.tooltipValue {
+  font-size: 14px;
+  font-weight: 600;
 }
 
 /* Financial Summary */
