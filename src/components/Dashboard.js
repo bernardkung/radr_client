@@ -351,20 +351,25 @@ const Dashboard = ({ loading, data }) => {
 
   return (
     <div className={"dashboard"}>
-      <div className={'flexRow'}>
-        <Forecast data={data} />
-        <FinancialSummary data={financials}/>
-      </div>
+
+      
 
       <div className={'flexRow'}>
+
         <div className={'flexColCenter'} >
           <Card value={data.length.toLocaleString()} label={'# ADRs'} />
           <Card value={data.filter(record=>record.Adr.active).length.toLocaleString()} label={'# Active'} />
-          <Card value={"$" + Math.round(financials['totalExpectedReimbursement']).toLocaleString()} label={'Total Expected Reimbursement'} />
-          <Card value={"$" + Math.round(financials['totalPayment']).toLocaleString()} label={'Total Payment'} />
         </div>
 
-        <PieChart 
+        <Forecast data={data} />
+
+        <FinancialSummary data={financials}/>
+
+      </div>
+
+      <div className={'flexRow'}>
+
+        {/* <PieChart 
           data={dataMap({
             'Payment': financials['totalPayment'],
             'Active Balance': financials['totalActiveBalance'],
@@ -378,9 +383,9 @@ const Dashboard = ({ loading, data }) => {
             "#B5AF37", 
             // "#B9B9B9",
           ]} 
-        />
+        /> */}
 
-        {/* <BarChart 
+        <BarChart 
           data={dataMap(adrsByStatus, 'desc')} 
           xVar={'y'} 
           yVar={'x'} 
@@ -388,13 +393,9 @@ const Dashboard = ({ loading, data }) => {
           title = { "ADRs by Status" }
           axisLabel={ "# ADRs" }
           dims = { dims }
-        /> */}
+        />
 
-      </div>
-
-
-      <div className={'flexRow'}>
-        {/* <BarChart 
+        <BarChart 
           data={adrsByYear} 
           xVar={'x'} 
           yVar={'y'} 
@@ -408,8 +409,13 @@ const Dashboard = ({ loading, data }) => {
             "#d067bd",
             "#ed484f",
           ]}
-        /> */}
+        />
 
+
+      </div>
+
+
+      <div className={'flexRow'}>
         {/* <LineChart
           data={pendingAdrs}
           xVar={'date'} 

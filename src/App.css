@@ -200,9 +200,22 @@ tbody tr:nth-child(even) {
   position: relative;
 }
 
+.a1 {
+  height: 105px;
+  width: 160px;
+  box-sizing: border-box;
+  /* padding: 10px; */
+  margin: 10px;
+  border-radius: 10px;
+}
+
 .a2{
   width: 450px;
-  height: 200px;
+  height: 220px;
+  box-sizing: border-box;
+  /* padding: 10px; */
+  margin: 10px;
+  border-radius: 10px;
 }
 
 .shape {
@@ -343,15 +356,22 @@ tbody tr:nth-child(even) {
 
 /* Card Styles */
 .card {
-  height: 80px;
-  width: 160px;
-  border-radius: 10px;
+  /* height: 90px; */
+  /* width: 160px; */
+  /* box-sizing: border-box; */
+  /* padding: 10px; */
+  /* margin: 5px; */
+  /* border-radius: 10px; */
   background-color: #eeeeee;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .cardValue {
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 32px;
+  font-weight: 700;
   flex-shrink: 1; 
   margin: auto;
   padding: auto;
@@ -359,7 +379,8 @@ tbody tr:nth-child(even) {
 
 .cardLabel {
   font-size: 12px;
-  font-weight: 300;
+  font-weight: 600;
+  color: #adadad;
   flex-shrink: 1; 
   margin: 0;
   padding: 0;
