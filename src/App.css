@@ -51,8 +51,12 @@ red  */
 .flexRow {
   display: flex;
   flex-flow: row nowrap;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+}
+
+.dashRow {
+  max-width: 1120px;
 }
 
 /* STRUCTURE */
@@ -162,6 +166,15 @@ tbody tr:nth-child(even) {
   background-color: #eeeeee;
 }
 
+.titleContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
+  padding: 0 10px 0 10px;
+}
+
 /* DASHBOARD */
 .dashboardContainer {
   padding: 10px; 
@@ -209,9 +222,18 @@ tbody tr:nth-child(even) {
   border-radius: 10px;
 }
 
-.a2{
+.a2 {
   width: 450px;
   height: 220px;
+  box-sizing: border-box;
+  /* padding: 10px; */
+  margin: 10px;
+  border-radius: 10px;
+}
+
+.a3 {
+  width: 540px;
+  height: 440px;
   box-sizing: border-box;
   /* padding: 10px; */
   margin: 10px;

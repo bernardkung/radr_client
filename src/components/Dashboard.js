@@ -1,12 +1,12 @@
-import { useState, useEffect, useRef, useMemo } from 'react'
-import * as d3 from "d3"
+import { useState, useEffect, useMemo } from 'react'
+// import * as d3 from "d3"
 import Radar from './Radar'
 import Card from './Card'
 import BarChart from './BarChart'
-import PieChart from './PieChart'
-import LineChart from './LineChart'
-import ScatterChart from './ScatterChart'
-import TimeSeries from './TimeSeries'
+// import PieChart from './PieChart'
+// import LineChart from './LineChart'
+// import ScatterChart from './ScatterChart'
+// import TimeSeries from './TimeSeries'
 import FinancialSummary from './FinancialSummary'
 import Forecast from './Forecast'
 
@@ -17,7 +17,7 @@ const Dashboard = ({ loading, data }) => {
 
   const dims = { 
     width: 500, 
-    height: 500,
+    height: 440,
     axisHeight: 15,
     innerRadius: 80,
     outerRadius: 160,
@@ -29,7 +29,7 @@ const Dashboard = ({ loading, data }) => {
 
 // HELPER FUNCTIONS
   function dataMap(obj, sort=null) {
-    const sorted = sort == null
+    const sorted = sort === null
       ? Object.entries(obj)
       : sort=='desc'
         ? Object.entries(obj).sort((a,b)=> a[1]-b[1])
@@ -142,7 +142,7 @@ const Dashboard = ({ loading, data }) => {
       'ALJ': 4,
     }
     const lastStage = record.Adr.stages.reduce((iterStage, stage)=>{
-      if (Object.keys(iterStage).length==0){
+      if (Object.keys(iterStage).length===0){
         iterStage = stage
       } else {
         iterStage = stagePriority[stage.stage] > stagePriority[iterStage.stage]
@@ -158,7 +158,7 @@ const Dashboard = ({ loading, data }) => {
   function getLastEvent(stage, eventType='all') {
     const events = []
     
-    if (eventType != 'submissions' && 'decisions' in stage) {
+    if (eventType !== 'submissions' && 'decisions' in stage) {
       events.push(...stage['decisions'])
     } else if ('submissions' in stage) {
       events.push(...stage['submissions'])
@@ -224,7 +224,7 @@ const Dashboard = ({ loading, data }) => {
       const lastEvent = findLastEvent(stages)
       // console.log("LE", lastEvent, lastEvent == null)
       // If last event was a submission
-      if (isEmpty(lastEvent) || lastEvent.type == 'decision') {
+      if (isEmpty(lastEvent) || lastEvent.type === 'decision') {
         return 'Pending Submission'
       }
       // If last event was a decision, or no last event
@@ -239,7 +239,7 @@ const Dashboard = ({ loading, data }) => {
         // Find last decision
         const lastEvent = getLastEvent(stage, 'decisions')
       
-        if (Object.keys(lastEvent).includes('decision') && lastEvent.decision == 'PAID IN FULL') {
+        if (Object.keys(lastEvent).includes('decision') && lastEvent.decision === 'PAID IN FULL') {
           return 'Paid in Full'
         }
         // If not paid in full, or no decision otherwise rendered
@@ -305,7 +305,7 @@ const Dashboard = ({ loading, data }) => {
 
   function getPending(dataset) {
     const pending = (dataset
-      .filter(record=>evaluateStatus(record)=="Pending Submission")
+      .filter(record=>evaluateStatus(record)==="Pending Submission")
       .reduce((dueDict, record)=>{
         const lastStage = getLastStage(record)
         return buildDict(dueDict, lastStage.due_date, true)
@@ -329,11 +329,11 @@ const Dashboard = ({ loading, data }) => {
   const adrsByStatus = useMemo(()=>countByStatus(data))
 
   function findAdr(adr_id, dataset=data) {
-    return dataset.filter(record=>record['Adr']['adr_id']==adr_id)
+    return dataset.filter(record=>record['Adr']['adr_id']===adr_id)
   }
 
   // Calculate volume of ADRs due soon
-  const pendingAdrs = getPending(data)
+  // const pendingAdrs = getPending(data)
   // console.log("pending", pendingAdrs)
   
   // const testAdr = findAdr(10074) // pending submission
@@ -352,9 +352,11 @@ const Dashboard = ({ loading, data }) => {
   return (
     <div className={"dashboard"}>
 
-      
+      <div className={'flexRow dashRow'}>
+        <h1>Dashboard</h1>
+      </div>
 
-      <div className={'flexRow'}>
+      <div className={'flexRow dashRow'}>
 
         <div className={'flexColCenter'} >
           <Card value={data.length.toLocaleString()} label={'# ADRs'} />
@@ -367,7 +369,7 @@ const Dashboard = ({ loading, data }) => {
 
       </div>
 
-      <div className={'flexRow'}>
+      <div className={'flexRow dashRow'}>
 
         {/* <PieChart 
           data={dataMap({
