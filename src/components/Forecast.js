@@ -69,8 +69,6 @@ export default function Forecast({ data }) {
   }
   
   const weeks = getStagesDue(data, new Date('2024-08-28 EST'))
-  console.log(weeks)
-
 
   function barMap(weeks) {
     return weeks.map(week=>{

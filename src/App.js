@@ -9,11 +9,13 @@ import Home from './components/Home';
 import Dashboard from "./components/Dashboard"
 import Adr from './components/Adr'
 import AdrTable from './components/AdrTable'
-import Radar from "./components/Radar"
+// import Radar from "./components/Radar"
+import Workload from "./components/Workload"
 
 import radrIcon from './assets/satellite-dish.svg';
 import onlineTestIcon from './assets/online-test.svg';
 import assessmentIcon from './assets/assessment.svg';
+import workloadIcon from './assets/edit-file.svg';
 import homeIcon from './assets/home.svg';
 
 
@@ -59,6 +61,12 @@ export default function App() {
                 </Link>
               </li>
               <li>
+                <Link to="/workload">
+                  <img className={"menuIcon"}  src={workloadIcon} />
+                  Workload
+                </Link>
+              </li>
+              <li>
                 <Link to="/dashboard">
                   <img className={"menuIcon"} src={assessmentIcon} />
                   Dashboard
@@ -78,9 +86,14 @@ export default function App() {
         <div className={"contentContainer flexCol"} >
             <Routes>
 
-            <Route 
+              <Route 
                 path="/" 
                 element={<Home />} 
+              />
+
+              <Route 
+                path="/workload" 
+                element={<Workload loading={loading} data={data} />} 
               />
 
               <Route 

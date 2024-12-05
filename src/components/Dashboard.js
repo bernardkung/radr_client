@@ -24,7 +24,7 @@ const Dashboard = ({ loading, data }) => {
     padding: { top: 30, right: 20, bottom: 30, left: 40 }
   }
 
-  console.log(data)
+  // console.log(data)
 
 
 // HELPER FUNCTIONS
