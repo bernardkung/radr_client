@@ -9,6 +9,7 @@ import BarChart from './BarChart'
 // import TimeSeries from './TimeSeries'
 import FinancialSummary from './FinancialSummary'
 import Forecast from './Forecast'
+import WaitCard from './WaitCard'
 
 const Dashboard = ({ loading, data }) => {
 
@@ -366,6 +367,8 @@ const Dashboard = ({ loading, data }) => {
         <Forecast data={data} />
 
         <FinancialSummary data={financials}/>
+
+        <WaitCard data={data}/>
 
       </div>
 
