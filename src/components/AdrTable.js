@@ -1,6 +1,7 @@
 import { memo, useEffect, useState, useMemo } from "react";
 import Radar from "../components/Radar"
 import * as d3 from "d3"
+import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 
 export const AdrTable = ({ loading, data }) => {
   const [content, setContent] = useState([])
