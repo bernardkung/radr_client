@@ -9,6 +9,8 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  SidebarSeparator,
+  SidebarRail,
 } from "@/components/ui/sidebar"
 import { 
   HomeIcon,
@@ -80,6 +82,7 @@ export function AppSidebar() {
           </SidebarGroupContent>
         <SidebarGroup />
 
+        <SidebarSeparator />
         <SidebarGroup />
           <SidebarGroupLabel>Databases</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -101,6 +104,8 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter />
+
+      <SidebarRail />
 
     </Sidebar>
   )

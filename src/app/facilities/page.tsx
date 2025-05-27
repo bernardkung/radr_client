@@ -16,7 +16,6 @@ import  Link from "next/link";
 import { columns } from "./columns";
 import { DataTable } from "@/components/table/data-table";
 import { Separator } from "@/components/ui/separator";
-import { Basic } from "next/font/google";
 
 
 

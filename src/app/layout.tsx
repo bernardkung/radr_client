@@ -3,6 +3,18 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+
+// import { usePathname } from 'next/navigation';
+// import Link from 'next/link';
+
 
 
 const geistSans = Geist({
@@ -29,7 +41,27 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <SidebarProvider>
           <AppSidebar  />
           <main>
-            <SidebarTrigger />
+            <div className="flex items-center justify-between px-4 py-2 bg-gray-100 border-b border-gray-200">
+              <SidebarTrigger />
+
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="/">radr</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="/components">Components</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+
+
+            </div>
             {children}
           </main>
         </SidebarProvider>

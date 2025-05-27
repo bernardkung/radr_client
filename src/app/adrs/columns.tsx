@@ -1,6 +1,6 @@
 "use client";
 
-import { Facility } from "@/lib/definitions";
+import { Adr } from "@/lib/definitions";
 import { ColumnDef } from "@tanstack/react-table";
 import { 
   EllipsisHorizontalIcon, 
@@ -33,33 +33,27 @@ import {
 import Link from "next/link"
 import { Checkbox } from "@/components/ui/checkbox"
 
-export const columns: ColumnDef<Facility>[] = [
+export const columns: ColumnDef<Adr>[] = [
+
   // {
-  //   id: "select",
-  //   header: ({ table }) => (
-  //     <Checkbox
-  //       checked={
-  //         table.getIsAllPageRowsSelected() ||
-  //         (table.getIsSomePageRowsSelected() && "indeterminate")
-  //       }
-  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-  //       aria-label="Select all"
-  //       className="translate-y-[2px] mr-1"
-  //     />
-  //   ),
-  //   cell: ({ row }) => (
-  //     <Checkbox
-  //       checked={row.getIsSelected()}
-  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
-  //       aria-label="Select row"
-  //       className="translate-y-[2px] mr-1"
-  //     />
-  //   ),
-  //   enableSorting: false,
-  //   enableHiding: false,
+  //   accessorKey: "id",
+  //   header: ({ column }) => {
+  //     return (
+  //       <span>
+  //         <Button
+  //           variant="ghost"
+  //           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //         >
+  //           ID
+  //           <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
+  //         </Button>
+  //       </span>
+  //     )
+  //   },
+  //   filterFn: 'includesString',
   // },
   {
-    accessorKey: "id",
+    accessorKey: "facilities.dl_id",
     header: ({ column }) => {
       return (
         <span>
@@ -67,7 +61,7 @@ export const columns: ColumnDef<Facility>[] = [
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            ID
+            DL ID
             <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
           </Button>
         </span>
@@ -76,7 +70,7 @@ export const columns: ColumnDef<Facility>[] = [
     filterFn: 'includesString',
   },
   {
-    accessorKey: "global_id",
+    accessorKey: "mrn",
     header: ({ column }) => {
       return (
         <span>
@@ -84,7 +78,7 @@ export const columns: ColumnDef<Facility>[] = [
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Global ID
+            MRN
             <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
           </Button>
         </span>
@@ -93,7 +87,7 @@ export const columns: ColumnDef<Facility>[] = [
     filterFn: 'includesString',
   },
   {
-    accessorKey: "dl_id",
+    accessorKey: "patients.first_name",
     header: ({ column }) => {
       return (
         <span>
@@ -101,7 +95,7 @@ export const columns: ColumnDef<Facility>[] = [
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Facility ID
+            First Name
             <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
           </Button>
         </span>
@@ -110,7 +104,7 @@ export const columns: ColumnDef<Facility>[] = [
     filterFn: 'includesString',
   },
   {
-    accessorKey: "dl_name",    
+    accessorKey: "patients.last_name",
     header: ({ column }) => {
       return (
         <span>
@@ -118,7 +112,7 @@ export const columns: ColumnDef<Facility>[] = [
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Facility Name
+            Last Name
             <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
           </Button>
         </span>
@@ -127,7 +121,7 @@ export const columns: ColumnDef<Facility>[] = [
     filterFn: 'includesString',
   },
   {
-    accessorKey: "mac",    
+    accessorKey: "from_date",    
     header: ({ column }) => {
       return (
         <span>
@@ -135,7 +129,7 @@ export const columns: ColumnDef<Facility>[] = [
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            MAC
+            From Date
             <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
           </Button>
         </span>
@@ -144,7 +138,7 @@ export const columns: ColumnDef<Facility>[] = [
     filterFn: 'includesString',
   },
   {
-    accessorKey: "revenue_center",    
+    accessorKey: "to_date",    
     header: ({ column }) => {
       return (
         <span>
@@ -152,7 +146,7 @@ export const columns: ColumnDef<Facility>[] = [
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Revenue Center
+            To Date
             <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
           </Button>
         </span>
@@ -161,15 +155,15 @@ export const columns: ColumnDef<Facility>[] = [
     filterFn: 'includesString',
   },
   {
-    accessorKey: "npi",    
+    accessorKey: "expected_reimbursement",    
     header: ({ column }) => {
       return (
         <span>
-          NPI
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
+            Expected Reimbursement
             <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
           </Button>
         </span>
@@ -178,15 +172,15 @@ export const columns: ColumnDef<Facility>[] = [
     filterFn: 'includesString',
   },
   {
-    accessorKey: "created_at",    
+    accessorKey: "active",    
     header: ({ column }) => {
       return (
         <span>
+          Active
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Created At
             <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
           </Button>
         </span>
@@ -194,27 +188,44 @@ export const columns: ColumnDef<Facility>[] = [
     },
     filterFn: 'includesString',
   },
-  {
-    accessorKey: "updated_at",    
-    header: ({ column }) => {
-      return (
-        <span>
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Last Updated
-            <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </span>
-      )
-    },
-    filterFn: 'includesString',
-  },
+  // {
+  //   accessorKey: "created_at",    
+  //   header: ({ column }) => {
+  //     return (
+  //       <span>
+  //         <Button
+  //           variant="ghost"
+  //           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //         >
+  //           Created At
+  //           <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
+  //         </Button>
+  //       </span>
+  //     )
+  //   },
+  //   filterFn: 'includesString',
+  // },
+  // {
+  //   accessorKey: "updated_at",    
+  //   header: ({ column }) => {
+  //     return (
+  //       <span>
+  //         <Button
+  //           variant="ghost"
+  //           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //         >
+  //           Last Updated
+  //           <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
+  //         </Button>
+  //       </span>
+  //     )
+  //   },
+  //   filterFn: 'includesString',
+  // },
   {
     id: "actions",
     cell: ({ row }) => {
-      const facility = row.original;
+      const adr = row.original;
 
       return (
         <DropdownMenu>
@@ -228,7 +239,7 @@ export const columns: ColumnDef<Facility>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link href={`/facilities/${facility.global_id}`}>View Item</Link>
+              <Link href={`/adrs/${adr.id}`}>View Item</Link>
             </DropdownMenuItem>
             
           </DropdownMenuContent>
