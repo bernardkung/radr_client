@@ -57,7 +57,7 @@ export default async function Page() {
 
         <Link href="/adrs/create">
           <Button variant="outline" className="mb-4">
-            Create ADRs
+            Create ADR
           </Button>
         </Link>
       </div>
