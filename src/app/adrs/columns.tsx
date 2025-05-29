@@ -35,25 +35,8 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 export const columns: ColumnDef<Adr>[] = [
 
-  // {
-  //   accessorKey: "id",
-  //   header: ({ column }) => {
-  //     return (
-  //       <span>
-  //         <Button
-  //           variant="ghost"
-  //           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-  //         >
-  //           ID
-  //           <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
-  //         </Button>
-  //       </span>
-  //     )
-  //   },
-  //   filterFn: 'includesString',
-  // },
   {
-    accessorKey: "facilities.dl_id",
+    accessorKey: "id",
     header: ({ column }) => {
       return (
         <span>
@@ -61,7 +44,7 @@ export const columns: ColumnDef<Adr>[] = [
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            DL ID
+            ID
             <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
           </Button>
         </span>
@@ -69,6 +52,23 @@ export const columns: ColumnDef<Adr>[] = [
     },
     filterFn: 'includesString',
   },
+  // {
+  //   accessorKey: "facilities.dl_id",
+  //   header: ({ column }) => {
+  //     return (
+  //       <span>
+  //         <Button
+  //           variant="ghost"
+  //           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //         >
+  //           DL ID
+  //           <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
+  //         </Button>
+  //       </span>
+  //     )
+  //   },
+  //   filterFn: 'includesString',
+  // },
   {
     accessorKey: "mrn",
     header: ({ column }) => {
@@ -86,40 +86,40 @@ export const columns: ColumnDef<Adr>[] = [
     },
     filterFn: 'includesString',
   },
-  {
-    accessorKey: "patients.first_name",
-    header: ({ column }) => {
-      return (
-        <span>
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            First Name
-            <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </span>
-      )
-    },
-    filterFn: 'includesString',
-  },
-  {
-    accessorKey: "patients.last_name",
-    header: ({ column }) => {
-      return (
-        <span>
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Last Name
-            <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </span>
-      )
-    },
-    filterFn: 'includesString',
-  },
+  // {
+  //   accessorKey: "patients.first_name",
+  //   header: ({ column }) => {
+  //     return (
+  //       <span>
+  //         <Button
+  //           variant="ghost"
+  //           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //         >
+  //           First Name
+  //           <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
+  //         </Button>
+  //       </span>
+  //     )
+  //   },
+  //   filterFn: 'includesString',
+  // },
+  // {
+  //   accessorKey: "patients.last_name",
+  //   header: ({ column }) => {
+  //     return (
+  //       <span>
+  //         <Button
+  //           variant="ghost"
+  //           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //         >
+  //           Last Name
+  //           <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
+  //         </Button>
+  //       </span>
+  //     )
+  //   },
+  //   filterFn: 'includesString',
+  // },
   {
     accessorKey: "from_date",    
     header: ({ column }) => {
@@ -177,6 +177,91 @@ export const columns: ColumnDef<Adr>[] = [
       return (
         <span>
           Active
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </span>
+      )
+    },
+    filterFn: 'includesString',
+  },
+  {
+    accessorKey: "stage",    
+    header: ({ column }) => {
+      return (
+        <span>
+          Stage
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </span>
+      )
+    },
+    filterFn: 'includesString',
+  },
+  {
+    accessorKey: "submission_date",    
+    header: ({ column }) => {
+      return (
+        <span>
+          Submission Date
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </span>
+      )
+    },
+    filterFn: 'includesString',
+  },
+  {
+    accessorKey: "Auditor",    
+    header: ({ column }) => {
+      return (
+        <span>
+          Auditor
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </span>
+      )
+    },
+    filterFn: 'includesString',
+  },
+  {
+    accessorKey: "decision",    
+    header: ({ column }) => {
+      return (
+        <span>
+          Decision
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </span>
+      )
+    },
+    filterFn: 'includesString',
+  },
+  {
+    accessorKey: "decision_date",    
+    header: ({ column }) => {
+      return (
+        <span>
+          Decision Date
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}

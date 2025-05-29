@@ -11,6 +11,7 @@ import {
   SidebarMenuButton,
   SidebarSeparator,
   SidebarRail,
+  SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { 
   HomeIcon,
@@ -61,7 +62,8 @@ const supplementalItems = [
 export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader />
+      <SidebarHeader> 
+      </SidebarHeader>
 
       <SidebarContent>
         <SidebarGroup />
@@ -103,7 +105,9 @@ export function AppSidebar() {
 
       </SidebarContent>
 
-      <SidebarFooter />
+      <SidebarFooter>
+        <SidebarTrigger />
+      </SidebarFooter>
 
       <SidebarRail />
 
