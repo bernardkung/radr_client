@@ -25,7 +25,7 @@ export default function AdrClientPage({adr}: Props) {
 
   return (
     <div>
-      <div>
+      <div className="p-4 rounded shadow max-w-md">
         {/* ADR INFO */}
         <h2>ADR Info</h2>
         <span>
@@ -52,7 +52,6 @@ export default function AdrClientPage({adr}: Props) {
         <span>
           <p>{adr.patient.first_name} {adr.patient.last_name}</p>
           <a href={`/patients/${adr.patient.mrn}`}><p>{adr.patient.mrn}</p></a>
-
         </span>
 
       </div>

@@ -61,13 +61,13 @@ const supplementalItems = [
 
 export function AppSidebar() {
   return (
-    <Sidebar collapsible="icon">
-      <SidebarHeader> 
+    <Sidebar collapsible="icon" className="bg-sidebar-primary text-primary-foreground">
+      <SidebarHeader className="bg-sidebar-primary text-primary-foreground"> 
       </SidebarHeader>
 
-      <SidebarContent>
+      <SidebarContent className="px-4 mx-0 max-w-full bg-primary text-primary-foreground ">
         <SidebarGroup />
-          <SidebarGroupLabel>Dashboard</SidebarGroupLabel>
+          <SidebarGroupLabel className="bg-primary text-primary-foreground">Dashboard</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -84,9 +84,9 @@ export function AppSidebar() {
           </SidebarGroupContent>
         <SidebarGroup />
 
-        <SidebarSeparator />
+        {/* <SidebarSeparator /> */}
         <SidebarGroup />
-          <SidebarGroupLabel>Databases</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-primary-foreground">Databases</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {supplementalItems.map((item) => (
@@ -105,11 +105,11 @@ export function AppSidebar() {
 
       </SidebarContent>
 
-      <SidebarFooter>
+      <SidebarFooter className="bg-primary text-primary-foreground">
         <SidebarTrigger />
       </SidebarFooter>
 
-      <SidebarRail />
+      {/* <SidebarRail /> */}
 
     </Sidebar>
   )
