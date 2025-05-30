@@ -1,6 +1,17 @@
 import AdrClientPage from './adrClientPage';
 import { createClient } from "@/app/utils/supabase/server";
-import { fullAdr } from '@/lib/definitions';
+import { 
+  Adr,
+  Stage, 
+  Facility, 
+  Patient,
+  Auditor,
+  Submission,
+  Decision,
+  fullAdr,
+  fullStage,
+  fullSubmission
+} from '@/lib/definitions';
 
 
 
@@ -13,14 +24,25 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
     .from("adrs")
     .select(`
       *,
-      facilities (id, dl_id, dl_name),
-      patients (id, first_name, last_name),
+      facilities (id, dl_id, dl_name, global_id),
+      patients (id, mrn, first_name, last_name),
       stages ( * )
     `)
     .eq("id", id)
     .single();
+    
+  const fullAdr: fullAdr = {
+    ...adr,
+    facility: adr.facilities as Facility,
+    patient: adr.patients as Patient,
+    stages: (adr.stages as fullStage[]).map((stage: fullStage) => ({
+      ...stage,
+      submissions: stage.submissions || [],
+      decisions: stage.decisions || []
+    }))
+  };
 
-  console.log(adr);
+  console.log("adr:", adr);
   // Error handling
   if (error) {
     // Handle error (e.g., show a message)
@@ -36,7 +58,7 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
   // Pass the id as a prop to the client component
   return (
     <div>
-      {/* <AdrClientPage adr={adr} /> */}
+      <AdrClientPage adr={fullAdr} />
     </div>
   )
 }

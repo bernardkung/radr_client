@@ -45,8 +45,14 @@ export default function AdrClientPage({adr}: Props) {
 
         <h2>Facility Info</h2>
         <span>
-          <p>DL ID</p>
-          <p>{adr.facility.dl_id}</p>
+          <p><a href={`/facilities/${adr.facility.global_id}`}>{adr.facility.dl_id}</a> - {adr.facility.dl_name}</p>
+        </span>
+
+        <h2>Patient Info</h2>
+        <span>
+          <p>{adr.patient.first_name} {adr.patient.last_name}</p>
+          <a href={`/patients/${adr.patient.mrn}`}><p>{adr.patient.mrn}</p></a>
+
         </span>
 
       </div>
