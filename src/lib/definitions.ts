@@ -79,3 +79,22 @@ export type DataTableFilterProps = {
   title: string;
   options: (string|number|boolean)[];
 }
+
+
+
+
+export type fullAdr = Adr & {
+  patient: Patient;
+  facility: Facility;
+  stages: fullStage[];
+};
+
+export type fullStage = Stage & {
+  submissions: fullSubmission[];
+  decisions: Decision[];
+}
+
+
+export type fullSubmission = Submission & { 
+  auditor: Auditor;
+};
