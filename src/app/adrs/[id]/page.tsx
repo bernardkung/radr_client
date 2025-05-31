@@ -57,7 +57,7 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
 
   // Pass the id as a prop to the client component
   return (
-    <div>
+    <div className="w-full h-full bg-foreground m-0 p-auto">
       <AdrClientPage adr={fullAdr} />
     </div>
   )
