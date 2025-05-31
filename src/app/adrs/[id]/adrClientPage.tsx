@@ -1,6 +1,6 @@
 'use client';
 
-import { Adr, fullAdr } from "@/lib/definitions";
+import { Adr, fullAdr, fullStage } from "@/lib/definitions";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -22,8 +22,10 @@ import {
   PencilSquareIcon,
   CheckCircleIcon,
   XCircleIcon,
+  ExclamationTriangleIcon,
  } from "@heroicons/react/24/outline";
 import { InfoSpan } from "./InfoPanel"
+import { StageBar } from "./Stage";
 
 function daysLeft(due_date: string) {
   return Math.ceil(
@@ -36,6 +38,38 @@ type Props = { adr: fullAdr };
 export default function AdrClientPage({adr}: Props) {
 
   // const defaultValues = facilityFormSchema.parse(facility);
+  const fake120Stage: fullStage = {
+    id: "fake120",
+    adr_id: adr.id,
+    stage: '120',
+    due_date: "2024-03-14T00:00:00Z",
+    notification_date: "2024-02-14T00:00:00Z",
+    submissions: [
+      {
+        id: "fakeSubmission",
+        stage_id: "fake120",
+        auditor_id: "4444444",
+        submission_date: "2024-02-14T00:00:00Z",
+        created_at: "2024-02-14T00:00:00Z",
+        updated_at: "2024-02-14T00:00:00Z",
+        auditors: {
+          id: "4444444",
+          name: "Taylor Doe"
+        }
+      }
+    ],
+    decisions: [
+      {
+        id: "fakeDecision",
+        stage_id: "fake120",
+        auditor_id: "4444444",
+        decision_date: "2024-02-15T00:00:00Z",
+        decision: "DENIED",
+        created_at: "2024-02-15T00:00:00Z",
+        updated_at: "2024-02-15T00:00:00Z"
+      }
+    ],
+  }
 
   return (
     <div className="w-full h-full bg-neutral-300 m-0 p-auto flex flex-row align-start">
@@ -134,62 +168,72 @@ export default function AdrClientPage({adr}: Props) {
 
         <div>
           {adr.stages.map((stage, s) => (
-            <div key={s} className="flex flex-row justify-start items-center rounded border-1 border-neutral-300 p-2 my-2">
-
-              {/* Stage */}
-              <div className="flex flex-col justify-start items-center m-2">
-                <p className="h-8 w-6 text-xl font-bold">{stage.stage}</p>
-                <p className="text-xs text-gray-500">Stage</p>
-              </div>
-
-              {/* Status */}
-              <div className="flex flex-col justify-start items-center mx-4">
-
-                <PencilSquareIcon className="h-8 w-6 text-blue-500" />
-                <p className="text-xs text-gray-500">Preparing</p>
-
-                {/* <ClockIcon className="h-8 w-6 text-amber-500" />
-                <p className="text-xs text-gray-500">Waiting</p> */}
-
-                {/* <CheckCircleIcon className="h-8 w-6 text-green-500" />
-                <p className="text-xs text-gray-500">Approved</p> */}
-
-                {/* <XCircleIcon className="h-8 w-6 text-red-500" />
-                <p className="text-xs text-gray-500">Denied</p> */}
-              </div>
-
-              {/* Auditor */}
-              <div className="flex flex-col justify-start items-center mx-4">
-                <p className="text-lg h-6 my-1">
-                  <a href={`/auditors/${stage.submissions[0].auditor_id}`}>
-                    {stage.submissions[0].auditors.name}
-                  </a>
-                </p>
-                <p className="text-xs text-gray-500">Auditor</p>
-              </div>
-
-              {/* Due Date */}
-              <div className="flex flex-col justify-start items-center mx-4">
-                <p className="text-lg h-6 my-1">
-                  {stage.due_date ? new Date(stage.due_date).toLocaleDateString("en-US") : ""}</p>
-                <p className="text-xs text-gray-500">Due Date</p>
-              </div>
-
-              {/* Days Left */}
-              <div className="flex flex-col justify-start items-center mx-4">
-                <p className="text-lg h-6 my-1">
-                  {daysLeft(stage.due_date)}
-                </p>
-                <p className="text-xs text-gray-500">Days Left</p>
-              </div>
-
-              {/* Last Submission */}
-
-              {/* Last Decision */}
 
 
-            </div>
+            <StageBar key={s} stage={stage} />
+
           ))}
+
+          <StageBar stage={fake120Stage} />
+
+
+          {/* Third Stage */}
+          
+          <div className="flex flex-row justify-between items-center rounded border-1 border-neutral-300 p-2 my-2">
+
+            {/* Stage */}
+            <div className="flex flex-col justify-start items-center flex-1 m-2">
+              <p className="h-8 w-6 text-xl font-bold">180</p>
+              <p className="text-xs text-gray-500">Stage</p>
+            </div>
+
+            {/* Status */}
+            <div className="flex flex-col justify-start items-center flex-1 mx-4">
+
+              {/* <PencilSquareIcon className="h-8 w-6 text-blue-500" />
+              <p className="text-xs text-gray-500">Preparing</p> */}
+
+              {/* <ClockIcon className="h-8 w-6 text-amber-500" />
+              <p className="text-xs text-gray-500">Waiting</p> */}
+
+              <CheckCircleIcon className="h-8 w-6 text-green-500" />
+              <p className="text-xs text-gray-500">Approved</p>
+
+              {/* <XCircleIcon className="h-8 w-6 text-red-500" />
+              <p className="text-xs text-gray-500">Denied</p> */}
+            </div>
+
+            {/* Auditor */}
+            <div className="flex flex-col justify-start items-center flex-3 mx-4">
+              <p className="text-lg h-6 my-1">
+                <a href={`/auditors/${4444444}`}>
+                  Taylor Doe
+                </a>
+              </p>
+              <p className="text-xs text-gray-500">Auditor</p>
+            </div>
+
+            {/* Due Date */}
+            <div className="flex flex-col justify-start items-center flex-2 mx-4">
+              <p className="text-lg h-6 my-1">
+                3/14/2024</p>
+              <p className="text-xs text-gray-500">Submission Date</p>
+            </div>
+
+            {/* Days Left */}
+            <div className="flex flex-col justify-start items-center flex-2 mx-4">
+              <p className="text-lg h-6 my-1">
+                33
+              </p>
+              <p className="text-xs text-gray-500">Days Waited</p>
+            </div>
+
+            {/* Expand Icon */}
+            <div className="flex flex-col justify-start items-center flex-1 mx-4">
+              <ChevronDownIcon className="h-8 w-6 text-gray-500" />
+            </div>
+          </div>
+
         </div>
 
 
