@@ -24,9 +24,12 @@ import {
   XCircleIcon,
  } from "@heroicons/react/24/outline";
 import { InfoSpan } from "./InfoPanel"
-import { Info, Pen } from "lucide-react";
 
-
+function daysLeft(due_date: string) {
+  return Math.ceil(
+      (new Date(due_date).getTime() - new Date().setHours(0,0,0,0)) / (1000 * 60 * 60 * 24)
+    )
+}
 
 type Props = { adr: fullAdr };
 
@@ -125,13 +128,13 @@ export default function AdrClientPage({adr}: Props) {
       </div>
 
       <div className="p-8 m-4 rounded shadow w-full bg-background">
-        <div className="flex flex-row justify-start items-center mb-1">        
+        <div className="flex flex-row justify-start items-center mb-1 ml-2">        
           <h1 className="text-base font-medium">Stages</h1>
         </div>
 
         <div>
           {adr.stages.map((stage, s) => (
-            <div key={s} className="flex flex-row justify-start items-center rounded border-1 border-neutral-300 p-2 m-2">
+            <div key={s} className="flex flex-row justify-start items-center rounded border-1 border-neutral-300 p-2 my-2">
 
               {/* Stage */}
               <div className="flex flex-col justify-start items-center m-2">
@@ -141,23 +144,44 @@ export default function AdrClientPage({adr}: Props) {
 
               {/* Status */}
               <div className="flex flex-col justify-start items-center mx-4">
+
+                <PencilSquareIcon className="h-8 w-6 text-blue-500" />
+                <p className="text-xs text-gray-500">Preparing</p>
+
+                {/* <ClockIcon className="h-8 w-6 text-amber-500" />
+                <p className="text-xs text-gray-500">Waiting</p> */}
+
                 {/* <CheckCircleIcon className="h-8 w-6 text-green-500" />
                 <p className="text-xs text-gray-500">Approved</p> */}
 
                 {/* <XCircleIcon className="h-8 w-6 text-red-500" />
                 <p className="text-xs text-gray-500">Denied</p> */}
-
-                {/* <PencilSquareIcon className="h-8 w-6 text-blue-500" />
-                <p className="text-xs text-gray-500">Preparing Submission</p> */}
-
-                <ClockIcon className="h-8 w-6 text-amber-500" />
-                <p className="text-xs text-gray-500">Waiting Decision</p>
               </div>
 
               {/* Auditor */}
-              
+              <div className="flex flex-col justify-start items-center mx-4">
+                <p className="text-lg h-6 my-1">
+                  <a href={`/auditors/${stage.submissions[0].auditor_id}`}>
+                    {stage.submissions[0].auditors.name}
+                  </a>
+                </p>
+                <p className="text-xs text-gray-500">Auditor</p>
+              </div>
 
               {/* Due Date */}
+              <div className="flex flex-col justify-start items-center mx-4">
+                <p className="text-lg h-6 my-1">
+                  {stage.due_date ? new Date(stage.due_date).toLocaleDateString("en-US") : ""}</p>
+                <p className="text-xs text-gray-500">Due Date</p>
+              </div>
+
+              {/* Days Left */}
+              <div className="flex flex-col justify-start items-center mx-4">
+                <p className="text-lg h-6 my-1">
+                  {daysLeft(stage.due_date)}
+                </p>
+                <p className="text-xs text-gray-500">Days Left</p>
+              </div>
 
               {/* Last Submission */}
 

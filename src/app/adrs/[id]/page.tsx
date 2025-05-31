@@ -26,7 +26,11 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
       *,
       facilities (id, dl_id, dl_name, global_id),
       patients (id, mrn, first_name, last_name),
-      stages ( * )
+      stages (
+        *,
+        submissions (*, auditors (*)),
+        decisions (*)
+      )
     `)
     .eq("id", id)
     .single();
@@ -37,7 +41,11 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
     patient: adr.patients as Patient,
     stages: (adr.stages as fullStage[]).map((stage: fullStage) => ({
       ...stage,
-      submissions: stage.submissions || [],
+      // submissions: stage.submissions || [],
+      submissions: (stage.submissions as fullSubmission[]).map((submission: fullSubmission) => ({
+        ...submission,
+        auditor: submission.auditor as Auditor
+      })) || [],
       decisions: stage.decisions || []
     }))
   };

@@ -1,4 +1,4 @@
-
+import '@/app/globals.css';
 
 export function InfoSpan( {label, value}: {label: string, value: string}) {
 
