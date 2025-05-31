@@ -71,6 +71,28 @@ export default function AdrClientPage({adr}: Props) {
     ],
   }
 
+  const fake180Stage: fullStage = {
+    id: "fake180",  
+    adr_id: adr.id,
+    stage: '180',
+    due_date: "2024-04-14T00:00:00Z",
+    notification_date: "2024-03-14T00:00:00Z",
+    submissions: [
+      {
+        id: "fakeSubmission",
+        stage_id: "fake120",
+        auditor_id: "4444444",
+        submission_date: "2024-02-14T00:00:00Z",
+        created_at: "2024-02-14T00:00:00Z",
+        updated_at: "2024-02-14T00:00:00Z",
+        auditors: {
+          id: "4444444",
+          name: "Taylor Doe"
+        }
+      }
+    ]
+  }
+
   return (
     <div className="w-full h-full bg-neutral-300 m-0 p-auto flex flex-row align-start">
       <div className="p-8 m-4 rounded shadow w-md max-w-lg bg-background">
@@ -175,64 +197,8 @@ export default function AdrClientPage({adr}: Props) {
           ))}
 
           <StageBar stage={fake120Stage} />
+          <StageBar stage={fake180Stage} />
 
-
-          {/* Third Stage */}
-          
-          <div className="flex flex-row justify-between items-center rounded border-1 border-neutral-300 p-2 my-2">
-
-            {/* Stage */}
-            <div className="flex flex-col justify-start items-center flex-1 m-2">
-              <p className="h-8 w-6 text-xl font-bold">180</p>
-              <p className="text-xs text-gray-500">Stage</p>
-            </div>
-
-            {/* Status */}
-            <div className="flex flex-col justify-start items-center flex-1 mx-4">
-
-              {/* <PencilSquareIcon className="h-8 w-6 text-blue-500" />
-              <p className="text-xs text-gray-500">Preparing</p> */}
-
-              {/* <ClockIcon className="h-8 w-6 text-amber-500" />
-              <p className="text-xs text-gray-500">Waiting</p> */}
-
-              <CheckCircleIcon className="h-8 w-6 text-green-500" />
-              <p className="text-xs text-gray-500">Approved</p>
-
-              {/* <XCircleIcon className="h-8 w-6 text-red-500" />
-              <p className="text-xs text-gray-500">Denied</p> */}
-            </div>
-
-            {/* Auditor */}
-            <div className="flex flex-col justify-start items-center flex-3 mx-4">
-              <p className="text-lg h-6 my-1">
-                <a href={`/auditors/${4444444}`}>
-                  Taylor Doe
-                </a>
-              </p>
-              <p className="text-xs text-gray-500">Auditor</p>
-            </div>
-
-            {/* Due Date */}
-            <div className="flex flex-col justify-start items-center flex-2 mx-4">
-              <p className="text-lg h-6 my-1">
-                3/14/2024</p>
-              <p className="text-xs text-gray-500">Submission Date</p>
-            </div>
-
-            {/* Days Left */}
-            <div className="flex flex-col justify-start items-center flex-2 mx-4">
-              <p className="text-lg h-6 my-1">
-                33
-              </p>
-              <p className="text-xs text-gray-500">Days Waited</p>
-            </div>
-
-            {/* Expand Icon */}
-            <div className="flex flex-col justify-start items-center flex-1 mx-4">
-              <ChevronDownIcon className="h-8 w-6 text-gray-500" />
-            </div>
-          </div>
 
         </div>
 

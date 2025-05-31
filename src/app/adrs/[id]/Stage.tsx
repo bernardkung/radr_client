@@ -17,9 +17,9 @@ function daysLeft(due_date: string) {
 }
 
 export function StageBar({ stage }: { stage: fullStage }) {
-  const status = stage.decisions.length > 0 
+  const status = stage.decisions
     ? stage.decisions[0].decision
-    : stage.submissions.length > 0
+    : stage.submissions
       ? "Waiting"
       : "Preparing";
 
@@ -27,28 +27,28 @@ export function StageBar({ stage }: { stage: fullStage }) {
     switch (status) {
       case "Preparing":
         return (
-          <div className="flex flex-col justify-start items-center flex-1 mx-4">
+          <div className="flex flex-col justify-start items-center flex-1 mx-4 w-12">
             <PencilSquareIcon className="h-8 w-6 text-blue-500" />
             <p className="text-xs text-gray-500">Preparing</p>
           </div>
         )
       case "Waiting":
         return (
-          <div className="flex flex-col justify-start items-center flex-1 mx-4">
+          <div className="flex flex-col justify-start items-center flex-1 mx-4 w-12">
             <ClockIcon className="h-8 w-6 text-amber-500" />
             <p className="text-xs text-gray-500">Waiting</p>
           </div>
         )
       case "DENIED":
         return (
-          <div className="flex flex-col justify-start items-center flex-1 mx-4">
+          <div className="flex flex-col justify-start items-center flex-1 mx-4 w-12">
             <XCircleIcon className="h-8 w-6 text-red-500" />
             <p className="text-xs text-gray-500">Denied</p>
           </div>
         )
       case "PAID IN FULL":
         return (
-          <div className="flex flex-col justify-start items-center flex-1 mx-4">
+          <div className="flex flex-col justify-start items-center flex-1 mx-4 w-12">
             <CheckCircleIcon className="h-8 w-6 text-green-500" />
             <p className="text-xs text-gray-500">Approved</p>
           </div>
