@@ -20,29 +20,29 @@ function daysLeft(due_date: string) {
 
 export function StageContainerBar1({label, value}: {label: string, value: React.ReactNode}) {
   return (
-    <div className="flex flex-col justify-between items-center flex-0 mx-4 h-16 w-xl first:ml-0 last:mr-0 rounded border-1 border-neutral-300">
-      <p className="text-lg h-6 my-1">{value}</p>
-      <p className="text-xs text-gray-500">{label}</p>
+    <div className="flex flex-col justify-between items-center mr-2 h-12 w-16 rounded-md border-0 border-neutral-300 text-nowrap first:ml-0 last:mr-0">
+      <p className="text-lg grow flex items-center justify-center h-6 pt-1">{value}</p>
+      <p className="text-xs text-gray-400">{label}</p>
     </div>
   )
 }
 
 export function StageContainerBar2({label, value}: {label: string, value: React.ReactNode}) {
   return (
-    <div className="flex flex-col justify-between items-center flex-2 mx-4 h-16 w-14 first:ml-0 last:mr-0 rounded border-1 border-neutral-300">
-      <p className="text-lg h-6 my-1">{value}</p>
-      <p className="text-xs text-gray-500">{label}</p>
+    <div className="flex flex-col justify-between items-center mr-2 h-12 w-24 rounded border-0 border-neutral-300 text-nowrap first:ml-0 last:mr-0">
+      <p className="text-lg grow flex items-center justify-center h-6 pt-1">{value}</p>
+      <p className="text-xs text-gray-400">{label}</p>
     </div>
   )
 }
 
 export function StageContainerBar3({label, value, link}: {label: string, value: React.ReactNode, link: string}) {
   return (
-    <div className="flex flex-col justify-between items-center flex-3 mx-4 h-16 w-14 first:ml-0 last:mr-0 rounded border-1 border-neutral-300">
-      <p className="text-base h-6 mt-2 mb-1">
+    <div className="flex flex-col justify-between items-left flex-3 mr-2 px-2 h-12 min-w-24 rounded border-0 border-neutral-300 text-nowrap first:ml-0 last:mr-0">
+      <p className="text-lg grow flex items-center justify-start h-6 pt-1">
         {link ? <a href={link}>{value}</a> : value}
       </p>
-      { label ? <p className="text-xs text-gray-500">{label}</p> : null}
+      { label ? <p className="text-xs text-gray-400">{label}</p> : null}
     </div>
   )
 }
@@ -167,7 +167,7 @@ export function  StageDecision (stage: fullStage) {
 export function StageBar({ stage }: { stage: fullStage }) {
   const status = stage.decisions
     ? stage.decisions[0].decision
-    : stage.submissions
+    : stage.submissions && stage.submissions[0].submission_date
       ? "Waiting"
       : "Preparing";
 
@@ -175,7 +175,7 @@ export function StageBar({ stage }: { stage: fullStage }) {
     switch (status) {
       case "Preparing":
         return (
-          <div className="flex flex-row justify-stretch items-center flex-2 mx-4">
+          <div className="flex flex-row justify-stretch items-center flex-2">
             <StageDueDate {...stage} />
             <StageDaysLeft {...stage} />
             <StageAuditor {...stage} />
@@ -183,14 +183,14 @@ export function StageBar({ stage }: { stage: fullStage }) {
         )
       case "Waiting":
         return (
-          <div className="flex flex-row justify-stretch items-center flex-2 mx-4">
+          <div className="flex flex-row justify-stretch items-center flex-2">
             <StageSubmissionDate {...stage} />
             <StageDaysWaited {...stage} />
           </div>
         )
       default:
         return (
-          <div className="flex flex-row justify-stretch items-center flex-2 mx-4">
+          <div className="flex flex-row justify-stretch items-center flex-2">
             <StageDecisionDate {...stage} />
             <StageDecision {...stage} />
           </div>
@@ -200,7 +200,7 @@ export function StageBar({ stage }: { stage: fullStage }) {
 
 
   return (
-    <div className="flex flex-row justify-between items-center rounded border-1 border-neutral-300 p-2 my-2 h-20">
+    <div className="flex flex-row justify-between items-center rounded-md border-1 border-neutral-300 p-2 my-2 w-full bg-white shadow-sm">
 
       {/* Stage */}
       <StageContainerBar1
@@ -215,9 +215,12 @@ export function StageBar({ stage }: { stage: fullStage }) {
       <StageContent />
 
       {/* Expand Icon */}
-      <div className="flex flex-col justify-between items-center flex-0 mx-4 mr-0 rounded border-1 border-neutral-300 w-20">
+      {/* <div className="flex flex-col justify-between items-center flex-0 mx-4 mr-0 rounded border-1 border-neutral-300 w-20">
         <ChevronDownIcon className="h-8 w-6 text-gray-500" />
-      </div>
+      </div> */}
+      <StageContainerBar1
+        value={ <ChevronDownIcon className="h-8 w-6 text-gray-500" /> }
+      />
 
     </div>
   )

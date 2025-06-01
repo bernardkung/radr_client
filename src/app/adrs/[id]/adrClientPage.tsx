@@ -112,6 +112,19 @@ export default function AdrClientPage({adr}: Props) {
     stage: '120',
     due_date: "2024-03-14T00:00:00Z",
     notification_date: "2024-02-14T00:00:00Z",
+    submissions: [
+      {
+        id: "fakeSubmission",
+        stage_id: "fake120",
+        auditor_id: "4444444",
+        created_at: "2024-02-14T00:00:00Z",
+        updated_at: "2024-02-14T00:00:00Z",
+        auditors: {
+          id: "4444444",
+          name: "Taylor Doe"
+        }
+      }
+    ]
   }
 
   const fakeWaitingStage: fullStage = {
@@ -138,7 +151,7 @@ export default function AdrClientPage({adr}: Props) {
 
   return (
     <div className="w-full h-full bg-neutral-300 m-0 p-auto flex flex-row align-start">
-      <div className="p-8 ml-4 my-4 rounded shadow w-96 max-w-lg bg-background">
+      <div className="p-8 ml-4 my-4 rounded-lg shadow w-96 max-w-lg bg-background">
         {/* ADR INFO */}
         <div className="flex flex-row justify-start items-center mb-1">        
           <h1 className="text-base font-medium">ADR Info</h1>
@@ -226,7 +239,7 @@ export default function AdrClientPage({adr}: Props) {
 
       </div>
 
-      <div className="p-8 m-4 rounded shadow w-full bg-background">
+      <div className="p-8 m-4 rounded-lg shadow w-full bg-background">
         <div className="flex flex-row justify-start items-center mb-1 ml-2">        
           <h1 className="text-base font-medium">Stages</h1>
         </div>
