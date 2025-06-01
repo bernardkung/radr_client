@@ -61,11 +61,11 @@ const supplementalItems = [
 
 export function AppSidebar() {
   return (
-    <Sidebar collapsible="icon" className="bg-sidebar-primary text-primary-foreground">
+    <Sidebar collapsible="icon" className="bg-sidebar-primary text-primary-foreground h-full p-2">
       <SidebarHeader className="bg-sidebar-primary text-primary-foreground"> 
       </SidebarHeader>
 
-      <SidebarContent className="px-4 mx-0 max-w-full bg-primary text-primary-foreground ">
+      <SidebarContent className="mx-0 max-w-full bg-primary text-primary-foreground ">
         <SidebarGroup />
           <SidebarGroupLabel className="bg-primary text-primary-foreground">Dashboard</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -105,7 +105,7 @@ export function AppSidebar() {
 
       </SidebarContent>
 
-      <SidebarFooter className="bg-primary text-primary-foreground">
+      <SidebarFooter className="bg-primary text-primary-foreground flex flex-row justify-end items-center">
         <SidebarTrigger />
       </SidebarFooter>
 

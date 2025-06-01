@@ -40,7 +40,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       >
         <SidebarProvider>
           <AppSidebar  />
-          <main className="flex-1 flex flex-col bg-background min-h-screen">
+          <main className="flex-1 flex flex-col bg-background min-h-screen w-full">
             {children}
           </main>
         </SidebarProvider>

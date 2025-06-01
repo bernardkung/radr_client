@@ -138,7 +138,7 @@ export default function AdrClientPage({adr}: Props) {
 
   return (
     <div className="w-full h-full bg-neutral-300 m-0 p-auto flex flex-row align-start">
-      <div className="p-8 m-4 rounded shadow w-md max-w-lg bg-background">
+      <div className="p-8 ml-4 my-4 rounded shadow w-96 max-w-lg bg-background">
         {/* ADR INFO */}
         <div className="flex flex-row justify-start items-center mb-1">        
           <h1 className="text-base font-medium">ADR Info</h1>

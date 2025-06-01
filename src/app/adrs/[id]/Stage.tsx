@@ -9,6 +9,7 @@ import {
   XCircleIcon,
   ExclamationTriangleIcon,
  } from "@heroicons/react/24/outline";
+import React from 'react';
  
 function daysLeft(due_date: string) {
   return Math.ceil(
@@ -17,7 +18,7 @@ function daysLeft(due_date: string) {
 }
 
 
-export function StageContainerBar1({label, value}: {label: string, value: string}) {
+export function StageContainerBar1({label, value}: {label: string, value: React.ReactNode}) {
   return (
     <div className="flex flex-col justify-between items-center flex-0 mx-4 h-16 w-xl first:ml-0 last:mr-0 rounded border-1 border-neutral-300">
       <p className="text-lg h-6 my-1">{value}</p>
@@ -26,7 +27,7 @@ export function StageContainerBar1({label, value}: {label: string, value: string
   )
 }
 
-export function StageContainerBar2({label, value}: {label: string, value: string}) {
+export function StageContainerBar2({label, value}: {label: string, value: React.ReactNode}) {
   return (
     <div className="flex flex-col justify-between items-center flex-2 mx-4 h-16 w-14 first:ml-0 last:mr-0 rounded border-1 border-neutral-300">
       <p className="text-lg h-6 my-1">{value}</p>
@@ -35,7 +36,7 @@ export function StageContainerBar2({label, value}: {label: string, value: string
   )
 }
 
-export function StageContainerBar3({label, value, link}: {label: string, value: string, link: string}) {
+export function StageContainerBar3({label, value, link}: {label: string, value: React.ReactNode, link: string}) {
   return (
     <div className="flex flex-col justify-between items-center flex-3 mx-4 h-16 w-14 first:ml-0 last:mr-0 rounded border-1 border-neutral-300">
       <p className="text-base h-6 mt-2 mb-1">
@@ -46,35 +47,35 @@ export function StageContainerBar3({label, value, link}: {label: string, value: 
   )
 }
 
-export function StatusDiv ({status}:{status: String}) {
+export function StageStatus ({status}:{status: String}) {
   switch (status) {
     case "Preparing":
       return (
-        <div className="flex flex-col justify-start items-center flex-1 mx-4 w-12">
-          <PencilSquareIcon className="h-8 w-6 text-blue-500" />
-          <p className="text-xs text-gray-500">Preparing</p>
-        </div>
+        <StageContainerBar1
+          label="Preparing"
+          value={ <PencilSquareIcon className="h-8 w-6 text-blue-500" /> }
+        />
       )
     case "Waiting":
       return (
-        <div className="flex flex-col justify-start items-center flex-1 mx-4 w-12">
-          <ClockIcon className="h-8 w-6 text-amber-500" />
-          <p className="text-xs text-gray-500">Waiting</p>
-        </div>
+        <StageContainerBar1
+          label="Waiting"
+          value={ <ClockIcon className="h-8 w-6 text-amber-500" /> }
+        />
       )
     case "DENIED":
       return (
-        <div className="flex flex-col justify-start items-center flex-1 mx-4 w-12">
-          <XCircleIcon className="h-8 w-6 text-red-500" />
-          <p className="text-xs text-gray-500">Denied</p>
-        </div>
+        <StageContainerBar1 
+          label="Denied"
+          value={ <XCircleIcon className="h-8 w-6 text-red-500" /> }
+        />
       )
     case "PAID IN FULL":
       return (
-        <div className="flex flex-col justify-start items-center flex-1 mx-4 w-12">
-          <CheckCircleIcon className="h-8 w-6 text-green-500" />
-          <p className="text-xs text-gray-500">Approved</p>
-        </div>
+        <StageContainerBar1 
+          label="Approved"
+          value={ <CheckCircleIcon className="h-8 w-6 text-green-500" /> }
+        />
       )
     }
   }
@@ -208,10 +209,10 @@ export function StageBar({ stage }: { stage: fullStage }) {
       />
 
       {/* Status */}
-      <StatusDiv status={status} />
-
+      <StageStatus status={status} />
+      
+      {/* Content */}
       <StageContent />
-
 
       {/* Expand Icon */}
       <div className="flex flex-col justify-between items-center flex-0 mx-4 mr-0 rounded border-1 border-neutral-300 w-20">
