@@ -38,12 +38,12 @@ type Props = { adr: fullAdr };
 export default function AdrClientPage({adr}: Props) {
 
   // const defaultValues = facilityFormSchema.parse(facility);
-  const fake120Stage: fullStage = {
-    id: "fake120",
+  const fakeDeniedStage: fullStage = {
+    id: "fake45",
     adr_id: adr.id,
-    stage: '120',
-    due_date: "2024-03-14T00:00:00Z",
-    notification_date: "2024-02-14T00:00:00Z",
+    stage: '45',
+    due_date: "2024-02-14T00:00:00Z",
+    notification_date: "2024-01-01T00:00:00Z",
     submissions: [
       {
         id: "fakeSubmission",
@@ -71,7 +71,50 @@ export default function AdrClientPage({adr}: Props) {
     ],
   }
 
-  const fake180Stage: fullStage = {
+  const fakePaidStage: fullStage = {
+    id: "fakePaid",
+    adr_id: adr.id,
+    stage: '45',
+    due_date: "2024-02-14T00:00:00Z",
+    notification_date: "2024-01-01T00:00:00Z",
+    submissions: [
+      {
+        id: "fakeSubmission",
+        stage_id: "fake120",
+        auditor_id: "4444444",
+        submission_date: "2024-02-14T00:00:00Z",
+        created_at: "2024-02-14T00:00:00Z",
+        updated_at: "2024-02-14T00:00:00Z",
+        auditors: {
+          id: "4444444",
+          name: "Taylor Doe"
+        }
+      }
+    ],
+    decisions: [
+      {
+        id: "fakeDecision",
+        stage_id: "fake120",
+        auditor_id: "4444444",
+        decision_date: "2024-02-15T00:00:00Z",
+        decision: "PAID IN FULL",
+        created_at: "2024-02-15T00:00:00Z",
+        updated_at: "2024-02-15T00:00:00Z"
+      }
+    ],
+  }
+
+
+
+  const fakePendingStage: fullStage = {
+    id: "fake120",
+    adr_id: adr.id,
+    stage: '120',
+    due_date: "2024-03-14T00:00:00Z",
+    notification_date: "2024-02-14T00:00:00Z",
+  }
+
+  const fakeWaitingStage: fullStage = {
     id: "fake180",  
     adr_id: adr.id,
     stage: '180',
@@ -110,7 +153,7 @@ export default function AdrClientPage({adr}: Props) {
           value={`${adr.facility.dl_id} - ${adr.facility.dl_name}`}
         />
 
-        <Separator className="my-1" />
+        <Separator className="my-6" />
 
         <div className="flex flex-row justify-start items-center">
           <p className="text-sm text-gray-500 mr-2">Patient Name:</p>
@@ -122,7 +165,7 @@ export default function AdrClientPage({adr}: Props) {
           <p className="text-sm">{adr.patient.mrn}</p>
         </div>
 
-        <Separator className="my-1" />
+        <Separator className="my-6" />
 
         <div className="flex flex-row justify-start items-center">
           <p className="text-sm text-gray-500 mr-2">From Date:</p>
@@ -134,7 +177,7 @@ export default function AdrClientPage({adr}: Props) {
           <p className="text-sm">{adr.to_date}</p>
         </div>
 
-        <Separator className="my-1" />
+        <Separator className="my-6" />
 
         <div className="flex flex-row justify-start items-center">
           <p className="text-sm text-gray-500 mr-2">SRN:</p>
@@ -196,8 +239,11 @@ export default function AdrClientPage({adr}: Props) {
 
           ))}
 
-          <StageBar stage={fake120Stage} />
-          <StageBar stage={fake180Stage} />
+
+          <StageBar stage={fakePaidStage} />
+          <StageBar stage={fakeDeniedStage} />
+          <StageBar stage={fakePendingStage} />
+          <StageBar stage={fakeWaitingStage} />
 
 
         </div>

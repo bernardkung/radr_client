@@ -90,11 +90,11 @@ export type fullAdr = Adr & {
 };
 
 export type fullStage = Stage & {
-  submissions: fullSubmission[];
-  decisions: Decision[];
+  submissions?: fullSubmission[] | Submission[];
+  decisions?: Decision[];
 }
 
 
 export type fullSubmission = Submission & { 
-  auditor: Auditor;
+  auditor?: Auditor;
 };

@@ -7,6 +7,7 @@ import {
   EllipsisVerticalIcon,
   ArrowsUpDownIcon,
   FunnelIcon,
+  LinkIcon,
 } from "@heroicons/react/24/outline";  
 import { Button } from "@/components/ui/button"
 import {
@@ -34,9 +35,26 @@ import Link from "next/link"
 import { Checkbox } from "@/components/ui/checkbox"
 
 export const columns: ColumnDef<Adr>[] = [
-
   {
-    accessorKey: "id",
+    accessorKey: "link",
+    header: "Link",
+    cell: ({ row }) => {
+      const adr = row.original;
+      return (
+        <Button variant="link" className="p-0 flex justify-center items-center w-full">
+          <Link href={`/adrs/${adr.id}`}>
+              <LinkIcon className="h-4 w-4" />
+          </Link>
+        </Button>
+      )
+    },
+    meta: {
+      headerClassName: 'text-center',
+    },
+    
+  },
+  {
+    accessorKey: "facilities.dl_id",
     header: ({ column }) => {
       return (
         <span>
@@ -44,31 +62,22 @@ export const columns: ColumnDef<Adr>[] = [
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            ID
+            DL ID
             <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
           </Button>
         </span>
       )
     },
+    cell: ({ row }) => {
+      const adr = row.original;
+      return (
+        <p className="text-center">
+          {adr.facilities?.dl_id || "N/A"}
+        </p>
+      )
+    },
     filterFn: 'includesString',
   },
-  // {
-  //   accessorKey: "facilities.dl_id",
-  //   header: ({ column }) => {
-  //     return (
-  //       <span>
-  //         <Button
-  //           variant="ghost"
-  //           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-  //         >
-  //           DL ID
-  //           <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
-  //         </Button>
-  //       </span>
-  //     )
-  //   },
-  //   filterFn: 'includesString',
-  // },
   {
     accessorKey: "mrn",
     header: ({ column }) => {
@@ -266,6 +275,24 @@ export const columns: ColumnDef<Adr>[] = [
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
+            <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </span>
+      )
+    },
+    filterFn: 'includesString',
+  },
+  
+  {
+    accessorKey: "id",
+    header: ({ column }) => {
+      return (
+        <span>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            ID
             <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
           </Button>
         </span>

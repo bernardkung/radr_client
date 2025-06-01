@@ -13,27 +13,27 @@ import { Separator } from "@/components/ui/separator";
 
 export default async function Page() {
   const supabase = await createClient();
-  // const { data: adrs, error } = await supabase
-  //   .from("adrs")
-  //   .select(`
-  //     id,
-  //     mrn,
-  //     facility_id,
-  //     from_date,
-  //     to_date,
-  //     expected_reimbursement,
-  //     active,
-  //     created_at,
-  //     updated_at,
-  //     facilities (id, dl_id, dl_name),
-  //     patients (id, first_name, last_name),
-  //     stages (
-  //       id, stage, notification_date, due_date,
-  //       submissions (id, auditor_id, submission_date),
-  //       decisions (id, decision, decision_date)
-  //     )
-  //   `);
-  const { data:adrs, error } = await supabase.from('adrs_with_latest_stage').select('*');
+  const { data: adrs, error } = await supabase
+    .from("adrs")
+    .select(`
+      id,
+      mrn,
+      facility_id,
+      from_date,
+      to_date,
+      expected_reimbursement,
+      active,
+      created_at,
+      updated_at,
+      facilities (id, dl_id, dl_name),
+      patients (id, first_name, last_name),
+      stages (
+        id, stage, notification_date, due_date,
+        submissions (id, auditor_id, submission_date),
+        decisions (id, decision, decision_date)
+      )
+    `);
+  // const { data:adrs, error } = await supabase.from('adrs_with_latest_stage').select('*');
   
 
   // Error handling
