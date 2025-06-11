@@ -252,26 +252,25 @@ export default function AdrClientPage({adr}: Props) {
 
         <div>
           {adr.stages.map((stage, s) => (
-            <StageBanner key={s} stage={stage} />
+            <CollapsibleStageBanner key={s} stage={stage} />
           ))}
           {/* <StageBanner stage={fakePaidStage} />
           <StageBanner stage={fakeDeniedStage} />
           <StageBanner stage={fakePendingStage} />
           <StageBanner stage={fakeWaitingStage} /> */}
 
-        <CollapsibleStageBanner
+        {/* <CollapsibleStageBanner
           stage={fakeWaitingStage}
-        />
-
-        <CollapsibleStageBanner
+        /> */}
+        {/* <CollapsibleStageBanner
           stage={fakeDeniedStage}
-        />
-        <CollapsibleStageBanner
+        /> */}
+        {/* <CollapsibleStageBanner
           stage={fakePendingStage}
-        />
-        <CollapsibleStageBanner
+        /> */}
+        {/* <CollapsibleStageBanner
           stage={fakePaidStage}
-        />
+        /> */}
 
         </div>
         

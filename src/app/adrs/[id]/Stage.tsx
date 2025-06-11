@@ -177,7 +177,7 @@ export function  StageDecision (stage: fullStage) {
 export function StageBanner({ stage, ...props }: { stage: fullStage } & React.HTMLAttributes<HTMLDivElement>) {
   const isOpen = props['data-state'] === 'open';
   
-  const status = stage.decisions
+  const status = stage.decisions && stage.decisions.length > 0
     ? stage.decisions[0].decision
     : stage.submissions && stage.submissions[0].submission_date
       ? "Waiting"
@@ -309,26 +309,86 @@ export function StageHistory({ stage }: { stage: fullStage }) {
     return key[eventType]
   }
 
-  return (
-    <div className="flex flex-col justify-start items-start w-full">
-      <EventBanner
-        eventDate={stage.notification_date}
-        eventLogo={getEventLogo("Notification")}
-        eventType="Notification"
-        eventDetail={`${stage.stage} Stage started`}
-      />
-      <EventBanner
-        eventDate={stage.submissions ? stage.submissions[0].submission_date : ""}
-        eventLogo={getEventLogo("Submission")}
-        eventType="Submission"
-        eventDetail={`${stage.submissions ? stage.submissions[0].auditor_id : ""} submitted claim`}
-      />
-      <EventBanner
-        eventDate={stage.decisions ? stage.decisions[0].decision_date : ""}
-        eventLogo={getEventLogo("Decision")}
-        eventType="Decision"
-        eventDetail={`"${stage.decisions ? stage.decisions[0].decision : ""}" decision received`}
-      />
-    </div>
-  )
+    // Build a list of events (notification, submissions, decisions) and sort by date
+    type Event = {
+      type: "Notification" | "Submission" | "Decision",
+      date: string,
+      detail: string,
+      logo: React.ReactNode,
+    };
+
+    const events = []
+    
+    // Add submission banners
+    if (stage.submissions && stage.submissions.length > 0) {
+      events.push(
+        ...stage.submissions.map(submission => ({
+          type: "Submission",
+          date: submission.submission_date,
+          detail: `Submitted by ${submission.auditors.name}`,
+          logo: getEventLogo("Submission"),
+        }))
+      );
+    }
+
+    // Add decision banners
+    if (stage.decisions && stage.decisions.length > 0) {
+      events.push(
+        ...stage.decisions.map(decision => ({
+          type: "Decision",
+          date: decision.decision_date,
+          detail: `"${decision.decision}" decision received`,
+          logo: getEventLogo("Decision"),
+        }))
+      );
+    }
+
+    // Add the notification event at the beginning
+    events.unshift({
+      type: "Notification",
+      date: stage.notification_date,
+      detail: `${stage.stage} Stage started`,
+      logo: getEventLogo("Notification"),
+    });
+
+    // Sort events by date
+    events.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+    return (
+      <div className="flex flex-col justify-start items-start w-full">
+        {events.map((event, e) => (
+          <EventBanner
+            key={e}
+            eventDate={event.date}
+            eventLogo={event.logo}
+            eventType={event.type}
+            eventDetail={event.detail}
+          />
+        ))}
+      </div>
+    )
+
+
+  // return (
+  //   <div className="flex flex-col justify-start items-start w-full">
+  //     <EventBanner
+  //       eventDate={stage.notification_date}
+  //       eventLogo={getEventLogo("Notification")}
+  //       eventType="Notification"
+  //       eventDetail={`${stage.stage} Stage started`}
+  //     />
+  //     <EventBanner
+  //       eventDate={stage.submissions ? stage.submissions[0].submission_date : ""}
+  //       eventLogo={getEventLogo("Submission")}
+  //       eventType="Submission"
+  //       eventDetail={`Submitted by ${stage.submissions ? stage.submissions[0].auditors.name : ""}`}
+  //     />
+  //     <EventBanner
+  //       eventDate={stage.decisions ? stage.decisions[0].decision_date : ""}
+  //       eventLogo={getEventLogo("Decision")}
+  //       eventType="Decision"
+  //       eventDetail={`"${stage.decisions ? stage.decisions[0].decision : ""}" decision received`}
+  //     />
+  //   </div>
+  // )
 }
