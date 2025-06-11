@@ -17,7 +17,7 @@ export default async function Page() {
     .from("adrs")
     .select(`
       id,
-      mrn,
+      patient_id,
       facility_id,
       from_date,
       to_date,
@@ -26,7 +26,7 @@ export default async function Page() {
       created_at,
       updated_at,
       facilities (id, dl_id, dl_name),
-      patients (id, first_name, last_name),
+      patients (id, mrn, first_name, last_name),
       stages (
         id, stage, notification_date, due_date,
         submissions (id, auditor_id, submission_date),

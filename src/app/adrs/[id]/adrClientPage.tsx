@@ -10,9 +10,14 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { Button } from "@/components/ui/button";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible"
+import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { FacilityForm } from "@/app/facilities/FacilityForm";
-import { Separator } from "@/components/ui/separator";
 import { destroyFacility } from "@/lib/actions";
 import { facilityFormSchema } from "@/lib/schemas";
 import { 
@@ -25,7 +30,7 @@ import {
   ExclamationTriangleIcon,
  } from "@heroicons/react/24/outline";
 import { InfoSpan } from "./InfoPanel"
-import { StageBar } from "./Stage";
+import { StageBanner, StageHistory, CollapsibleStageBanner } from "./Stage";
 
 function daysLeft(due_date: string) {
   return Math.ceil(
@@ -166,7 +171,7 @@ export default function AdrClientPage({adr}: Props) {
           value={`${adr.facility.dl_id} - ${adr.facility.dl_name}`}
         />
 
-        <Separator className="my-6" />
+        <Separator className="my-6 bg-neutral-300" />
 
         <div className="flex flex-row justify-start items-center">
           <p className="text-sm text-gray-500 mr-2">Patient Name:</p>
@@ -178,7 +183,7 @@ export default function AdrClientPage({adr}: Props) {
           <p className="text-sm">{adr.patient.mrn}</p>
         </div>
 
-        <Separator className="my-6" />
+        <Separator className="my-6 bg-neutral-300" />
 
         <div className="flex flex-row justify-start items-center">
           <p className="text-sm text-gray-500 mr-2">From Date:</p>
@@ -190,7 +195,7 @@ export default function AdrClientPage({adr}: Props) {
           <p className="text-sm">{adr.to_date}</p>
         </div>
 
-        <Separator className="my-6" />
+        <Separator className="my-6 bg-neutral-300" />
 
         <div className="flex flex-row justify-start items-center">
           <p className="text-sm text-gray-500 mr-2">SRN:</p>
@@ -202,7 +207,7 @@ export default function AdrClientPage({adr}: Props) {
           <p className="text-sm">{"placeholder"}</p>
         </div>
 
-        <Separator className="my-6" />
+        <Separator className="my-6 bg-neutral-300" />
 
         <div className="flex flex-row justify-start items-center my-2">
           <h2 className="text-sm font-medium">Facility Info</h2>
@@ -217,7 +222,7 @@ export default function AdrClientPage({adr}: Props) {
         </div>
 
 
-        <Separator className="my-6" />
+        <Separator className="my-6 bg-neutral-300" />
 
         <div className="flex flex-row justify-start items-center my-2">
           <h2 className="text-sm font-medium">Patient Info</h2>
@@ -239,28 +244,41 @@ export default function AdrClientPage({adr}: Props) {
 
       </div>
 
-      <div className="p-8 m-4 rounded-lg shadow w-full bg-background">
+      <div className="px-6 py-8 m-4 rounded-lg shadow w-full bg-background flex flex-col justify-start align-start">
+
         <div className="flex flex-row justify-start items-center mb-1 ml-2">        
           <h1 className="text-base font-medium">Stages</h1>
         </div>
 
         <div>
           {adr.stages.map((stage, s) => (
-
-
-            <StageBar key={s} stage={stage} />
-
+            <StageBanner key={s} stage={stage} />
           ))}
+          {/* <StageBanner stage={fakePaidStage} />
+          <StageBanner stage={fakeDeniedStage} />
+          <StageBanner stage={fakePendingStage} />
+          <StageBanner stage={fakeWaitingStage} /> */}
 
+        <CollapsibleStageBanner
+          stage={fakeWaitingStage}
+        />
 
-          <StageBar stage={fakePaidStage} />
-          <StageBar stage={fakeDeniedStage} />
-          <StageBar stage={fakePendingStage} />
-          <StageBar stage={fakeWaitingStage} />
-
+        <CollapsibleStageBanner
+          stage={fakeDeniedStage}
+        />
+        <CollapsibleStageBanner
+          stage={fakePendingStage}
+        />
+        <CollapsibleStageBanner
+          stage={fakePaidStage}
+        />
 
         </div>
+        
 
+        
+
+        
 
       </div>
       

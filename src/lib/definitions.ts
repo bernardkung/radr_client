@@ -36,7 +36,7 @@ export type Patient = {
 export type Adr = {
   id: string;
   facility_id: string;
-  mrn: string;
+  patient_id: string;
   from_date: string;
   to_date: string;
   expected_reimbursement: number;
@@ -70,6 +70,31 @@ export type Decision = {
   auditor_id: string;
   decision_date: string;
   decision: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type Srn = {
+  id: string;
+  adr_id: string;
+  srn: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type Payment = {
+  id: string;
+  adr_id: string;
+  payment_amount: string;
+  payment_date: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type Dcn = {
+  id: string;
+  adr_id: string;
+  dcn: string;
   created_at: string;
   updated_at: string;
 };

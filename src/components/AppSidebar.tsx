@@ -21,6 +21,8 @@ import {
   UsersIcon,
   IdentificationIcon,
  } from "@heroicons/react/24/outline"
+ import RadrIcon from "@/app/RadrIcon"
+
 
 const items = [
   {
@@ -63,6 +65,11 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon" className="bg-sidebar-primary text-primary-foreground h-full p-2">
       <SidebarHeader className="bg-sidebar-primary text-primary-foreground"> 
+        <div className="flex flex-row justify-between align-center ">
+          {/* <RadrIcon className="size-6"/>
+          <p className="flex-1 mx-2">radr</p> */}
+          <SidebarTrigger />
+        </div>
       </SidebarHeader>
 
       <SidebarContent className="mx-0 max-w-full bg-primary text-primary-foreground ">
@@ -106,7 +113,6 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="bg-primary text-primary-foreground flex flex-row justify-end items-center">
-        <SidebarTrigger />
       </SidebarFooter>
 
       {/* <SidebarRail /> */}

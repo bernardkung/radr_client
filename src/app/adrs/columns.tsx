@@ -79,7 +79,7 @@ export const columns: ColumnDef<Adr>[] = [
     filterFn: 'includesString',
   },
   {
-    accessorKey: "mrn",
+    accessorKey: "patients.mrn",
     header: ({ column }) => {
       return (
         <span>

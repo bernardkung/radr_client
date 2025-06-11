@@ -1,5 +1,5 @@
 import '@/app/globals.css';
-import { Stage, fullStage } from "@/lib/definitions";
+import { Stage, Submission, Decision, fullStage } from "@/lib/definitions";
 import { 
   LinkIcon, 
   ChevronDownIcon,
@@ -8,8 +8,18 @@ import {
   CheckCircleIcon,
   XCircleIcon,
   ExclamationTriangleIcon,
+  InboxArrowDownIcon,
+  PaperClipIcon,
+  ScaleIcon,
  } from "@heroicons/react/24/outline";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { Separator } from '@/components/ui/separator';
 import React from 'react';
+import { iso } from 'zod/v4';
  
 function daysLeft(due_date: string) {
   return Math.ceil(
@@ -18,7 +28,7 @@ function daysLeft(due_date: string) {
 }
 
 
-export function StageContainerBar1({label, value}: {label: string, value: React.ReactNode}) {
+export function StageContainerBar1({label, value}: {label?: string, value: React.ReactNode}) {
   return (
     <div className="flex flex-col justify-between items-center mr-2 h-12 w-16 rounded-md border-0 border-neutral-300 text-nowrap first:ml-0 last:mr-0">
       <p className="text-lg grow flex items-center justify-center h-6 pt-1">{value}</p>
@@ -53,28 +63,28 @@ export function StageStatus ({status}:{status: String}) {
       return (
         <StageContainerBar1
           label="Preparing"
-          value={ <PencilSquareIcon className="h-8 w-6 text-blue-500" /> }
+          value={ <PencilSquareIcon className="h-8 w-6 text-blue-600" /> }
         />
       )
     case "Waiting":
       return (
         <StageContainerBar1
           label="Waiting"
-          value={ <ClockIcon className="h-8 w-6 text-amber-500" /> }
+          value={ <ClockIcon className="h-8 w-6 text-yellow-600" /> }
         />
       )
     case "DENIED":
       return (
         <StageContainerBar1 
           label="Denied"
-          value={ <XCircleIcon className="h-8 w-6 text-red-500" /> }
+          value={ <XCircleIcon className="h-8 w-6 text-red-700" /> }
         />
       )
     case "PAID IN FULL":
       return (
         <StageContainerBar1 
           label="Approved"
-          value={ <CheckCircleIcon className="h-8 w-6 text-green-500" /> }
+          value={ <CheckCircleIcon className="h-8 w-6 text-green-600" /> }
         />
       )
     }
@@ -127,7 +137,7 @@ export function StageSubmissionDate (stage: fullStage) {
   )
 }
 
-export function  StageDaysWaited (stage: fullStage) {
+export function StageDaysWaited (stage: fullStage) {
   return (
     <StageContainerBar2
       label="Days Waited" 
@@ -140,7 +150,7 @@ export function  StageDaysWaited (stage: fullStage) {
   )
 }
 
-export function  StageDecisionDate (stage: fullStage) {
+export function StageDecisionDate (stage: fullStage) {
   return (
     <StageContainerBar2
       label="Decision Date"
@@ -164,7 +174,9 @@ export function  StageDecision (stage: fullStage) {
 }
 
   
-export function StageBar({ stage }: { stage: fullStage }) {
+export function StageBanner({ stage, ...props }: { stage: fullStage } & React.HTMLAttributes<HTMLDivElement>) {
+  const isOpen = props['data-state'] === 'open';
+  
   const status = stage.decisions
     ? stage.decisions[0].decision
     : stage.submissions && stage.submissions[0].submission_date
@@ -200,7 +212,10 @@ export function StageBar({ stage }: { stage: fullStage }) {
 
 
   return (
-    <div className="flex flex-row justify-between items-center rounded-md border-1 border-neutral-300 p-2 my-2 w-full bg-white shadow-sm">
+    <div 
+      {...props} 
+      className="flex flex-row justify-between items-center rounded-md border-0 border-neutral-300 w-full bg-white"
+    >
 
       {/* Stage */}
       <StageContainerBar1
@@ -219,9 +234,101 @@ export function StageBar({ stage }: { stage: fullStage }) {
         <ChevronDownIcon className="h-8 w-6 text-gray-500" />
       </div> */}
       <StageContainerBar1
-        value={ <ChevronDownIcon className="h-8 w-6 text-gray-500" /> }
+        value={ isOpen 
+          ? <ChevronDownIcon className="h-8 w-6 text-gray-500 rotate-180" />
+          : <ChevronDownIcon className="h-8 w-6 text-gray-500" /> 
+        }
       />
 
+    </div>
+  )
+}
+
+export function CollapsibleStageBanner({ stage, ...props }: { stage: fullStage } & React.HTMLAttributes<HTMLDivElement>) {
+
+  return (        
+    <div className="flex flex-row justify-between items-center rounded-md border-1 border-neutral-300 p-2 my-2 w-full bg-white shadow-sm">
+      <Collapsible className="w-full">
+        <CollapsibleTrigger className="w-full" asChild>
+          <StageBanner stage={stage} />
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <div className="pb-2">
+            <Separator className="mt-2 mb-3 bg-neutral-300" />
+            <StageHistory stage={stage} /> 
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
+    </div>
+  )
+}
+
+
+
+export function EventContainer({ content }: { content: React.ReactNode }) {
+  return (
+    <div className="text-sm flex flex-row justify-center last:justify-start items-center border-0 border-neutral-300 bg-white w-16 px-1 first:pl-2 last:pr-2 mx-1 first:ml-0 last:mr-0 last:flex-1 first:rounded-l-sm last:rounded-r-sm">
+      {content}
+    </div>
+  )
+}
+
+export function EventBanner({ eventDate, eventLogo, eventType, eventDetail }: { eventDate: string, eventLogo: React.ReactNode, eventType: string, eventDetail: string }) {
+   
+  return (
+    <div className="flex flex-row justify-start items-center rounded-sm border-1 border-neutral-300 w-full bg-white p-1 mt-1 first:mt-0">
+      <EventContainer 
+        content={ new Date(eventDate).toLocaleDateString("en-US", {
+          year: "2-digit",
+          month: "numeric",
+          day: "numeric",
+        }) }
+      />
+      {/* <EventContainer
+        content={eventType}
+      /> */}
+      <EventContainer
+        content={eventLogo}
+      />
+      <EventContainer
+        content={eventDetail}
+      />
+    </div>
+  )
+}
+
+
+export function StageHistory({ stage }: { stage: fullStage }) {
+  // list each submission and decision in a stage
+  function getEventLogo(eventType: "Notification" | "Submission" | "Decision") {
+    const key ={
+      "Notification": <InboxArrowDownIcon className="size-5 text-emerald-600" />,
+      "Submission": <PaperClipIcon className="size-5 text-blue-600" />,
+      "Decision": <ScaleIcon className="size-5 text-amber-600" />,
+    }
+    return key[eventType]
+  }
+
+  return (
+    <div className="flex flex-col justify-start items-start w-full">
+      <EventBanner
+        eventDate={stage.notification_date}
+        eventLogo={getEventLogo("Notification")}
+        eventType="Notification"
+        eventDetail={`${stage.stage} Stage started`}
+      />
+      <EventBanner
+        eventDate={stage.submissions ? stage.submissions[0].submission_date : ""}
+        eventLogo={getEventLogo("Submission")}
+        eventType="Submission"
+        eventDetail={`${stage.submissions ? stage.submissions[0].auditor_id : ""} submitted claim`}
+      />
+      <EventBanner
+        eventDate={stage.decisions ? stage.decisions[0].decision_date : ""}
+        eventLogo={getEventLogo("Decision")}
+        eventType="Decision"
+        eventDetail={`"${stage.decisions ? stage.decisions[0].decision : ""}" decision received`}
+      />
     </div>
   )
 }
