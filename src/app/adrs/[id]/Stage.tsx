@@ -284,9 +284,6 @@ export function EventBanner({ eventDate, eventLogo, eventType, eventDetail }: { 
           day: "numeric",
         }) }
       />
-      {/* <EventContainer
-        content={eventType}
-      /> */}
       <EventContainer
         content={eventLogo}
       />
@@ -368,27 +365,4 @@ export function StageHistory({ stage }: { stage: fullStage }) {
       </div>
     )
 
-
-  // return (
-  //   <div className="flex flex-col justify-start items-start w-full">
-  //     <EventBanner
-  //       eventDate={stage.notification_date}
-  //       eventLogo={getEventLogo("Notification")}
-  //       eventType="Notification"
-  //       eventDetail={`${stage.stage} Stage started`}
-  //     />
-  //     <EventBanner
-  //       eventDate={stage.submissions ? stage.submissions[0].submission_date : ""}
-  //       eventLogo={getEventLogo("Submission")}
-  //       eventType="Submission"
-  //       eventDetail={`Submitted by ${stage.submissions ? stage.submissions[0].auditors.name : ""}`}
-  //     />
-  //     <EventBanner
-  //       eventDate={stage.decisions ? stage.decisions[0].decision_date : ""}
-  //       eventLogo={getEventLogo("Decision")}
-  //       eventType="Decision"
-  //       eventDetail={`"${stage.decisions ? stage.decisions[0].decision : ""}" decision received`}
-  //     />
-  //   </div>
-  // )
 }
