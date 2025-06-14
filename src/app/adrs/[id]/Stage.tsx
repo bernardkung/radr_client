@@ -118,7 +118,7 @@ export function StageAuditor (stage: fullStage) {
   return (  
     <StageContainerBar3
       label="Auditor"
-      value={stage.submissions && stage.submissions.length > 0 ? stage.submissions[0].auditors.name : "N/A"}
+      value={stage.submissions && stage.submissions.length > 0 && stage.submissions[0].auditor ? stage.submissions[0].auditor.name : "N/A"}
       link={stage.submissions && stage.submissions.length > 0 ? `/auditors/${stage.submissions[0].auditor_id}` : ""}
     />
   )
@@ -174,7 +174,9 @@ export function  StageDecision (stage: fullStage) {
 }
 
   
-export function StageBanner({ stage, ...props }: { stage: fullStage } & React.HTMLAttributes<HTMLDivElement>) {
+type StageBannerProps = { stage: fullStage } & React.HTMLAttributes<HTMLDivElement> & { 'data-state'?: string };
+
+export function StageBanner({ stage, ...props }: StageBannerProps) {
   const isOpen = props['data-state'] === 'open';
   
   const status = stage.decisions && stage.decisions.length > 0
@@ -322,7 +324,7 @@ export function StageHistory({ stage }: { stage: fullStage }) {
         ...stage.submissions.map(submission => ({
           type: "Submission",
           date: submission.submission_date,
-          detail: `Submitted by ${submission.auditors.name}`,
+          detail: `Submitted by ${submission.auditor ? submission.auditor.name : "UNKNOWN AUDITOR"}`,
           logo: getEventLogo("Submission"),
         }))
       );

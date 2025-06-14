@@ -1,6 +1,12 @@
 'use client';
 
-import { Adr, fullAdr, fullStage } from "@/lib/definitions";
+import { 
+  Adr, 
+  fullAdr, 
+  fullStage,
+  Payment,
+  fullPayment
+ } from "@/lib/definitions";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,6 +21,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
+
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { FacilityForm } from "@/app/facilities/FacilityForm";
@@ -31,6 +38,8 @@ import {
  } from "@heroicons/react/24/outline";
 import { InfoSpan } from "./InfoPanel"
 import { StageBanner, StageHistory, CollapsibleStageBanner } from "./Stage";
+import { PaymentHistory } from './PaymentHistory';
+import { formatMoney } from "@/lib/formats";
 
 function daysLeft(due_date: string) {
   return Math.ceil(
@@ -42,120 +51,31 @@ type Props = { adr: fullAdr };
 
 export default function AdrClientPage({adr}: Props) {
 
-  // const defaultValues = facilityFormSchema.parse(facility);
-  const fakeDeniedStage: fullStage = {
-    id: "fake45",
-    adr_id: adr.id,
-    stage: '45',
-    due_date: "2024-02-14T00:00:00Z",
-    notification_date: "2024-01-01T00:00:00Z",
-    submissions: [
-      {
-        id: "fakeSubmission",
-        stage_id: "fake120",
-        auditor_id: "4444444",
-        submission_date: "2024-02-14T00:00:00Z",
-        created_at: "2024-02-14T00:00:00Z",
-        updated_at: "2024-02-14T00:00:00Z",
-        auditors: {
-          id: "4444444",
-          name: "Taylor Doe"
-        }
+  const payments = (adr.srns ?? []).flatMap(srn =>{
+    return (srn.payments ?? []).map((payment: Payment) => {
+      return {
+      srn: srn.srn,
+      ...payment
       }
-    ],
-    decisions: [
-      {
-        id: "fakeDecision",
-        stage_id: "fake120",
-        auditor_id: "4444444",
-        decision_date: "2024-02-15T00:00:00Z",
-        decision: "DENIED",
-        created_at: "2024-02-15T00:00:00Z",
-        updated_at: "2024-02-15T00:00:00Z"
-      }
-    ],
-  }
-
-  const fakePaidStage: fullStage = {
-    id: "fakePaid",
-    adr_id: adr.id,
-    stage: '45',
-    due_date: "2024-02-14T00:00:00Z",
-    notification_date: "2024-01-01T00:00:00Z",
-    submissions: [
-      {
-        id: "fakeSubmission",
-        stage_id: "fake120",
-        auditor_id: "4444444",
-        submission_date: "2024-02-14T00:00:00Z",
-        created_at: "2024-02-14T00:00:00Z",
-        updated_at: "2024-02-14T00:00:00Z",
-        auditors: {
-          id: "4444444",
-          name: "Taylor Doe"
-        }
-      }
-    ],
-    decisions: [
-      {
-        id: "fakeDecision",
-        stage_id: "fake120",
-        auditor_id: "4444444",
-        decision_date: "2024-02-15T00:00:00Z",
-        decision: "PAID IN FULL",
-        created_at: "2024-02-15T00:00:00Z",
-        updated_at: "2024-02-15T00:00:00Z"
-      }
-    ],
-  }
+    })}
+  ).sort((a, b) =>
+    new Date(b.payment_date).getTime() - new Date(a.payment_date).getTime()
+  );;
 
 
+  // Build SRN display
+    // Determine last SRN
+    // Collapsible SRN history
 
-  const fakePendingStage: fullStage = {
-    id: "fake120",
-    adr_id: adr.id,
-    stage: '120',
-    due_date: "2024-03-14T00:00:00Z",
-    notification_date: "2024-02-14T00:00:00Z",
-    submissions: [
-      {
-        id: "fakeSubmission",
-        stage_id: "fake120",
-        auditor_id: "4444444",
-        created_at: "2024-02-14T00:00:00Z",
-        updated_at: "2024-02-14T00:00:00Z",
-        auditors: {
-          id: "4444444",
-          name: "Taylor Doe"
-        }
-      }
-    ]
-  }
 
-  const fakeWaitingStage: fullStage = {
-    id: "fake180",  
-    adr_id: adr.id,
-    stage: '180',
-    due_date: "2024-04-14T00:00:00Z",
-    notification_date: "2024-03-14T00:00:00Z",
-    submissions: [
-      {
-        id: "fakeSubmission",
-        stage_id: "fake120",
-        auditor_id: "4444444",
-        submission_date: "2024-02-14T00:00:00Z",
-        created_at: "2024-02-14T00:00:00Z",
-        updated_at: "2024-02-14T00:00:00Z",
-        auditors: {
-          id: "4444444",
-          name: "Taylor Doe"
-        }
-      }
-    ]
-  }
+  // Build DCN display
+    // Determine last DCN
+    // Collapsible DCN history
 
   return (
     <div className="w-full h-full bg-neutral-300 m-0 p-auto flex flex-row align-start">
+
+      {/* ADR INFO */}
       <div className="p-8 ml-4 my-4 rounded-lg shadow w-96 max-w-lg bg-background">
         {/* ADR INFO */}
         <div className="flex flex-row justify-start items-center mb-1">        
@@ -199,13 +119,37 @@ export default function AdrClientPage({adr}: Props) {
 
         <div className="flex flex-row justify-start items-center">
           <p className="text-sm text-gray-500 mr-2">SRN:</p>
-          <p className="text-sm">{"placeholder"}</p>
+          <p className="text-sm">{adr.srns[0].srn}</p>
         </div>
 
         <div className="flex flex-row justify-start items-center">
           <p className="text-sm text-gray-500 mr-2">DCN:</p>
-          <p className="text-sm">{"placeholder"}</p>
+          <p className="text-sm">{adr.dcns[0].dcn}</p>
         </div>
+
+        <Separator className="my-6 bg-neutral-300" />
+
+        <div className="flex flex-row justify-start items-center">
+          <p className="text-sm text-gray-500 mr-2">Expected Reimbursement:</p>
+          <p className="text-sm">{formatMoney(adr.expected_reimbursement)}</p>
+        </div>
+
+        <div className="flex flex-row justify-start items-center">
+          <p className="text-sm text-gray-500 mr-2">Total Payment:</p>
+          <p className="text-sm">
+            { formatMoney(
+              payments.reduce((sum: number, payment: fullPayment) => sum + parseFloat(payment.payment_amount), 0)
+            )}
+          </p>
+        </div>
+
+        <div className="flex flex-row justify-start items-center">
+          <p className="text-sm text-gray-500 mr-2">Current Balance:</p>
+          <p className="text-sm">{formatMoney(
+            adr.expected_reimbursement - payments.reduce((sum: number, payment: fullPayment) => sum + parseFloat(payment.payment_amount), 0)
+            )}</p>
+        </div>
+
 
         <Separator className="my-6 bg-neutral-300" />
 
@@ -244,27 +188,28 @@ export default function AdrClientPage({adr}: Props) {
 
       </div>
 
-      <div className="px-6 py-8 m-4 rounded-lg shadow w-full bg-background flex flex-col justify-start align-start">
+      <div className="flex flex-col justify-start align-center pr-8 w-2xl h-full">
+        {/* STAGES */}
+        <div className="px-6 py-8 m-4 rounded-lg shadow w-full bg-background flex flex-col justify-start align-start">
 
-        <div className="flex flex-row justify-start items-center mb-1 ml-2">        
-          <h1 className="text-base font-medium">Stages</h1>
+          <div className="flex flex-row justify-start items-center mb-1 ml-2">        
+            <h1 className="text-base font-medium">Stages</h1>
+          </div>
+
+          <div>
+            {adr.stages.map((stage, s) => (
+              <CollapsibleStageBanner key={s} stage={stage} />
+            ))}
+          </div>
         </div>
 
-        <div>
-          {adr.stages.map((stage, s) => (
-            <CollapsibleStageBanner key={s} stage={stage} />
-          ))}
-
-        </div>
-        
-
-        
-
-        
+        {/* PAYMENT HISTORY */}
+        <PaymentHistory payments={payments} />
 
       </div>
-      
-      
+
+        
+
     </div>
   )
 }

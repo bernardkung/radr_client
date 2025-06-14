@@ -84,7 +84,7 @@ export type Srn = {
 
 export type Payment = {
   id: string;
-  adr_id: string;
+  srn_id: string;
   payment_amount: string;
   payment_date: string;
   created_at: string;
@@ -112,14 +112,23 @@ export type fullAdr = Adr & {
   patient: Patient;
   facility: Facility;
   stages: fullStage[];
+  srns: fullSrn[];
+  dcns: Dcn[];
 };
 
 export type fullStage = Stage & {
-  submissions?: fullSubmission[] | Submission[];
+  submissions?: fullSubmission[];
   decisions?: Decision[];
 }
-
 
 export type fullSubmission = Submission & { 
   auditor?: Auditor;
 };
+
+export type fullSrn = Srn & {
+  payments?: Payment[]
+}
+
+export type fullPayment = Payment & {
+  srn: string;
+}

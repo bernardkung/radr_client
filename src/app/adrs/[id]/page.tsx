@@ -10,7 +10,11 @@ import {
   Decision,
   fullAdr,
   fullStage,
-  fullSubmission
+  fullSubmission,
+  Srn, 
+  fullSrn,
+  Dcn,
+  Payment,
 } from '@/lib/definitions';
 
 
@@ -30,7 +34,12 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
         *,
         submissions (*, auditors (*)),
         decisions (*)
-      )
+      ),
+      srns (
+        *,
+        payments (*)
+      ),
+      dcns (*)
     `)
     .eq("id", id)
     .single();
@@ -46,8 +55,28 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
         ...submission,
         auditor: submission.auditor as Auditor
       })) || [],
-      decisions: stage.decisions || []
-    }))
+      decisions: stage.decisions,
+      // decisions: stage.decisions || []
+    })),
+    srns: (adr.srns as fullSrn[])
+      .map((srn: fullSrn)=>({
+        ...srn,
+        payments: srn.payments,
+      }))
+      .sort((a,b)=> {
+        if (a.updated_at > b.updated_at) {
+          return -1
+        } else {
+          return 1
+        }
+      } ),
+    dcns: (adr.dcns as Dcn[]).sort((a,b)=> {
+        if (a.updated_at > b.updated_at) {
+          return -1
+        } else {
+          return 1
+        }
+      } ),
   };
 
   console.log("adr:", adr);
