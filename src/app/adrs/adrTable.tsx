@@ -78,7 +78,7 @@ export function adrTable<TData, TValue>({
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="border-b-1 border-zinc-400">
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id} colSpan={header.colSpan}>
@@ -99,7 +99,8 @@ export function adrTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() && "selected"} 
+                  className="divide-y-1 border-zinc-400"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
