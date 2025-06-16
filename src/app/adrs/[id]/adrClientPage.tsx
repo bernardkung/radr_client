@@ -73,10 +73,10 @@ export default function AdrClientPage({adr}: Props) {
     // Collapsible DCN history
 
   return (
-    <div className="w-full h-full bg-neutral-300 m-0 p-auto flex flex-row align-start">
+    <div className="w-full h-full bg-neutral-50 m-0 p-auto flex flex-row align-start">
 
       {/* ADR INFO */}
-      <div className="p-8 ml-4 my-4 rounded-lg shadow w-96 max-w-lg bg-background">
+      <div className="p-8 ml-4 my-4 shadow w-96 max-w-lg bg-background border-2 border-black">
         {/* ADR INFO */}
         <div className="flex flex-row justify-start items-center mb-1">        
           <h1 className="text-base font-medium">ADR Info</h1>
@@ -91,7 +91,7 @@ export default function AdrClientPage({adr}: Props) {
           value={`${adr.facility.dl_id} - ${adr.facility.dl_name}`}
         />
 
-        <Separator className="my-6 bg-neutral-300" />
+        <Separator className="my-6 bg-zinc-400" />
 
         <div className="flex flex-row justify-start items-center">
           <p className="text-sm text-gray-500 mr-2">Patient Name:</p>
@@ -103,7 +103,7 @@ export default function AdrClientPage({adr}: Props) {
           <p className="text-sm">{adr.patient.mrn}</p>
         </div>
 
-        <Separator className="my-6 bg-neutral-300" />
+        <Separator className="my-6 bg-zinc-400" />
 
         <div className="flex flex-row justify-start items-center">
           <p className="text-sm text-gray-500 mr-2">From Date:</p>
@@ -115,7 +115,7 @@ export default function AdrClientPage({adr}: Props) {
           <p className="text-sm">{adr.to_date}</p>
         </div>
 
-        <Separator className="my-6 bg-neutral-300" />
+        <Separator className="my-6 bg-zinc-400" />
 
         <div className="flex flex-row justify-start items-center">
           <p className="text-sm text-gray-500 mr-2">SRN:</p>
@@ -127,7 +127,7 @@ export default function AdrClientPage({adr}: Props) {
           <p className="text-sm">{adr.dcns[0].dcn}</p>
         </div>
 
-        <Separator className="my-6 bg-neutral-300" />
+        <Separator className="my-6 bg-zinc-400" />
 
         <div className="flex flex-row justify-start items-center">
           <p className="text-sm text-gray-500 mr-2">Expected Reimbursement:</p>
@@ -151,7 +151,7 @@ export default function AdrClientPage({adr}: Props) {
         </div>
 
 
-        <Separator className="my-6 bg-neutral-300" />
+        <Separator className="my-6 bg-zinc-400" />
 
         <div className="flex flex-row justify-start items-center my-2">
           <h2 className="text-sm font-medium">Facility Info</h2>
@@ -166,7 +166,7 @@ export default function AdrClientPage({adr}: Props) {
         </div>
 
 
-        <Separator className="my-6 bg-neutral-300" />
+        <Separator className="my-6 bg-zinc-400" />
 
         <div className="flex flex-row justify-start items-center my-2">
           <h2 className="text-sm font-medium">Patient Info</h2>
@@ -190,7 +190,7 @@ export default function AdrClientPage({adr}: Props) {
 
       <div className="flex flex-col justify-start align-center pr-8 w-2xl h-full">
         {/* STAGES */}
-        <div className="px-6 py-8 m-4 rounded-lg shadow w-full bg-background flex flex-col justify-start align-start">
+        <div className="px-6 py-8 m-4 shadow w-full bg-background flex flex-col justify-start align-start border-2 border-black">
 
           <div className="flex flex-row justify-start items-center mb-1 ml-2">        
             <h1 className="text-base font-medium">Stages</h1>

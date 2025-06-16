@@ -30,29 +30,29 @@ function daysLeft(due_date: string) {
 
 export function StageContainerBar1({label, value}: {label?: string, value: React.ReactNode}) {
   return (
-    <div className="flex flex-col justify-between items-center mr-2 h-12 w-16 rounded-md border-0 border-neutral-300 text-nowrap first:ml-0 last:mr-0">
+    <div className="flex flex-col justify-between items-center mr-2 h-12 w-16 border-0 border-zinc-400 text-nowrap first:ml-0 last:mr-0">
       <p className="text-lg grow flex items-center justify-center h-6 pt-1">{value}</p>
-      <p className="text-xs text-gray-400">{label}</p>
+      <p className="text-xs text-zinc-400">{label}</p>
     </div>
   )
 }
 
 export function StageContainerBar2({label, value}: {label: string, value: React.ReactNode}) {
   return (
-    <div className="flex flex-col justify-between items-center mr-2 h-12 w-24 rounded border-0 border-neutral-300 text-nowrap first:ml-0 last:mr-0">
+    <div className="flex flex-col justify-between items-center mr-2 h-12 w-24 border-0 border-zinc-400 text-nowrap first:ml-0 last:mr-0">
       <p className="text-lg grow flex items-center justify-center h-6 pt-1">{value}</p>
-      <p className="text-xs text-gray-400">{label}</p>
+      <p className="text-xs text-zinc-400">{label}</p>
     </div>
   )
 }
 
 export function StageContainerBar3({label, value, link}: {label: string, value: React.ReactNode, link: string}) {
   return (
-    <div className="flex flex-col justify-between items-left flex-3 mr-2 px-2 h-12 min-w-24 rounded border-0 border-neutral-300 text-nowrap first:ml-0 last:mr-0">
+    <div className="flex flex-col justify-between items-left flex-3 mr-2 px-2 h-12 min-w-24 border-0 border-zinc-400 text-nowrap first:ml-0 last:mr-0">
       <p className="text-lg grow flex items-center justify-start h-6 pt-1">
         {link ? <a href={link}>{value}</a> : value}
       </p>
-      { label ? <p className="text-xs text-gray-400">{label}</p> : null}
+      { label ? <p className="text-xs text-zinc-400">{label}</p> : null}
     </div>
   )
 }
@@ -216,7 +216,7 @@ export function StageBanner({ stage, ...props }: StageBannerProps) {
   return (
     <div 
       {...props} 
-      className="flex flex-row justify-between items-center rounded-md border-0 border-neutral-300 w-full bg-white"
+      className="flex flex-row justify-between items-center border-0 border-zinc-400 w-full bg-white"
     >
 
       {/* Stage */}
@@ -232,7 +232,7 @@ export function StageBanner({ stage, ...props }: StageBannerProps) {
       <StageContent />
 
       {/* Expand Icon */}
-      {/* <div className="flex flex-col justify-between items-center flex-0 mx-4 mr-0 rounded border-1 border-neutral-300 w-20">
+      {/* <div className="flex flex-col justify-between items-center flex-0 mx-4 mr-0 border-1 border-zinc-400 w-20">
         <ChevronDownIcon className="h-8 w-6 text-gray-500" />
       </div> */}
       <StageContainerBar1
@@ -249,14 +249,14 @@ export function StageBanner({ stage, ...props }: StageBannerProps) {
 export function CollapsibleStageBanner({ stage, ...props }: { stage: fullStage } & React.HTMLAttributes<HTMLDivElement>) {
 
   return (        
-    <div className="flex flex-row justify-between items-center rounded-md border-1 border-neutral-300 p-2 my-2 w-full bg-white shadow-sm">
+    <div className="flex flex-row justify-between items-center border-1 border-zinc-400 p-2 my-2 w-full bg-white shadow-sm">
       <Collapsible className="w-full">
         <CollapsibleTrigger className="w-full" asChild>
           <StageBanner stage={stage} />
         </CollapsibleTrigger>
         <CollapsibleContent>
           <div className="pb-2">
-            <Separator className="mt-2 mb-3 bg-neutral-300" />
+            <Separator className="mt-2 mb-3 bg-zinc-400" />
             <StageHistory stage={stage} /> 
           </div>
         </CollapsibleContent>
@@ -269,7 +269,7 @@ export function CollapsibleStageBanner({ stage, ...props }: { stage: fullStage }
 
 export function EventContainer({ content }: { content: React.ReactNode }) {
   return (
-    <div className="text-sm flex flex-row justify-center last:justify-start items-center border-0 border-neutral-300 bg-white w-16 px-1 first:pl-2 last:pr-2 mx-1 first:ml-0 last:mr-0 last:flex-1 first:rounded-l-sm last:rounded-r-sm">
+    <div className="text-sm flex flex-row justify-center last:justify-start items-center border-0 border-zinc-400 bg-white w-16 px-1 first:pl-2 last:pr-2 mx-1 first:ml-0 last:mr-0 last:flex-1 ">
       {content}
     </div>
   )
@@ -278,7 +278,7 @@ export function EventContainer({ content }: { content: React.ReactNode }) {
 export function EventBanner({ eventDate, eventLogo, eventType, eventDetail }: { eventDate: string, eventLogo: React.ReactNode, eventType: string, eventDetail: string }) {
    
   return (
-    <div className="flex flex-row justify-start items-center rounded-sm border-1 border-neutral-300 w-full bg-white p-1 mt-1 first:mt-0">
+    <div className="flex flex-row justify-start items-center w-full bg-white p-1 mt-1 first:mt-0">
       <EventContainer 
         content={ new Date(eventDate).toLocaleDateString("en-US", {
           year: "2-digit",
