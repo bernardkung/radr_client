@@ -34,7 +34,7 @@ export function PaymentHistory({ payments }: { payments: fullPayment[] }) {
         
       <Table>
         <TableHeader>
-          <TableRow>
+          <TableRow className="border-b-1 border-zinc-400">
             <TableHead className="w-[120px]">SRN</TableHead>
             <TableHead className="text-center">Payment Date</TableHead>
             <TableHead className="text-right w-[120px]">Payment Amount</TableHead>
@@ -42,7 +42,7 @@ export function PaymentHistory({ payments }: { payments: fullPayment[] }) {
         </TableHeader>
         <TableBody>
           {payments.map((payment,p)=>(
-            <TableRow key={p} >
+            <TableRow key={p} className="border-y-1 border-zinc-400 hover:bg-muted">
               <TableCell>{payment.srn}</TableCell>
               <TableCell className="text-center">{formatDate(payment.payment_date)}</TableCell>
               <TableCell className="text-right">{formatMoney(payment.payment_amount)}</TableCell>

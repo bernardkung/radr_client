@@ -36,7 +36,7 @@ import {
   XCircleIcon,
   ExclamationTriangleIcon,
  } from "@heroicons/react/24/outline";
-import { InfoSpan } from "./InfoPanel"
+import { InfoSpan, InfoTitle } from "./InfoPanel"
 import { StageBanner, StageHistory, CollapsibleStageBanner } from "./Stage";
 import { PaymentHistory } from './PaymentHistory';
 import { formatMoney } from "@/lib/formats";
@@ -86,6 +86,12 @@ export default function AdrClientPage({adr}: Props) {
           <p className="text-xs text-gray-500">{adr.id}</p>
         </div>
 
+
+        <Separator className="my-6 bg-zinc-400" />
+
+
+        <InfoTitle label={"Facility Info"} link={`/facilities/${adr.facility.global_id}`} />
+
         <InfoSpan 
           label="Facility"
           value={`${adr.facility.dl_id} - ${adr.facility.dl_name}`}
@@ -93,98 +99,45 @@ export default function AdrClientPage({adr}: Props) {
 
         <Separator className="my-6 bg-zinc-400" />
 
-        <div className="flex flex-row justify-start items-center">
-          <p className="text-sm text-gray-500 mr-2">Patient Name:</p>
-          <p className="text-sm">{adr.patient.first_name} {adr.patient.last_name}</p>
-        </div>
+        <InfoTitle label={"Patient Info"} link={`/patients/${adr.patient.mrn}`} />
 
-        <div className="flex flex-row justify-start items-center">
-          <p className="text-sm text-gray-500 mr-2">MRN:</p>
-          <p className="text-sm">{adr.patient.mrn}</p>
-        </div>
+        <InfoSpan label={"Patient Name"} value={`${adr.patient.first_name} ${adr.patient.last_name}`} />
+        <InfoSpan label={"MRN"} value={`${adr.patient.mrn}`} />
 
         <Separator className="my-6 bg-zinc-400" />
 
-        <div className="flex flex-row justify-start items-center">
-          <p className="text-sm text-gray-500 mr-2">From Date:</p>
-          <p className="text-sm">{adr.from_date}</p>
-        </div>
+        <InfoTitle label={"Claim Info"} link={``} />
 
-        <div className="flex flex-row justify-start items-center">
-          <p className="text-sm text-gray-500 mr-2">To Date:</p>
-          <p className="text-sm">{adr.to_date}</p>
-        </div>
+        <InfoSpan label={"From Date"} value={`${adr.from_date}`} />
+        <InfoSpan label={"To Date"} value={`${adr.to_date}`} />
 
-        <Separator className="my-6 bg-zinc-400" />
+        <Separator className="my-2 " />
+ 
+        <InfoSpan label={"SRN"} value={`${adr.srns[0].srn}`} />
+        <InfoSpan label={"DCN"} value={`${adr.dcns[0].dcn}`} />
 
-        <div className="flex flex-row justify-start items-center">
-          <p className="text-sm text-gray-500 mr-2">SRN:</p>
-          <p className="text-sm">{adr.srns[0].srn}</p>
-        </div>
+        <Separator className="my-2 " />
 
-        <div className="flex flex-row justify-start items-center">
-          <p className="text-sm text-gray-500 mr-2">DCN:</p>
-          <p className="text-sm">{adr.dcns[0].dcn}</p>
-        </div>
-
-        <Separator className="my-6 bg-zinc-400" />
-
-        <div className="flex flex-row justify-start items-center">
-          <p className="text-sm text-gray-500 mr-2">Expected Reimbursement:</p>
-          <p className="text-sm">{formatMoney(adr.expected_reimbursement)}</p>
-        </div>
-
-        <div className="flex flex-row justify-start items-center">
-          <p className="text-sm text-gray-500 mr-2">Total Payment:</p>
-          <p className="text-sm">
-            { formatMoney(
-              payments.reduce((sum: number, payment: fullPayment) => sum + parseFloat(payment.payment_amount), 0)
-            )}
-          </p>
-        </div>
-
-        <div className="flex flex-row justify-start items-center">
-          <p className="text-sm text-gray-500 mr-2">Current Balance:</p>
-          <p className="text-sm">{formatMoney(
+        <InfoSpan label={"Expected Reimbursement"} value={formatMoney(adr.expected_reimbursement)} />
+        <InfoSpan 
+          label={"Total Payment"} 
+          value={formatMoney(
+            payments.reduce((sum: number, payment: fullPayment) => sum + parseFloat(payment.payment_amount), 0)
+          )} 
+        />
+        <InfoSpan 
+          label={"Current Balance"} 
+          value={formatMoney(
             adr.expected_reimbursement - payments.reduce((sum: number, payment: fullPayment) => sum + parseFloat(payment.payment_amount), 0)
-            )}</p>
-        </div>
+          )} 
+        />
 
+        <Separator className="my-2 " />
 
-        <Separator className="my-6 bg-zinc-400" />
-
-        <div className="flex flex-row justify-start items-center my-2">
-          <h2 className="text-sm font-medium">Facility Info</h2>
-          <a href={`/facilities/${adr.facility.global_id}`}>
-            <LinkIcon className="h-3 w-3 mx-2"/>
-          </a>
-        </div>
-
-        <div className="flex flex-row justify-start items-center">
-          <p className="text-sm text-gray-500 mr-2">Name:</p>
-          <p className="text-sm">{adr.facility.dl_id} - {adr.facility.dl_name}</p>
-        </div>
-
+        <InfoSpan label={"Status"} value={adr.active ? "Active" : "Inactive"} />
 
         <Separator className="my-6 bg-zinc-400" />
 
-        <div className="flex flex-row justify-start items-center my-2">
-          <h2 className="text-sm font-medium">Patient Info</h2>
-          <a href={`/patients/${adr.patient.mrn}`}>
-            <LinkIcon className="h-3 w-3 mx-2"/>
-          </a>
-        </div>
-
-
-        <div className="flex flex-row justify-start items-center">
-          <p className="text-sm text-gray-500 mr-2">Name:</p>
-          <p className="text-sm">{adr.patient.first_name} {adr.patient.last_name}</p>
-        </div>
-
-        <div className="flex flex-row justify-start items-center">
-          <p className="text-sm text-gray-500 mr-2">MRN:</p>
-          <p className="text-sm">{adr.patient.mrn}</p>
-        </div>
 
       </div>
 

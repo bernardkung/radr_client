@@ -53,7 +53,7 @@ export default async function Page() {
 
   return (
     <div className="flex h-screen v-full w-full flex-col items-center justify-start px-3 py-4 md:px-2">
-      <div className="flex h-screen v-full w-full mx-auto px-auto flex-col items-start justify-start ">
+      <div className="flex h-screen v-full w-full mx-auto px-auto flex-col items-start justify-start m-4 px-4">
         <h3 className="text-2xl font-bold mb-4 px-4">ADRs</h3>
         <Separator className="my-4" />
 
