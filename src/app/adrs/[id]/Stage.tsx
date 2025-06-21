@@ -179,11 +179,13 @@ type StageBannerProps = { stage: fullStage } & React.HTMLAttributes<HTMLDivEleme
 export function StageBanner({ stage, ...props }: StageBannerProps) {
   const isOpen = props['data-state'] === 'open';
   
-  const status = stage.decisions && stage.decisions.length > 0
+  const status = stage.decisions?.[0]?.decision
     ? stage.decisions[0].decision
-    : stage.submissions && stage.submissions[0].submission_date
+    : stage.submissions?.[0]?.submission_date
       ? "Waiting"
-      : "Preparing";
+      : "Preparing"
+  
+  console.log("StageBanner status:", status, "stage:", stage);
 
   const StageContent = () => {
     switch (status) {
