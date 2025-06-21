@@ -32,6 +32,8 @@ import {
   InfoSubHeader,
   InfoCard,
 } from '@/components/InfoPanel'
+import { columns } from "./columns";
+import { DataTable } from "@/components/table/data-table";
 import { 
   LinkIcon, 
   ClockIcon,
@@ -92,13 +94,14 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
     .single();
     
 
-  const { data: adrs } = await supabase
+  // const { data: adrs } = await supabase
+  const data = await supabase
     .rpc("get_auditor_adrs", { p_auditor_id: id });
 
 
   console.log("auditor", auditor)
   console.log("kpis", kpis)
-  console.log(adrs)
+  console.log("adrs", data)
 
 
 
@@ -163,7 +166,7 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
       </div>
 
       {/* AUDITOR ADRS */}
-        {/* <DataTable data={auditors} columns={columns} /> */}
+      <DataTable data={adrs} columns={columns} />
 
     </div>
   )
