@@ -249,7 +249,7 @@ export function StageBanner({ stage, ...props }: StageBannerProps) {
 export function CollapsibleStageBanner({ stage, ...props }: { stage: fullStage } & React.HTMLAttributes<HTMLDivElement>) {
 
   return (        
-    <div className="flex flex-row justify-between items-center border-1 border-zinc-400 p-2 my-2 w-full bg-white shadow-sm">
+    <div className="flex flex-row justify-between items-center border-1 border-zinc-400 p-2 my-2 w-full bg-white ">
       <Collapsible className="w-full">
         <CollapsibleTrigger className="w-full" asChild>
           <StageBanner stage={stage} />

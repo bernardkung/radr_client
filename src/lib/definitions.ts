@@ -119,10 +119,12 @@ export type fullAdr = Adr & {
 export type fullStage = Stage & {
   submissions?: fullSubmission[];
   decisions?: Decision[];
+  adr: Adr;
 }
 
 export type fullSubmission = Submission & { 
   auditor?: Auditor;
+  stage: fullStage;
 };
 
 export type fullSrn = Srn & {

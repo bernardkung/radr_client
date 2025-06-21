@@ -30,33 +30,10 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command"
+import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox"
 
 export const columns: ColumnDef<Auditor>[] = [
-  // {
-  //   id: "select",
-  //   header: ({ table }) => (
-  //     <Checkbox
-  //       checked={
-  //         table.getIsAllPageRowsSelected() ||
-  //         (table.getIsSomePageRowsSelected() && "indeterminate")
-  //       }
-  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-  //       aria-label="Select all"
-  //       className="translate-y-[2px] mr-1"
-  //     />
-  //   ),
-  //   cell: ({ row }) => (
-  //     <Checkbox
-  //       checked={row.getIsSelected()}
-  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
-  //       aria-label="Select row"
-  //       className="translate-y-[2px] mr-1"
-  //     />
-  //   ),
-  //   enableSorting: false,
-  //   enableHiding: false,
-  // },
   {
     accessorKey: "id",
     header: ({ column }) => {
@@ -130,7 +107,11 @@ export const columns: ColumnDef<Auditor>[] = [
           <DropdownMenuContent>
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View Auditor</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`/auditors/${auditor.id}`}>
+                View Auditor
+              </Link>
+            </DropdownMenuItem>
             
           </DropdownMenuContent>
         </DropdownMenu>

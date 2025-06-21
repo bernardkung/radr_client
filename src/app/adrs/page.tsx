@@ -48,7 +48,7 @@ export default async function Page() {
     return <div>No ADRs found.</div>;
   }
 
-  console.log(adrs);
+  // console.log(adrs);
 
 
   return (
@@ -60,7 +60,7 @@ export default async function Page() {
         <DataTable data={adrs} columns={columns}/>
 
         <Link href="/adrs/create">
-          <Button variant="outline" className="mb-4">
+          <Button variant="outline" className="mt-4">
             Create ADR
           </Button>
         </Link>
