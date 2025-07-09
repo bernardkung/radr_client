@@ -27,44 +27,48 @@ export const columns: ColumnDef<fullAdr>[] = [
     },
     
   },
+  // {
+  //   accessorKey: "placeholder",
+  //   header: "SRN"
+  // },
   {
-    accessorKey: "placeholder",
-    header: "SRN"
-  },
-  {
-    accessorKey: "placeholder",
+    accessorKey: "mrn",
     header: "MRN",
   },
   {
-    accessorKey: "placeholder",
+    accessorKey: "dl_id",
     header: "Facility ID"
   },
   {
-    accessorKey: "placeholder",
+    accessorKey: "from_date",
     header: "From Date"
   },
   {
-    accessorKey: "placeholder",
+    accessorKey: "to_date",
     header: "To Date"
   },
   {
-    accessorKey: "placeholder",
+    accessorKey: "stage",
     header: "Stage"
   },
   {
-    accessorKey: "placeholder",
+    accessorKey: "due_date",
     header: "Due Date"
   },
   {
-    accessorKey: "placeholder",
-    header: "Submission Date"
+    accessorKey: "auditor_id",
+    header: "Auditor ID"
   },
-  {
-    accessorKey: "placeholder",
-    header: "Decision"
-  },
-  {
-    accessorKey: "placeholder",
-    header: "Decision Date"
-  }
+  // {
+  //   accessorKey: "submission_date",
+  //   header: "Submission Date"
+  // },
+  // {
+  //   accessorKey: "decision",
+  //   header: "Decision"
+  // },
+  // {
+  //   accessorKey: "decision_date",
+  //   header: "Decision Date"
+  // }
 ]

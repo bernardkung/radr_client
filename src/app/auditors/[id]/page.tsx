@@ -33,7 +33,8 @@ import {
   InfoCard,
 } from '@/components/InfoPanel'
 import { columns } from "./columns";
-import { DataTable } from "@/components/table/data-table";
+// import { DataTable } from "@/components/table/data-table";
+import { AdrTable } from "./adrTable";
 import { 
   LinkIcon, 
   ClockIcon,
@@ -95,13 +96,19 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
     
 
   // const { data: adrs } = await supabase
-  const data = await supabase
-    .rpc("get_auditor_adrs", { p_auditor_id: id });
+  const { data: adrs, error: adrError } = await supabase
+    .from("adrs_with_latest_stage")
+    .select('*')
+    // .select('adr_id, mrn, dl_id, facility_id, patient_id, from_date, to_date, stage, due_date, auditor_id')
+    .is('submission_date', null)
+    .eq('auditor_id', id)
+    // .order('due_date', { ascending: false })
+    .limit(10);
 
 
   console.log("auditor", auditor)
   console.log("kpis", kpis)
-  console.log("adrs", data)
+  console.log("adrs", adrs, adrError)
 
 
 
@@ -166,7 +173,8 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
       </div>
 
       {/* AUDITOR ADRS */}
-      <DataTable data={adrs} columns={columns} />
+
+      {adrs ? <AdrTable data={adrs} columns={columns} /> : <></>}
 
     </div>
   )
