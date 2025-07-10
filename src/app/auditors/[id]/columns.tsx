@@ -6,7 +6,16 @@ import Link from "next/link";
 import { LinkIcon } from "@heroicons/react/24/outline";
 import { fullAdr } from "@/lib/definitions";
 
+function formatDate(timestamp: string | Date): string {
+    const date = new Date(timestamp);
 
+  // Format as MM/DD/YYYY
+  const formatted = `${(date.getMonth() + 1).toString().padStart(2, '0')}/` +
+                    `${date.getDate().toString().padStart(2, '0')}/` +
+                    `${date.getFullYear()}`;
+
+  return formatted;
+}
 
 export const columns: ColumnDef<fullAdr>[] = [
   {
@@ -53,12 +62,15 @@ export const columns: ColumnDef<fullAdr>[] = [
   },
   {
     accessorKey: "due_date",
-    header: "Due Date"
+    header: "Due Date",
+    cell: props => (
+      <span>{formatDate(props.getValue() as string | Date)}</span>
+    ),
   },
-  {
-    accessorKey: "auditor_id",
-    header: "Auditor ID"
-  },
+  // {
+  //   accessorKey: "auditor_id",
+  //   header: "Auditor ID"
+  // },
   // {
   //   accessorKey: "submission_date",
   //   header: "Submission Date"

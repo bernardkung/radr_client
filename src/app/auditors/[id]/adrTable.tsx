@@ -65,13 +65,13 @@ export function AdrTable<TData, TValue>({
   })
  
   return (
-    <div className="space-y-4">
+    <div className="w-full h-full space-y-4">
       {/* <DataTableToolbar table={table} /> */}
-      <div className="rounded-md border">
+      <div className="py-2 px-2">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="border-b-1 border-zinc-400">
+              <TableRow key={headerGroup.id} >
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id} colSpan={header.colSpan}>
@@ -93,7 +93,6 @@ export function AdrTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"} 
-                  className="divide-y-1 border-zinc-400"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -112,7 +111,6 @@ export function AdrTable<TData, TValue>({
           </TableBody>
         </Table>
         
-        <DataTablePagination table={table} />
 
       </div>
     </div>

@@ -98,12 +98,14 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
   // const { data: adrs } = await supabase
   const { data: adrs, error: adrError } = await supabase
     .from("adrs_with_latest_stage")
-    .select('*')
-    // .select('adr_id, mrn, dl_id, facility_id, patient_id, from_date, to_date, stage, due_date, auditor_id')
+    // .select('*')
+    .select('id, mrn, dl_id, facility_id, patient_id, from_date, to_date, stage, due_date, auditor_id')
     .is('submission_date', null)
     .eq('auditor_id', id)
-    // .order('due_date', { ascending: false })
-    .limit(10);
+    .order('due_date', { ascending: true })
+    .limit(10)
+  
+    ;
 
 
   console.log("auditor", auditor)
@@ -128,22 +130,22 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
   // Pass the id as a prop to the client component
   return (
     <div id="pageContainer" className="w-full h-full flex flex-col items-start justify-start space-y-4">
-
-        {/* INFO PANEL */}
-        <InfoPanel>
-          <InfoMainHeader label={"Auditor"} link={""}/>
-          
-          <div className="flex flex-row justify-start items-center mt-1 mb-6">
-            <p className="text-xs text-gray-500">{auditor.id}</p>
-          </div>
-
-          <InfoSpan label={"Name"} value={auditor.name} />
-          <InfoSpan label={"Status"} value={auditor.active ? "Active" : "Inactive"} />
-
-        </InfoPanel>
+      {/* INFO PANEL */}
+      <InfoPanel>
+        <InfoMainHeader label={"Auditor"} link={""}/>
         
+        <div className="flex flex-row justify-start items-center mt-1 mb-6">
+          <p className="text-xs text-gray-500">{auditor.id}</p>
+        </div>
+
+        <InfoSpan label={"Name"} value={auditor.name} />
+        <InfoSpan label={"Status"} value={auditor.active ? "Active" : "Inactive"} />
+
+      </InfoPanel>
+    
+
       {/* KPI CARDS */}
-      <div className="flex flex-row justify-between items-center w-full">
+      <div className="flex flex-row justify-between items-center w-full space-x-4">
         <Card>
           <CardContent>
             <p className="text-2xl font-bold">{ kpis['active_adrs'] }</p>
@@ -173,9 +175,11 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
       </div>
 
       {/* AUDITOR ADRS */}
-
-      {adrs ? <AdrTable data={adrs} columns={columns} /> : <></>}
-
+      <div className="flex flex-col justify-between items-start w-full space-x-4 border-2 border-black">
+        <p className="px-4 pt-3 text-sm text-gray-500">Upcoming ADRs</p>
+        {adrs ? <AdrTable data={adrs} columns={columns} /> : <></>}
+      </div>
+        
     </div>
   )
 }
