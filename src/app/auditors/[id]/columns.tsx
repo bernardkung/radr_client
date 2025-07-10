@@ -23,18 +23,21 @@ export const columns: ColumnDef<fullAdr>[] = [
     header: "Link",
     cell: ({ row }) => {
       const adr = row.original;
+
       return (
-        <Button variant="link" className="p-0 flex justify-center items-center w-full">
-          <Link href={`/adrs/${adr.id}`}>
-              <LinkIcon className="h-4 w-4" />
-          </Link>
-        </Button>
-      )
+        <div>
+          <Button variant="link">
+            <Link href={`/adrs/${adr.id}`}>
+                <LinkIcon className="h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
+      );
     },
     meta: {
       headerClassName: 'text-center',
+      className: 'text-center',
     },
-    
   },
   // {
   //   accessorKey: "placeholder",
@@ -43,6 +46,10 @@ export const columns: ColumnDef<fullAdr>[] = [
   {
     accessorKey: "mrn",
     header: "MRN",
+    meta: {
+      headerClassName: 'text-center',
+      className: 'text-center',
+    },
   },
   {
     accessorKey: "dl_id",
