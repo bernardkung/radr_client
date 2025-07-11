@@ -72,7 +72,7 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
     active_adrs: number;
     awaiting_decision: number;
     pending_submission: number;
-    total_submissions: number;
+    due_within_two_weeks: number;
   };
     
   type AuditorKpisArgs = {
@@ -109,7 +109,7 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
 
 
   console.log("auditor", auditor)
-  console.log("kpis", kpis)
+  console.log("kpis", kpis, kpiError)
   console.log("adrs", adrs, adrError)
 
 
@@ -148,8 +148,8 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
       <div className="flex flex-row justify-between items-center w-full space-x-4">
         <Card>
           <CardContent>
-            <p className="text-2xl font-bold">{ kpis['active_adrs'] }</p>
-            <h2 className="text-sm font-small text-gray-500">Active ADRs</h2>
+            <p className="text-2xl font-bold">{ kpis['due_within_two_weeks'] }</p>
+            <h2 className="text-sm font-small text-gray-500">Due Within Two Weeks</h2>
           </CardContent>
         </Card>
         <Card>
@@ -168,15 +168,17 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
         </Card>
         <Card>
           <CardContent>
-            <p className="text-2xl font-bold">{ kpis['total_submissions'] }</p>
-            <h2 className="text-sm font-small text-gray-500">Total Submissions</h2>
+            <p className="text-2xl font-bold">{ kpis['active_adrs'] }</p>
+            <h2 className="text-sm font-small text-gray-500">Active ADRs</h2>
           </CardContent>
         </Card>
       </div>
 
       {/* AUDITOR ADRS */}
       <div className="flex flex-col justify-between items-start w-full space-x-4 border-2 border-black">
-        <p className="px-4 pt-3 text-sm text-gray-500">Upcoming ADRs</p>
+        <div className="px-4 pt-2">
+          <InfoMainHeader label={"Upcoming ADRs"} link={""} />
+        </div>
         {adrs ? <AdrTable data={adrs} columns={columns} /> : <></>}
       </div>
         
