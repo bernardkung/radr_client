@@ -154,7 +154,7 @@ export default function AdrClientPage({adr}: Props) {
             <h1 className="text-base font-medium">Stages</h1>
           </div>
 
-          <div>
+          <div className="flex flex-col justify-start items-center w-full">
             {adr.stages.map((stage, s) => (
               <CollapsibleStageBanner key={s} stage={stage} />
             ))}
