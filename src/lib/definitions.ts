@@ -8,6 +8,7 @@ export type Auditor = {
   active: boolean;
   created_at: string;
   updated_at: string;
+  submissions?: Submission[] | null;
 };
 
 export type Facility = {
@@ -43,6 +44,11 @@ export type Adr = {
   active: boolean;
   created_at: string;
   updated_at: string;
+  facilities?: Facility | null;
+  patients?: Patient | null;
+  stages?: Stage[] | null;
+  srns?: Srn[] | null;
+  dcns?: Dcn[] | null;
 };
 
 export type Stage = {
@@ -52,6 +58,10 @@ export type Stage = {
   stage: '45' | '120' | '180' | 'ALJ' ;
   notification_date: string;
   due_date: string;
+  submissions?: Submission[] | null;
+  decisions?: Decision[] | null;
+  created_at: string;
+  updated_at: string;
 };
 
 
@@ -78,6 +88,7 @@ export type Srn = {
   id: string;
   adr_id: string;
   srn: string;
+  payments?: Payment[] | null;
   created_at: string;
   updated_at: string;
 };
