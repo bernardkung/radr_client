@@ -1,3 +1,6 @@
+"use client";
+
+import * as React from "react";
 import { Table } from "@tanstack/react-table"
 import {
   ChevronLeftIcon,
@@ -23,6 +26,30 @@ interface DataTablePaginationProps<TData> {
 export function DataTablePagination<TData>({
   table,
 }: DataTablePaginationProps<TData>) {
+  const pageCount = table.getPageCount();
+  const pageIndex = table.getState().pagination.pageIndex ?? 0;
+
+  const [pageInput, setPageInput] = React.useState<string>(
+    String(pageIndex + 1)
+  );
+
+  React.useEffect(() => {
+    setPageInput(String(pageIndex + 1));
+  }, [pageIndex, pageCount]);
+
+  function commitPageInput() {
+    const parsed = Number(pageInput);
+    if (Number.isNaN(parsed)) {
+      setPageInput(String(pageIndex + 1));
+      return;
+    }
+    // floor the value and clamp to valid range [1, pageCount]
+    const floored = Math.floor(parsed);
+    const clamped = Math.min(Math.max(1, floored), Math.max(1, pageCount || 1));
+    table.setPageIndex(clamped - 1);
+    setPageInput(String(clamped));
+  }
+
   return (
     <div className="flex items-center justify-between px-2">
       <div className="flex-1 text-sm text-muted-foreground">
@@ -55,13 +82,21 @@ export function DataTablePagination<TData>({
         </div>
 
         {/* Page X of Y */}
-        <div className="flex w-[150px] items-center justify-center text-sm font-medium">
+        <div className="flex w-[200px] items-center justify-center text-sm font-medium">
           Page
           <Input
-            defaultValue={`${table.getState().pagination.pageIndex + 1}`}
-            className="w-16 text-center"
-          /> 
-          of{" "} {table.getPageCount()}
+            type="number"
+            min={1}
+            max={pageCount}
+            value={pageInput}
+            onChange={(e) => setPageInput(e.target.value)}
+            onBlur={commitPageInput}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") commitPageInput();
+            }}
+            className="h-8 w-16 text-center mx-2"
+          />
+          of{" "} {pageCount}
         </div>
 
         {/* Pagination buttons */}
