@@ -2,9 +2,10 @@ import { createClient } from "@/app/utils/supabase/client";
 
 import { Button } from "@/components/ui/button";
 import  Link from "next/link";
-import { columns } from "./columns";
+import { columns } from "./components/columns";
 // import { adrTable  } from "./adrTable";
 import { DataTable } from "@/components/table/data-table";
+import { AdrTable } from "./components/adrTable";
 import { Separator } from "@/components/ui/separator";
 
 
@@ -57,7 +58,8 @@ export default async function Page() {
         <h3 className="text-2xl font-bold mb-4 px-4">ADRs</h3>
         <Separator className="my-4" />
 
-        <DataTable data={adrs} columns={columns}/>
+        {/* <DataTable data={adrs} columns={columns}/> */}
+        <AdrTable data={adrs} columns={columns}/>
 
         <Link href="/adrs/create">
           <Button variant="outline" className="mt-4">

@@ -30,7 +30,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { DataTableToolbar } from "@/components/table/data-table-toolbar";
-
 import { ArrowDownIcon, ArrowUpIcon, EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -43,7 +42,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[]
 }
  
-export function adrTable<TData, TValue>({
+export function AdrTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {

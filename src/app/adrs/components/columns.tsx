@@ -129,6 +129,7 @@ export const columns: ColumnDef<Adr>[] = [
   //   },
   //   filterFn: 'includesString',
   // },
+  // From Date
   {
     accessorKey: "from_date",    
     header: ({ column }) => {
@@ -144,8 +145,12 @@ export const columns: ColumnDef<Adr>[] = [
         </span>
       )
     },
+    meta: {
+      filterVariant: 'range',
+    },
     filterFn: 'includesString',
   },
+  // To Date
   {
     accessorKey: "to_date",    
     header: ({ column }) => {
@@ -163,6 +168,7 @@ export const columns: ColumnDef<Adr>[] = [
     },
     filterFn: 'includesString',
   },
+  // Expected Reimbursement
   {
     accessorKey: "expected_reimbursement",    
     header: ({ column }) => {
@@ -180,6 +186,7 @@ export const columns: ColumnDef<Adr>[] = [
     },
     filterFn: 'includesString',
   },
+  // Active
   {
     accessorKey: "active",    
     header: ({ column }) => {
@@ -197,6 +204,7 @@ export const columns: ColumnDef<Adr>[] = [
     },
     filterFn: 'includesString',
   },
+  // Stage
   {
     accessorKey: "stage",    
     header: ({ column }) => {
@@ -214,6 +222,7 @@ export const columns: ColumnDef<Adr>[] = [
     },
     filterFn: 'includesString',
   },
+  // Submission Date
   {
     accessorKey: "submission_date",    
     header: ({ column }) => {
@@ -231,6 +240,7 @@ export const columns: ColumnDef<Adr>[] = [
     },
     filterFn: 'includesString',
   },
+  // Auditor
   {
     accessorKey: "Auditor",    
     header: ({ column }) => {
@@ -248,6 +258,7 @@ export const columns: ColumnDef<Adr>[] = [
     },
     filterFn: 'includesString',
   },
+  // Decision
   {
     accessorKey: "decision",    
     header: ({ column }) => {
@@ -265,6 +276,7 @@ export const columns: ColumnDef<Adr>[] = [
     },
     filterFn: 'includesString',
   },
+  // Decision Date
   {
     accessorKey: "decision_date",    
     header: ({ column }) => {
@@ -282,7 +294,7 @@ export const columns: ColumnDef<Adr>[] = [
     },
     filterFn: 'includesString',
   },
-  
+  // ID
   {
     accessorKey: "id",
     header: ({ column }) => {
@@ -300,6 +312,7 @@ export const columns: ColumnDef<Adr>[] = [
     },
     filterFn: 'includesString',
   },
+  // Created At
   // {
   //   accessorKey: "created_at",    
   //   header: ({ column }) => {

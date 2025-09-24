@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { Input } from "@/components/ui/input"
  
 interface DataTablePaginationProps<TData> {
   table: Table<TData>
@@ -28,7 +29,10 @@ export function DataTablePagination<TData>({
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} row(s) selected.
       </div>
+      
       <div className="flex items-center space-x-6 lg:space-x-8">
+
+        {/* Rows per page */}
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">Rows per page</p>
           <Select
@@ -49,10 +53,18 @@ export function DataTablePagination<TData>({
             </SelectContent>
           </Select>
         </div>
-        <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
-          {table.getPageCount()}
+
+        {/* Page X of Y */}
+        <div className="flex w-[150px] items-center justify-center text-sm font-medium">
+          Page
+          <Input
+            defaultValue={`${table.getState().pagination.pageIndex + 1}`}
+            className="w-16 text-center"
+          /> 
+          of{" "} {table.getPageCount()}
         </div>
+
+        {/* Pagination buttons */}
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
