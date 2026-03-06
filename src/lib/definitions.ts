@@ -42,6 +42,7 @@ export type Adr = {
   to_date: string;
   expected_reimbursement: number;
   active: boolean;
+  process_status: string;
   created_at: string;
   updated_at: string;
 };

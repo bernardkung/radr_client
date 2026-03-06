@@ -36,7 +36,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Timer, EyeOff, SquareChevronDownIcon } from "lucide-react";
 import { Input } from "@/components/ui/input"
 
-export const columns: ColumnDef<Partial<fullAdr>>[] = [
+export const columns: ColumnDef<Partial<Adr>>[] = [
   {
     accessorKey: "link",
     header: "Link",
@@ -61,33 +61,6 @@ export const columns: ColumnDef<Partial<fullAdr>>[] = [
       return (
         <span>
           DL ID
-          {/* Sort Button */}
-          <Button
-            variant="ghost"
-            className="ml-2 h-4 w-4" 
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
-          </Button>
-          {/* Filter Button */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="ml-2 h-4 w-4 p-0"
-              >
-                <SquareChevronDownIcon className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <Input placeholder="Search DL ID" className="m-0 mb-2" />
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Billing</DropdownMenuItem>
-              <DropdownMenuItem>Team</DropdownMenuItem>
-              <DropdownMenuItem>Subscription</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
         </span>
       )
     },
@@ -95,63 +68,51 @@ export const columns: ColumnDef<Partial<fullAdr>>[] = [
       const adr = row.original;
       return (
         <p className="text-center">
-          {adr.facilities?.dl_id || "N/A"}
+          {adr.facility_id || "N/A"}
         </p>
       )
     },
     filterFn: 'includesString',
   },
+  // {
+  //   accessorKey: "patients.mrn",
+  //   header: ({ column }) => {
+  //     return (
+  //       <span>
+  //         <Button
+  //           variant="ghost"
+  //           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //         >
+  //           MRN
+  //           <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
+  //         </Button>
+  //       </span>
+  //     )
+  //   },
+  //   filterFn: 'includesString',
+  // },
   {
-    accessorKey: "patients.mrn",
+    accessorKey: "patients.first_name",
     header: ({ column }) => {
       return (
         <span>
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            MRN
-            <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
-          </Button>
+            First Name
         </span>
       )
     },
     filterFn: 'includesString',
   },
-  // {
-  //   accessorKey: "patients.first_name",
-  //   header: ({ column }) => {
-  //     return (
-  //       <span>
-  //         <Button
-  //           variant="ghost"
-  //           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-  //         >
-  //           First Name
-  //           <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
-  //         </Button>
-  //       </span>
-  //     )
-  //   },
-  //   filterFn: 'includesString',
-  // },
-  // {
-  //   accessorKey: "patients.last_name",
-  //   header: ({ column }) => {
-  //     return (
-  //       <span>
-  //         <Button
-  //           variant="ghost"
-  //           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-  //         >
-  //           Last Name
-  //           <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
-  //         </Button>
-  //       </span>
-  //     )
-  //   },
-  //   filterFn: 'includesString',
-  // },
+  {
+    accessorKey: "patients.last_name",
+    header: ({ column }) => {
+      return (
+        <span>
+          Last Name
+        </span>
+      )
+    },
+    filterFn: 'includesString',
+  },
   // From Date
   {
     accessorKey: "from_date",    
@@ -235,91 +196,21 @@ export const columns: ColumnDef<Partial<fullAdr>>[] = [
     },
     filterFn: 'includesString',
   },
-  // Stage
+  // Process Status
   {
-    accessorKey: "stage",    
+    accessorKey: "process_status",
     header: ({ column }) => {
       return (
         <span>
-          Stage
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
-          </Button>
+          Status
         </span>
       )
     },
-    filterFn: 'includesString',
-  },
-  // Submission Date
-  {
-    accessorKey: "submission_date",    
-    header: ({ column }) => {
+    cell: ({ row }) => {
+      const adr = row.original;
       return (
         <span>
-          Submission Date
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </span>
-      )
-    },
-    filterFn: 'includesString',
-  },
-  // Auditor
-  {
-    accessorKey: "Auditor",    
-    header: ({ column }) => {
-      return (
-        <span>
-          Auditor
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </span>
-      )
-    },
-    filterFn: 'includesString',
-  },
-  // Decision
-  {
-    accessorKey: "decision",    
-    header: ({ column }) => {
-      return (
-        <span>
-          Decision
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </span>
-      )
-    },
-    filterFn: 'includesString',
-  },
-  // Decision Date
-  {
-    accessorKey: "decision_date",    
-    header: ({ column }) => {
-      return (
-        <span>
-          Decision Date
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
-          </Button>
+          {adr.process_status}
         </span>
       )
     },

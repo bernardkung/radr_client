@@ -24,6 +24,7 @@ export default async function Page() {
       to_date,
       expected_reimbursement,
       active,
+      process_status,
       created_at,
       updated_at,
       facilities(
