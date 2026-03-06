@@ -1,6 +1,6 @@
 "use client";
 
-import { Adr } from "@/lib/definitions";
+import { Adr, fullAdr } from "@/lib/definitions";
 import { ColumnDef } from "@tanstack/react-table";
 import { 
   EllipsisHorizontalIcon, 
@@ -33,8 +33,10 @@ import {
 } from "@/components/ui/command"
 import Link from "next/link"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Timer, EyeOff, SquareChevronDownIcon } from "lucide-react";
+import { Input } from "@/components/ui/input"
 
-export const columns: ColumnDef<Adr>[] = [
+export const columns: ColumnDef<Partial<fullAdr>>[] = [
   {
     accessorKey: "link",
     header: "Link",
@@ -58,13 +60,34 @@ export const columns: ColumnDef<Adr>[] = [
     header: ({ column }) => {
       return (
         <span>
+          DL ID
+          {/* Sort Button */}
           <Button
             variant="ghost"
+            className="ml-2 h-4 w-4" 
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            DL ID
             <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
           </Button>
+          {/* Filter Button */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className="ml-2 h-4 w-4 p-0"
+              >
+                <SquareChevronDownIcon className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <Input placeholder="Search DL ID" className="m-0 mb-2" />
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem>Billing</DropdownMenuItem>
+              <DropdownMenuItem>Team</DropdownMenuItem>
+              <DropdownMenuItem>Subscription</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </span>
       )
     },
@@ -200,6 +223,14 @@ export const columns: ColumnDef<Adr>[] = [
             <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
           </Button>
         </span>
+      )
+    },
+    cell: ({ row }) => {
+      const adr = row.original;
+      return (
+        adr.active 
+          ? <Timer className="h-4 w-4 text-blue-600" />
+          : <EyeOff className="h-4 w-4 text-grey-600" />
       )
     },
     filterFn: 'includesString',

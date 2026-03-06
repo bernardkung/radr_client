@@ -92,7 +92,11 @@ export function DataTablePagination<TData>({
             onChange={(e) => setPageInput(e.target.value)}
             onBlur={commitPageInput}
             onKeyDown={(e) => {
-              if (e.key === "Enter") commitPageInput();
+              if (e.key === "Enter") {
+                e.preventDefault();
+                commitPageInput();
+                (e.currentTarget as HTMLInputElement).blur();
+              }
             }}
             className="h-8 w-16 text-center mx-2"
           />

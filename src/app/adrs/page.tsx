@@ -26,16 +26,22 @@ export default async function Page() {
       active,
       created_at,
       updated_at,
-      facilities (id, dl_id, dl_name),
-      patients (id, mrn, first_name, last_name),
+      facilities(
+        dl_id,
+        dl_name),
+      patients(
+        mrn,
+        first_name,
+        last_name
+        ),
       stages (
-        id, stage, notification_date, due_date,
-        submissions (id, auditor_id, submission_date),
-        decisions (id, decision, decision_date)
+        *, 
+        submissions (*), 
+        decisions (*)
       )
-    `);
+    `).range(0, 99);
   // const { data:adrs, error } = await supabase.from('adrs_with_latest_stage').select('*');
-  
+  console.log(JSON.stringify(adrs?.[0], null, 2))
 
   // Error handling
   if (error) {

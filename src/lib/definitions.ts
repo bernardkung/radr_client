@@ -44,18 +44,12 @@ export type Adr = {
   active: boolean;
   created_at: string;
   updated_at: string;
-  facilities?: Facility | null;
-  patients?: Patient | null;
-  stages?: Stage[] | null;
-  srns?: Srn[] | null;
-  dcns?: Dcn[] | null;
 };
 
 export type Stage = {
   id: string;
   adr_id: string;
-  // In TypeScript, this is called a string union type.
-  stage: '45' | '120' | '180' | 'ALJ' ;
+  stage: '45' | '120' | '180' | 'ALJ' ; // string union type
   notification_date: string;
   due_date: string;
   submissions?: Submission[] | null;
@@ -72,6 +66,7 @@ export type Submission = {
   submission_date: string;
   created_at: string;
   updated_at: string;
+  auditor?: Auditor | null;
 };
 
 export type Decision = {
@@ -118,23 +113,22 @@ export type DataTableFilterProps = {
 
 
 
-
 export type fullAdr = Adr & {
-  patient: Patient;
-  facility: Facility;
-  stages: fullStage[];
-  srns: fullSrn[];
-  dcns: Dcn[];
+  patients: Partial<Patient>;
+  facilities: Partial<Facility>;
+  stages: Partial<fullStage>[];
+  srns: Partial<fullSrn>[];
+  dcns: Partial<Dcn>[];
 };
 
 export type fullStage = Stage & {
-  submissions?: fullSubmission[];
-  decisions?: Decision[];
+  submissions?: Partial<fullSubmission>[];
+  decisions?: Partial<Decision>[];
   adr: Adr;
 }
 
 export type fullSubmission = Submission & { 
-  auditor?: Auditor;
+  auditors?: Auditor;
   stage: fullStage;
 };
 
@@ -143,5 +137,5 @@ export type fullSrn = Srn & {
 }
 
 export type fullPayment = Payment & {
-  srn: string;
+  srns: string;
 }
